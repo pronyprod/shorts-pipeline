@@ -1,0 +1,17 @@
+{
+  "episode": "ep014",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep014.ts lines: only CAPITALS added; words identical to say. Owner rule 12 Nov: clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is trying to stay awake for a month. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, punch on the days", "tagged": "THIRTY days. No sleep. Your brain will not allow it." },
+    { "n": 2, "style": "calm and clear, a little tired", "tagged": "Hour twenty four. Your eyes BURN. Your focus slips." },
+    { "n": 3, "style": "clear, a touch of warning", "tagged": "Your memory FAILS. Soon you see things that aren't there." },
+    { "n": 4, "style": "steady and curious, explaining", "tagged": "Then MICROSLEEPS hit. Your brain naps for seconds, and you never notice." },
+    { "n": 5, "style": "the key line: big, clear punch on the number, then grave", "tagged": "Hour two hundred sixty four. ELEVEN days. Your brain is running on fumes." },
+    { "n": 6, "style": "clear and surprised, a smart reveal", "tagged": "That ACTUALLY happened. In nineteen sixty four, student Randy GARDNER stayed awake that long." },
+    { "n": 7, "style": "warm and amused, relief", "tagged": "Then he slept almost FIFTEEN hours straight." },
+    { "n": 8, "style": "clear and thoughtful, a smart aside", "tagged": "Today, Guinness won't track it. It's too RISKY, and microsleeps hide the truth." },
+    { "n": 9, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}
