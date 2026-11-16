@@ -10,6 +10,13 @@ REPO="$(cd "$(dirname "$0")/.." && pwd)"
 STUDIO="${STUDIO:-/c/Users/HP VICTUS/remotion-studio}"
 SHARED_SRC="${SHARED_SRC:-/c/Users/HP VICTUS/claude video}"
 
+# After the switch the cloud makes the episodes and this repo is the master copy.
+# Syncing from the laptop then would wipe the cloud episodes, so it is refused.
+if [ -f "$REPO/CLOUD_IS_MASTER" ]; then
+  echo "REFUSED: CLOUD_IS_MASTER exists. The repo is the master now; do not sync from the laptop."
+  exit 1
+fi
+
 copy_project() {
   local p="$1"; shift
   rm -rf "${REPO:?}/$p"
