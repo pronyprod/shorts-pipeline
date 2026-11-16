@@ -151,6 +151,16 @@ export const RemotionRoot: React.FC = () => {
           defaultProps={{ episodeId: "ep011" }}
           calculateMetadata={calculateFormatMetadata}
         />
+        <Composition
+          id="Ep012"
+          component={FormatEpisode}
+          durationInFrames={570}
+          fps={30}
+          width={1080}
+          height={1920}
+          defaultProps={{ episodeId: "ep012" }}
+          calculateMetadata={calculateFormatMetadata}
+        />
       </Folder>
       <Folder name="Tests">
         <Still id="EmblemCheck" component={EmblemCheck} width={1080} height={940} />
