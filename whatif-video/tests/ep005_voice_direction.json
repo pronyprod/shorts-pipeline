@@ -1,0 +1,93 @@
+{
+  "episode": "ep005",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep005.ts lines: only tags and CAPITALS added; words identical to `say`.",
+  "persona": "You are an energetic, charismatic science YouTuber narrating a vertical short video. Sound like a real human influencer talking to a friend: conversational, expressive, with natural breaths and a smile in the voice. Change your speed, pitch, emphasis and rhythm with what is happening: an excited hook, tension that builds as the numbers climb (a little faster and higher each time), a punchy pause right before every big reveal, quiet awe at the climax, a playful twist, and a warm, friendly call to action. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions or the bracketed tags aloud.",
+  "lines": [
+    {
+      "n": 1,
+      "style": "excited and fast, big smile, stress ONE METER",
+      "tagged": "What if you tied a rope around the whole Earth, then added just ONE METER?"
+    },
+    {
+      "n": 2,
+      "style": "relaxed and amused, shrugging it off",
+      "tagged": "The rope is forty thousand kilometers long. One more meter is NOTHING."
+    },
+    {
+      "n": 3,
+      "style": "curious, slow and careful, setting up the trick",
+      "tagged": "Now lift it EVENLY, all the way around the planet."
+    },
+    {
+      "n": 4,
+      "style": "leaning in, teasing, a real question to the viewer",
+      "tagged": "How high does it float? Take a GUESS."
+    },
+    {
+      "n": 5,
+      "style": "playful, offering tiny guesses",
+      "tagged": "The width of a HAIR? A sheet of paper?"
+    },
+    {
+      "n": 6,
+      "style": "a big amazed reveal, slow and clear",
+      "tagged": "Nearly SIXTEEN centimeters."
+    },
+    {
+      "n": 7,
+      "style": "delighted, quick",
+      "tagged": "All the way around the Earth. A TENNIS BALL rolls right under it."
+    },
+    {
+      "n": 8,
+      "style": "confident, setting up a magic trick",
+      "tagged": "Now try the MOON. Add one meter."
+    },
+    {
+      "n": 9,
+      "style": "deadpan, amused",
+      "tagged": "Nearly sixteen centimeters. AGAIN."
+    },
+    {
+      "n": 10,
+      "style": "mock serious, tiny pause after football",
+      "tagged": "A FOOTBALL? One meter of rope."
+    },
+    {
+      "n": 11,
+      "style": "deadpan, grinning",
+      "tagged": "The SAME gap."
+    },
+    {
+      "n": 12,
+      "style": "clear and confident, explaining something beautiful",
+      "tagged": "The size NEVER matters. The gap is always one meter, divided by two pi."
+    },
+    {
+      "n": 13,
+      "style": "conspiratorial, slowing down, building suspense",
+      "tagged": "Now the real twist. Same rope, same one meter. But pull it up from a SINGLE POINT."
+    },
+    {
+      "n": 14,
+      "style": "hushed and teasing",
+      "tagged": "How high NOW?"
+    },
+    {
+      "n": 15,
+      "style": "a huge reveal, big and awed",
+      "tagged": "Over one hundred twenty one METERS."
+    },
+    {
+      "n": 16,
+      "style": "delighted disbelief",
+      "tagged": "Taller than the Statue of Liberty. From ONE METER of rope."
+    },
+    {
+      "n": 17,
+      "style": "warm and friendly, straight to the viewer, smiling",
+      "tagged": "What should we wrap next? The best comment becomes the next video."
+    }
+  ]
+}

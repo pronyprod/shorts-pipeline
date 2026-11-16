@@ -1,0 +1,80 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 5.316,
+    "words": 13
+  },
+  {
+    "id": "islands",
+    "start": 5.496,
+    "end": 11.242,
+    "words": 13
+  },
+  {
+    "id": "find",
+    "start": 11.422,
+    "end": 14.14,
+    "words": 9
+  },
+  {
+    "id": "size",
+    "start": 14.32,
+    "end": 18.875,
+    "words": 11
+  },
+  {
+    "id": "meal",
+    "start": 19.055,
+    "end": 23.255,
+    "words": 11
+  },
+  {
+    "id": "nose",
+    "start": 23.435,
+    "end": 26.956,
+    "words": 10
+  },
+  {
+    "id": "tebak",
+    "start": 27.136,
+    "end": 32.31,
+    "words": 14
+  },
+  {
+    "id": "reveal",
+    "start": 32.49,
+    "end": 35.252,
+    "words": 8
+  },
+  {
+    "id": "padar",
+    "start": 35.432,
+    "end": 39.129,
+    "words": 13
+  },
+  {
+    "id": "virgin",
+    "start": 39.309,
+    "end": 45.133,
+    "words": 17
+  },
+  {
+    "id": "status",
+    "start": 45.313,
+    "end": 50.908,
+    "words": 18
+  },
+  {
+    "id": "payoff",
+    "start": 51.088,
+    "end": 57.46,
+    "words": 15
+  },
+  {
+    "id": "question",
+    "start": 57.64,
+    "end": 59.727,
+    "words": 7
+  }
+]

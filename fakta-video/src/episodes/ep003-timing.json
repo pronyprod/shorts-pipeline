@@ -1,0 +1,74 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 6.59,
+    "words": 19
+  },
+  {
+    "id": "source",
+    "start": 6.77,
+    "end": 13.694,
+    "words": 14
+  },
+  {
+    "id": "local",
+    "start": 13.874,
+    "end": 18.677,
+    "words": 12
+  },
+  {
+    "id": "time",
+    "start": 18.857,
+    "end": 21.225,
+    "words": 9
+  },
+  {
+    "id": "twist",
+    "start": 21.405,
+    "end": 23.459,
+    "words": 5
+  },
+  {
+    "id": "wave",
+    "start": 23.639,
+    "end": 27.968,
+    "words": 15
+  },
+  {
+    "id": "cities",
+    "start": 28.148,
+    "end": 32.838,
+    "words": 12
+  },
+  {
+    "id": "antipode",
+    "start": 33.018,
+    "end": 37.31,
+    "words": 13
+  },
+  {
+    "id": "glasgow",
+    "start": 37.49,
+    "end": 42.488,
+    "words": 13
+  },
+  {
+    "id": "area",
+    "start": 42.668,
+    "end": 48.19,
+    "words": 16
+  },
+  {
+    "id": "close",
+    "start": 48.37,
+    "end": 52.079,
+    "words": 10
+  },
+  {
+    "id": "question",
+    "start": 52.259,
+    "end": 54.482,
+    "words": 7
+  }
+]

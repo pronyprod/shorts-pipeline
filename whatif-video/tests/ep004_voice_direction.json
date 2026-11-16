@@ -1,0 +1,78 @@
+{
+  "episode": "ep004",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep004.ts lines: only tags and CAPITALS added; words identical to `say`.",
+  "persona": "You are an energetic, charismatic science YouTuber narrating a vertical short video. Sound like a real human influencer talking to a friend: conversational, expressive, with natural breaths and a smile in the voice. Change your speed, pitch, emphasis and rhythm with what is happening: an excited hook, tension that builds as the numbers climb (a little faster and higher each time), a punchy pause right before every big reveal, quiet awe at the climax, a playful twist, and a warm, friendly call to action. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions or the bracketed tags aloud.",
+  "lines": [
+    {
+      "n": 1,
+      "style": "excited and fast, big smile, rising on the question",
+      "tagged": "What if you jumped into a tunnel, STRAIGHT THROUGH the Earth?"
+    },
+    {
+      "n": 2,
+      "style": "bright and playful, a tour guide with a grin",
+      "tagged": "You step off in Jakarta. The other end is in COLOMBIA."
+    },
+    {
+      "n": 3,
+      "style": "a quick cheeky aside, dry and fast",
+      "tagged": "Ignore the air, the heat, and the fact that this is IMPOSSIBLE."
+    },
+    {
+      "n": 4,
+      "style": "impressed, picking up speed",
+      "tagged": "Fifty seconds in, you pass the DEEPEST hole humans ever dug."
+    },
+    {
+      "n": 5,
+      "style": "building, a little faster and higher",
+      "tagged": "Minute five. You've fallen FARTHER than the Space Station is high."
+    },
+    {
+      "n": 6,
+      "style": "dramatic, a heavy drop on the last word",
+      "tagged": "Minute thirteen. You drop into the CORE."
+    },
+    {
+      "n": 7,
+      "style": "thrilled, almost breathless",
+      "tagged": "And now you're falling FASTER than the Space Station flies."
+    },
+    {
+      "n": 8,
+      "style": "awed, slowing down, savouring the number",
+      "tagged": "Minute nineteen. <short pause> The EXACT center of the Earth. Nine point nine kilometers a second."
+    },
+    {
+      "n": 9,
+      "style": "calm wonder, the speed draining out of the voice as you slow",
+      "tagged": "And now the whole planet is behind you, pulling you BACK. You slow down, all the way up."
+    },
+    {
+      "n": 10,
+      "style": "soft and amazed, almost weightless",
+      "tagged": "Minute thirty eight. You float out in Colombia, at exactly ZERO speed."
+    },
+    {
+      "n": 11,
+      "style": "playful warning, quick",
+      "tagged": "Grab the edge. Or you fall all the way BACK."
+    },
+    {
+      "n": 12,
+      "style": "playful and conspiratorial, like sharing a secret",
+      "tagged": "Here's the twist. Dig a SHORT tunnel instead, Jakarta to Bali, no engine, just gravity."
+    },
+    {
+      "n": 13,
+      "style": "amazed, a punchy pause after the first sentence",
+      "tagged": "It takes LONGER. <short pause> Forty two minutes. Through the whole planet: thirty eight."
+    },
+    {
+      "n": 14,
+      "style": "warm and friendly, straight to the viewer, smiling",
+      "tagged": "What should we dig next? The best comment becomes the next video."
+    }
+  ]
+}

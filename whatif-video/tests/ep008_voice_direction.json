@@ -1,0 +1,22 @@
+{
+  "episode": "ep008",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep008.ts lines: only tags and CAPITALS added; words identical to say.",
+  "persona": "You are an energetic, charismatic YouTuber narrating a vertical short video, talking straight to one friend who is in serious trouble. Conversational, expressive, urgent and a little mischievous, with natural breaths. Change your speed, pitch, emphasis and rhythm with what is happening: an urgent hook, tension that climbs line by line (a little faster and tighter each time), a punchy drop at the blackout, relief when the survival news comes, thrilled storytelling for the true story, and a warm, friendly call to action. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions or the bracketed tags aloud. Keep a brisk, punchy pace throughout, about 175 words per minute: no long pauses inside a line.",
+  "lines": [
+    { "n": 1, "style": "urgent and quick, right in your ear, hit the number hard", "tagged": "You just stepped into space with NO suit. You have about FIFTEEN seconds." },
+    { "n": 2, "style": "fast and alarmed", "tagged": "The air in your lungs rushes STRAIGHT out." },
+    { "n": 3, "style": "quick and fascinated, three short punches", "tagged": "Your spit starts to BOIL. Not from heat. From NO pressure." },
+    { "n": 4, "style": "amazed, a little gleeful at how strange it is", "tagged": "And that boiling chills your mouth to nearly FREEZING." },
+    { "n": 5, "style": "quick reassurance, busting two myths", "tagged": "But your blood WON'T boil, and you WON'T explode." },
+    { "n": 6, "style": "playful and a bit grossed out, brisk", "tagged": "You just SWELL, up to TWICE your normal volume." },
+    { "n": 7, "style": "suddenly tense and lower, slowing slightly", "tagged": "Then your blood runs out of OXYGEN." },
+    { "n": 8, "style": "quiet and final, a dramatic drop in the voice", "tagged": "Second fifteen. Everything goes BLACK." },
+    { "n": 9, "style": "bright surprise and relief, picking the pace back up", "tagged": "But you're ALIVE. Get pressure back within about NINETY seconds, and you could WAKE up." },
+    { "n": 10, "style": "leaning in, thrilled, clear on the year", "tagged": "This REALLY happened. Nineteen sixty six, inside a NASA vacuum chamber." },
+    { "n": 11, "style": "storytelling, building, say the name very clearly: Jim Le Blonk", "tagged": "Jim LeBlanc was testing a space suit when its air hose came OFF." },
+    { "n": 12, "style": "hushed and fascinated", "tagged": "His LAST memory? Spit BOILING on his tongue." },
+    { "n": 13, "style": "triumphant and warm, clear on the number", "tagged": "The chamber refilled in eighty seven seconds. He WOKE up, no lasting harm." },
+    { "n": 14, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}

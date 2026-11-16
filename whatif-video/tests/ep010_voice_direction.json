@@ -1,0 +1,21 @@
+{
+  "episode": "ep010",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep010.ts lines: only CAPITALS added; words identical to say.",
+  "persona": "You are an energetic, charismatic YouTuber narrating a vertical short video, talking straight to one friend who is riding a falling satellite. Conversational, expressive, urgent and a little mischievous, with natural breaths. Change your speed, pitch, emphasis and rhythm with what is happening: an urgent hook, tension that climbs line by line (a little faster and tighter each time), a big punch at the break-up, a calm smart explanation about heat shields, thrilled storytelling for the true news story, and a warm, friendly call to action. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions or the bracketed tags aloud. Keep a brisk, punchy pace throughout, about 180 words per minute: no long pauses inside a line.",
+  "lines": [
+    { "n": 1, "style": "urgent and quick, right in your ear, hit the number hard", "tagged": "You're riding a DYING space telescope, falling at over TWENTY EIGHT THOUSAND kilometres an hour." },
+    { "n": 2, "style": "fast and amazed", "tagged": "Every SECOND, you fly almost EIGHT kilometres." },
+    { "n": 3, "style": "playful disbelief, quick", "tagged": "That's nearly Mount EVEREST, sideways, every second." },
+    { "n": 4, "style": "tense, leaning in", "tagged": "About a hundred and twenty kilometres up, you hit the first AIR." },
+    { "n": 5, "style": "quick and building", "tagged": "It can't move away fast ENOUGH, so it PILES up in front of you." },
+    { "n": 6, "style": "punchy, a little smug, like sharing a secret", "tagged": "SQUEEZED air gets hot. That's the REAL heat, way more than friction." },
+    { "n": 7, "style": "alarmed and faster", "tagged": "At six hundred sixty degrees, aluminium MELTS. Your telescope starts to fall APART." },
+    { "n": 8, "style": "big dramatic punch, the climax", "tagged": "Around seventy eight kilometres up, it breaks into PIECES." },
+    { "n": 9, "style": "calm and clever, a beat of relief", "tagged": "That's why EVERY astronaut rides home behind a HEAT SHIELD." },
+    { "n": 10, "style": "leaning in, thrilled, this is real news", "tagged": "This REALLY happened. On November FOURTH, NASA's Swift telescope came down." },
+    { "n": 11, "style": "storytelling, warm, clear on the place: Soo-MAH-truh", "tagged": "It burned up over SUMATRA, in Indonesia, after almost TWENTY TWO years in space." },
+    { "n": 12, "style": "proud and amazed, clear on the number", "tagged": "Along the way, it caught over one thousand seven hundred fifty COSMIC explosions." },
+    { "n": 13, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}

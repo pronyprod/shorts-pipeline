@@ -1,0 +1,74 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 4.736,
+    "words": 12
+  },
+  {
+    "id": "equator",
+    "start": 4.916,
+    "end": 8.76,
+    "words": 12
+  },
+  {
+    "id": "big",
+    "start": 8.94,
+    "end": 15.186,
+    "words": 15
+  },
+  {
+    "id": "wrap",
+    "start": 15.366,
+    "end": 20.971,
+    "words": 11
+  },
+  {
+    "id": "local",
+    "start": 21.151,
+    "end": 27.663,
+    "words": 18
+  },
+  {
+    "id": "cia",
+    "start": 27.843,
+    "end": 34.101,
+    "words": 18
+  },
+  {
+    "id": "paradox",
+    "start": 34.281,
+    "end": 39.064,
+    "words": 10
+  },
+  {
+    "id": "ruler",
+    "start": 39.244,
+    "end": 41.883,
+    "words": 9
+  },
+  {
+    "id": "sulawesi",
+    "start": 42.063,
+    "end": 50.256,
+    "words": 26
+  },
+  {
+    "id": "bignew",
+    "start": 50.436,
+    "end": 57.24,
+    "words": 18
+  },
+  {
+    "id": "rank",
+    "start": 57.42,
+    "end": 61.793,
+    "words": 14
+  },
+  {
+    "id": "question",
+    "start": 61.973,
+    "end": 63.82,
+    "words": 7
+  }
+]

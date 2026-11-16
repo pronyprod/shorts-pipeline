@@ -1,0 +1,1458 @@
+[
+ {
+  "text": "Candi",
+  "startMs": 0,
+  "endMs": 320,
+  "timestampMs": 0,
+  "confidence": 1
+ },
+ {
+  "text": " Buddha",
+  "startMs": 320,
+  "endMs": 590,
+  "timestampMs": 320,
+  "confidence": 1
+ },
+ {
+  "text": " terbesar",
+  "startMs": 590,
+  "endMs": 1100,
+  "timestampMs": 590,
+  "confidence": 1
+ },
+ {
+  "text": " di",
+  "startMs": 1100,
+  "endMs": 1230,
+  "timestampMs": 1100,
+  "confidence": 1
+ },
+ {
+  "text": " dunia",
+  "startMs": 1230,
+  "endMs": 1650,
+  "timestampMs": 1230,
+  "confidence": 1
+ },
+ {
+  "text": " pernah",
+  "startMs": 1650,
+  "endMs": 1920,
+  "timestampMs": 1650,
+  "confidence": 1
+ },
+ {
+  "text": " tertutup",
+  "startMs": 1920,
+  "endMs": 2330,
+  "timestampMs": 1920,
+  "confidence": 1
+ },
+ {
+  "text": " ratusan",
+  "startMs": 2330,
+  "endMs": 2700,
+  "timestampMs": 2330,
+  "confidence": 1
+ },
+ {
+  "text": " tahun.",
+  "startMs": 2700,
+  "endMs": 3180,
+  "timestampMs": 2700,
+  "confidence": 1
+ },
+ {
+  "text": " Kok",
+  "startMs": 3180,
+  "endMs": 3390,
+  "timestampMs": 3180,
+  "confidence": 1
+ },
+ {
+  "text": " bisa?",
+  "startMs": 3390,
+  "endMs": 3936,
+  "timestampMs": 3390,
+  "confidence": 1
+ },
+ {
+  "text": " Borobudur",
+  "startMs": 4116,
+  "endMs": 4300,
+  "timestampMs": 4116,
+  "confidence": 0.5
+ },
+ {
+  "text": " dibangun",
+  "startMs": 4300,
+  "endMs": 4860,
+  "timestampMs": 4300,
+  "confidence": 1
+ },
+ {
+  "text": " sekitar",
+  "startMs": 4860,
+  "endMs": 5302,
+  "timestampMs": 4860,
+  "confidence": 1
+ },
+ {
+  "text": " seribu",
+  "startMs": 5302,
+  "endMs": 5688,
+  "timestampMs": 5302,
+  "confidence": 0.5
+ },
+ {
+  "text": " dua",
+  "startMs": 5688,
+  "endMs": 5909,
+  "timestampMs": 5688,
+  "confidence": 0.5
+ },
+ {
+  "text": " ratus",
+  "startMs": 5909,
+  "endMs": 6240,
+  "timestampMs": 5909,
+  "confidence": 0.5
+ },
+ {
+  "text": " tahun",
+  "startMs": 6240,
+  "endMs": 6540,
+  "timestampMs": 6240,
+  "confidence": 1
+ },
+ {
+  "text": " lalu",
+  "startMs": 6540,
+  "endMs": 6840,
+  "timestampMs": 6540,
+  "confidence": 1
+ },
+ {
+  "text": " di",
+  "startMs": 6840,
+  "endMs": 6960,
+  "timestampMs": 6840,
+  "confidence": 1
+ },
+ {
+  "text": " Jawa",
+  "startMs": 6960,
+  "endMs": 7200,
+  "timestampMs": 6960,
+  "confidence": 1
+ },
+ {
+  "text": " Tengah,",
+  "startMs": 7200,
+  "endMs": 7690,
+  "timestampMs": 7200,
+  "confidence": 1
+ },
+ {
+  "text": " dekat",
+  "startMs": 7690,
+  "endMs": 7950,
+  "timestampMs": 7690,
+  "confidence": 1
+ },
+ {
+  "text": " Yogyakarta.",
+  "startMs": 7950,
+  "endMs": 8462,
+  "timestampMs": 7950,
+  "confidence": 1
+ },
+ {
+  "text": " Lalu",
+  "startMs": 8642,
+  "endMs": 8850,
+  "timestampMs": 8642,
+  "confidence": 1
+ },
+ {
+  "text": " ditinggalkan,",
+  "startMs": 8850,
+  "endMs": 9740,
+  "timestampMs": 8850,
+  "confidence": 1
+ },
+ {
+  "text": " dan",
+  "startMs": 9740,
+  "endMs": 10210,
+  "timestampMs": 9740,
+  "confidence": 1
+ },
+ {
+  "text": " nggak",
+  "startMs": 10210,
+  "endMs": 10350,
+  "timestampMs": 10210,
+  "confidence": 1
+ },
+ {
+  "text": " ada",
+  "startMs": 10350,
+  "endMs": 10580,
+  "timestampMs": 10350,
+  "confidence": 1
+ },
+ {
+  "text": " yang",
+  "startMs": 10580,
+  "endMs": 10880,
+  "timestampMs": 10580,
+  "confidence": 1
+ },
+ {
+  "text": " tahu",
+  "startMs": 10880,
+  "endMs": 11180,
+  "timestampMs": 10880,
+  "confidence": 1
+ },
+ {
+  "text": " kenapa.",
+  "startMs": 11180,
+  "endMs": 11700,
+  "timestampMs": 11180,
+  "confidence": 1
+ },
+ {
+  "text": " Abu",
+  "startMs": 11700,
+  "endMs": 12030,
+  "timestampMs": 11700,
+  "confidence": 1
+ },
+ {
+  "text": " gunung",
+  "startMs": 12030,
+  "endMs": 12310,
+  "timestampMs": 12030,
+  "confidence": 1
+ },
+ {
+  "text": " api",
+  "startMs": 12310,
+  "endMs": 12550,
+  "timestampMs": 12310,
+  "confidence": 1
+ },
+ {
+  "text": " dan",
+  "startMs": 12550,
+  "endMs": 12790,
+  "timestampMs": 12550,
+  "confidence": 1
+ },
+ {
+  "text": " hutan",
+  "startMs": 12790,
+  "endMs": 13070,
+  "timestampMs": 12790,
+  "confidence": 1
+ },
+ {
+  "text": " pelan-pelan",
+  "startMs": 13070,
+  "endMs": 13790,
+  "timestampMs": 13070,
+  "confidence": 1
+ },
+ {
+  "text": " menutupnya.",
+  "startMs": 13790,
+  "endMs": 14677,
+  "timestampMs": 13790,
+  "confidence": 1
+ },
+ {
+  "text": " Tahun",
+  "startMs": 14857,
+  "endMs": 15112,
+  "timestampMs": 14857,
+  "confidence": 1
+ },
+ {
+  "text": " seribu",
+  "startMs": 15112,
+  "endMs": 15410,
+  "timestampMs": 15112,
+  "confidence": 0.5
+ },
+ {
+  "text": " delapan",
+  "startMs": 15410,
+  "endMs": 15751,
+  "timestampMs": 15410,
+  "confidence": 0.5
+ },
+ {
+  "text": " ratus",
+  "startMs": 15751,
+  "endMs": 16007,
+  "timestampMs": 15751,
+  "confidence": 0.5
+ },
+ {
+  "text": " empat",
+  "startMs": 16007,
+  "endMs": 16262,
+  "timestampMs": 16007,
+  "confidence": 0.5
+ },
+ {
+  "text": " belas,",
+  "startMs": 16262,
+  "endMs": 16560,
+  "timestampMs": 16262,
+  "confidence": 0.5
+ },
+ {
+  "text": " Raffles,",
+  "startMs": 16560,
+  "endMs": 17400,
+  "timestampMs": 16560,
+  "confidence": 1
+ },
+ {
+  "text": " gubernur",
+  "startMs": 17400,
+  "endMs": 17740,
+  "timestampMs": 17400,
+  "confidence": 1
+ },
+ {
+  "text": " jenderal",
+  "startMs": 17740,
+  "endMs": 18120,
+  "timestampMs": 17740,
+  "confidence": 1
+ },
+ {
+  "text": " Inggris",
+  "startMs": 18120,
+  "endMs": 18480,
+  "timestampMs": 18120,
+  "confidence": 1
+ },
+ {
+  "text": " di",
+  "startMs": 18480,
+  "endMs": 18590,
+  "timestampMs": 18480,
+  "confidence": 1
+ },
+ {
+  "text": " Jawa,",
+  "startMs": 18590,
+  "endMs": 18980,
+  "timestampMs": 18590,
+  "confidence": 1
+ },
+ {
+  "text": " lagi",
+  "startMs": 18980,
+  "endMs": 19220,
+  "timestampMs": 18980,
+  "confidence": 1
+ },
+ {
+  "text": " di",
+  "startMs": 19220,
+  "endMs": 19340,
+  "timestampMs": 19220,
+  "confidence": 1
+ },
+ {
+  "text": " Semarang.",
+  "startMs": 19340,
+  "endMs": 19724,
+  "timestampMs": 19340,
+  "confidence": 1
+ },
+ {
+  "text": " Tujuh",
+  "startMs": 19724,
+  "endMs": 19954,
+  "timestampMs": 19724,
+  "confidence": 0.5
+ },
+ {
+  "text": " puluh",
+  "startMs": 19954,
+  "endMs": 20184,
+  "timestampMs": 19954,
+  "confidence": 0.5
+ },
+ {
+  "text": " lima",
+  "startMs": 20184,
+  "endMs": 20376,
+  "timestampMs": 20184,
+  "confidence": 0.5
+ },
+ {
+  "text": " kilometer",
+  "startMs": 20376,
+  "endMs": 20760,
+  "timestampMs": 20376,
+  "confidence": 0.5
+ },
+ {
+  "text": " dari",
+  "startMs": 20760,
+  "endMs": 21190,
+  "timestampMs": 20760,
+  "confidence": 1
+ },
+ {
+  "text": " candi.",
+  "startMs": 21190,
+  "endMs": 21857,
+  "timestampMs": 21190,
+  "confidence": 1
+ },
+ {
+  "text": " Warga",
+  "startMs": 22037,
+  "endMs": 22330,
+  "timestampMs": 22037,
+  "confidence": 1
+ },
+ {
+  "text": " cerita:",
+  "startMs": 22330,
+  "endMs": 23020,
+  "timestampMs": 22330,
+  "confidence": 1
+ },
+ {
+  "text": " ada",
+  "startMs": 23020,
+  "endMs": 23250,
+  "timestampMs": 23020,
+  "confidence": 1
+ },
+ {
+  "text": " monumen",
+  "startMs": 23250,
+  "endMs": 23780,
+  "timestampMs": 23250,
+  "confidence": 1
+ },
+ {
+  "text": " besar",
+  "startMs": 23780,
+  "endMs": 24160,
+  "timestampMs": 23780,
+  "confidence": 1
+ },
+ {
+  "text": " di",
+  "startMs": 24160,
+  "endMs": 24310,
+  "timestampMs": 24160,
+  "confidence": 1
+ },
+ {
+  "text": " tengah",
+  "startMs": 24310,
+  "endMs": 24760,
+  "timestampMs": 24310,
+  "confidence": 1
+ },
+ {
+  "text": " hutan.",
+  "startMs": 24760,
+  "endMs": 25180,
+  "timestampMs": 24760,
+  "confidence": 1
+ },
+ {
+  "text": " Jadi",
+  "startMs": 25180,
+  "endMs": 25500,
+  "timestampMs": 25180,
+  "confidence": 1
+ },
+ {
+  "text": " warga",
+  "startMs": 25500,
+  "endMs": 25760,
+  "timestampMs": 25500,
+  "confidence": 1
+ },
+ {
+  "text": " sudah",
+  "startMs": 25760,
+  "endMs": 26020,
+  "timestampMs": 25760,
+  "confidence": 1
+ },
+ {
+  "text": " tahu",
+  "startMs": 26020,
+  "endMs": 26280,
+  "timestampMs": 26020,
+  "confidence": 1
+ },
+ {
+  "text": " duluan!",
+  "startMs": 26280,
+  "endMs": 26994,
+  "timestampMs": 26280,
+  "confidence": 1
+ },
+ {
+  "text": " Insinyur",
+  "startMs": 27174,
+  "endMs": 27170,
+  "timestampMs": 27174,
+  "confidence": 0.5
+ },
+ {
+  "text": " Cornelius",
+  "startMs": 27170,
+  "endMs": 27750,
+  "timestampMs": 27170,
+  "confidence": 1
+ },
+ {
+  "text": " dikirim",
+  "startMs": 27750,
+  "endMs": 28260,
+  "timestampMs": 27750,
+  "confidence": 1
+ },
+ {
+  "text": " dengan",
+  "startMs": 28260,
+  "endMs": 28639,
+  "timestampMs": 28260,
+  "confidence": 1
+ },
+ {
+  "text": " dua",
+  "startMs": 28639,
+  "endMs": 28855,
+  "timestampMs": 28639,
+  "confidence": 0.5
+ },
+ {
+  "text": " ratus",
+  "startMs": 28855,
+  "endMs": 29180,
+  "timestampMs": 28855,
+  "confidence": 0.5
+ },
+ {
+  "text": " orang.",
+  "startMs": 29180,
+  "endMs": 29630,
+  "timestampMs": 29180,
+  "confidence": 1
+ },
+ {
+  "text": " Dua",
+  "startMs": 29630,
+  "endMs": 29830,
+  "timestampMs": 29630,
+  "confidence": 1
+ },
+ {
+  "text": " bulan",
+  "startMs": 29830,
+  "endMs": 30180,
+  "timestampMs": 29830,
+  "confidence": 1
+ },
+ {
+  "text": " tebang",
+  "startMs": 30180,
+  "endMs": 30620,
+  "timestampMs": 30180,
+  "confidence": 1
+ },
+ {
+  "text": " pohon,",
+  "startMs": 30620,
+  "endMs": 31120,
+  "timestampMs": 30620,
+  "confidence": 1
+ },
+ {
+  "text": " bakar",
+  "startMs": 31120,
+  "endMs": 31520,
+  "timestampMs": 31120,
+  "confidence": 1
+ },
+ {
+  "text": " semak,",
+  "startMs": 31520,
+  "endMs": 31980,
+  "timestampMs": 31520,
+  "confidence": 1
+ },
+ {
+  "text": " gali",
+  "startMs": 31980,
+  "endMs": 32270,
+  "timestampMs": 31980,
+  "confidence": 1
+ },
+ {
+  "text": " tanah.",
+  "startMs": 32270,
+  "endMs": 32849,
+  "timestampMs": 32270,
+  "confidence": 1
+ },
+ {
+  "text": " Tapi",
+  "startMs": 33029,
+  "endMs": 33300,
+  "timestampMs": 33029,
+  "confidence": 1
+ },
+ {
+  "text": " tunggu.",
+  "startMs": 33300,
+  "endMs": 33880,
+  "timestampMs": 33300,
+  "confidence": 1
+ },
+ {
+  "text": " Raffles",
+  "startMs": 33880,
+  "endMs": 34420,
+  "timestampMs": 33880,
+  "confidence": 1
+ },
+ {
+  "text": " sendiri",
+  "startMs": 34420,
+  "endMs": 34970,
+  "timestampMs": 34420,
+  "confidence": 1
+ },
+ {
+  "text": " nggak",
+  "startMs": 34970,
+  "endMs": 35360,
+  "timestampMs": 34970,
+  "confidence": 1
+ },
+ {
+  "text": " pernah",
+  "startMs": 35360,
+  "endMs": 35689,
+  "timestampMs": 35360,
+  "confidence": 1
+ },
+ {
+  "text": " ke",
+  "startMs": 35689,
+  "endMs": 35830,
+  "timestampMs": 35689,
+  "confidence": 0.5
+ },
+ {
+  "text": " sana,",
+  "startMs": 35830,
+  "endMs": 36380,
+  "timestampMs": 35830,
+  "confidence": 1
+ },
+ {
+  "text": " dan",
+  "startMs": 36380,
+  "endMs": 36660,
+  "timestampMs": 36380,
+  "confidence": 1
+ },
+ {
+  "text": " candinya",
+  "startMs": 36660,
+  "endMs": 37520,
+  "timestampMs": 36660,
+  "confidence": 1
+ },
+ {
+  "text": " baru",
+  "startMs": 37520,
+  "endMs": 37790,
+  "timestampMs": 37520,
+  "confidence": 1
+ },
+ {
+  "text": " terbuka",
+  "startMs": 37790,
+  "endMs": 38440,
+  "timestampMs": 37790,
+  "confidence": 1
+ },
+ {
+  "text": " semua",
+  "startMs": 38440,
+  "endMs": 38910,
+  "timestampMs": 38440,
+  "confidence": 1
+ },
+ {
+  "text": " tahun",
+  "startMs": 38910,
+  "endMs": 39122,
+  "timestampMs": 38910,
+  "confidence": 1
+ },
+ {
+  "text": " seribu",
+  "startMs": 39122,
+  "endMs": 39369,
+  "timestampMs": 39122,
+  "confidence": 0.5
+ },
+ {
+  "text": " delapan",
+  "startMs": 39369,
+  "endMs": 39651,
+  "timestampMs": 39369,
+  "confidence": 0.5
+ },
+ {
+  "text": " ratus",
+  "startMs": 39651,
+  "endMs": 39863,
+  "timestampMs": 39651,
+  "confidence": 0.5
+ },
+ {
+  "text": " tiga",
+  "startMs": 39863,
+  "endMs": 40039,
+  "timestampMs": 39863,
+  "confidence": 0.5
+ },
+ {
+  "text": " puluh",
+  "startMs": 40039,
+  "endMs": 40251,
+  "timestampMs": 40039,
+  "confidence": 0.5
+ },
+ {
+  "text": " lima.",
+  "startMs": 40251,
+  "endMs": 40463,
+  "timestampMs": 40251,
+  "confidence": 0.5
+ },
+ {
+  "text": " Tebak",
+  "startMs": 40643,
+  "endMs": 40820,
+  "timestampMs": 40643,
+  "confidence": 1
+ },
+ {
+  "text": " dulu",
+  "startMs": 40820,
+  "endMs": 41030,
+  "timestampMs": 40820,
+  "confidence": 1
+ },
+ {
+  "text": " di",
+  "startMs": 41030,
+  "endMs": 41130,
+  "timestampMs": 41030,
+  "confidence": 1
+ },
+ {
+  "text": " komentar:",
+  "startMs": 41130,
+  "endMs": 41740,
+  "timestampMs": 41130,
+  "confidence": 1
+ },
+ {
+  "text": " ada",
+  "startMs": 41740,
+  "endMs": 41920,
+  "timestampMs": 41740,
+  "confidence": 1
+ },
+ {
+  "text": " berapa",
+  "startMs": 41920,
+  "endMs": 42280,
+  "timestampMs": 41920,
+  "confidence": 1
+ },
+ {
+  "text": " patung",
+  "startMs": 42280,
+  "endMs": 42640,
+  "timestampMs": 42280,
+  "confidence": 1
+ },
+ {
+  "text": " Buddha",
+  "startMs": 42640,
+  "endMs": 42900,
+  "timestampMs": 42640,
+  "confidence": 1
+ },
+ {
+  "text": " di",
+  "startMs": 42900,
+  "endMs": 43000,
+  "timestampMs": 42900,
+  "confidence": 1
+ },
+ {
+  "text": " candi",
+  "startMs": 43000,
+  "endMs": 43310,
+  "timestampMs": 43000,
+  "confidence": 1
+ },
+ {
+  "text": " ini?",
+  "startMs": 43310,
+  "endMs": 43662,
+  "timestampMs": 43310,
+  "confidence": 1
+ },
+ {
+  "text": " Awalnya,",
+  "startMs": 43842,
+  "endMs": 44410,
+  "timestampMs": 43842,
+  "confidence": 1
+ },
+ {
+  "text": " lima",
+  "startMs": 44410,
+  "endMs": 44726,
+  "timestampMs": 44410,
+  "confidence": 0.5
+ },
+ {
+  "text": " ratus",
+  "startMs": 44726,
+  "endMs": 45104,
+  "timestampMs": 44726,
+  "confidence": 0.5
+ },
+ {
+  "text": " empat!",
+  "startMs": 45104,
+  "endMs": 45546,
+  "timestampMs": 45104,
+  "confidence": 0.5
+ },
+ {
+  "text": " Tujuh",
+  "startMs": 45726,
+  "endMs": 45833,
+  "timestampMs": 45726,
+  "confidence": 0.5
+ },
+ {
+  "text": " puluh",
+  "startMs": 45833,
+  "endMs": 45939,
+  "timestampMs": 45833,
+  "confidence": 0.5
+ },
+ {
+  "text": " dua",
+  "startMs": 45939,
+  "endMs": 46010,
+  "timestampMs": 45939,
+  "confidence": 0.5
+ },
+ {
+  "text": " di",
+  "startMs": 46010,
+  "endMs": 46140,
+  "timestampMs": 46010,
+  "confidence": 1
+ },
+ {
+  "text": " antaranya",
+  "startMs": 46140,
+  "endMs": 46740,
+  "timestampMs": 46140,
+  "confidence": 1
+ },
+ {
+  "text": " duduk",
+  "startMs": 46740,
+  "endMs": 47060,
+  "timestampMs": 46740,
+  "confidence": 1
+ },
+ {
+  "text": " di",
+  "startMs": 47060,
+  "endMs": 47170,
+  "timestampMs": 47060,
+  "confidence": 1
+ },
+ {
+  "text": " dalam",
+  "startMs": 47170,
+  "endMs": 47490,
+  "timestampMs": 47170,
+  "confidence": 1
+ },
+ {
+  "text": " stupa",
+  "startMs": 47490,
+  "endMs": 47810,
+  "timestampMs": 47490,
+  "confidence": 1
+ },
+ {
+  "text": " berlubang.",
+  "startMs": 47810,
+  "endMs": 48492,
+  "timestampMs": 47810,
+  "confidence": 1
+ },
+ {
+  "text": " Bahkan",
+  "startMs": 48672,
+  "endMs": 49270,
+  "timestampMs": 48672,
+  "confidence": 1
+ },
+ {
+  "text": " tahun",
+  "startMs": 49270,
+  "endMs": 49504,
+  "timestampMs": 49270,
+  "confidence": 1
+ },
+ {
+  "text": " seribu",
+  "startMs": 49504,
+  "endMs": 49776,
+  "timestampMs": 49504,
+  "confidence": 0.5
+ },
+ {
+  "text": " delapan",
+  "startMs": 49776,
+  "endMs": 50088,
+  "timestampMs": 49776,
+  "confidence": 0.5
+ },
+ {
+  "text": " ratus",
+  "startMs": 50088,
+  "endMs": 50322,
+  "timestampMs": 50088,
+  "confidence": 0.5
+ },
+ {
+  "text": " sembilan",
+  "startMs": 50322,
+  "endMs": 50673,
+  "timestampMs": 50322,
+  "confidence": 0.5
+ },
+ {
+  "text": " puluh",
+  "startMs": 50673,
+  "endMs": 50906,
+  "timestampMs": 50673,
+  "confidence": 0.5
+ },
+ {
+  "text": " enam,",
+  "startMs": 50906,
+  "endMs": 51140,
+  "timestampMs": 50906,
+  "confidence": 0.5
+ },
+ {
+  "text": " Raja",
+  "startMs": 51140,
+  "endMs": 51340,
+  "timestampMs": 51140,
+  "confidence": 1
+ },
+ {
+  "text": " Siam",
+  "startMs": 51340,
+  "endMs": 51580,
+  "timestampMs": 51340,
+  "confidence": 1
+ },
+ {
+  "text": " diizinkan",
+  "startMs": 51580,
+  "endMs": 52120,
+  "timestampMs": 51580,
+  "confidence": 1
+ },
+ {
+  "text": " bawa",
+  "startMs": 52120,
+  "endMs": 52470,
+  "timestampMs": 52120,
+  "confidence": 1
+ },
+ {
+  "text": " pulang",
+  "startMs": 52470,
+  "endMs": 52780,
+  "timestampMs": 52470,
+  "confidence": 1
+ },
+ {
+  "text": " delapan",
+  "startMs": 52780,
+  "endMs": 53200,
+  "timestampMs": 52780,
+  "confidence": 1
+ },
+ {
+  "text": " gerobak",
+  "startMs": 53200,
+  "endMs": 53590,
+  "timestampMs": 53200,
+  "confidence": 1
+ },
+ {
+  "text": " patung",
+  "startMs": 53590,
+  "endMs": 53920,
+  "timestampMs": 53590,
+  "confidence": 1
+ },
+ {
+  "text": " dan",
+  "startMs": 53920,
+  "endMs": 54100,
+  "timestampMs": 53920,
+  "confidence": 1
+ },
+ {
+  "text": " relief.",
+  "startMs": 54100,
+  "endMs": 54491,
+  "timestampMs": 54100,
+  "confidence": 1
+ },
+ {
+  "text": " Lalu",
+  "startMs": 54671,
+  "endMs": 54830,
+  "timestampMs": 54671,
+  "confidence": 1
+ },
+ {
+  "text": " bersama",
+  "startMs": 54830,
+  "endMs": 55350,
+  "timestampMs": 54830,
+  "confidence": 1
+ },
+ {
+  "text": " UNESCO,",
+  "startMs": 55350,
+  "endMs": 55950,
+  "timestampMs": 55350,
+  "confidence": 1
+ },
+ {
+  "text": " lebih",
+  "startMs": 55950,
+  "endMs": 56320,
+  "timestampMs": 55950,
+  "confidence": 1
+ },
+ {
+  "text": " dari",
+  "startMs": 56320,
+  "endMs": 56580,
+  "timestampMs": 56320,
+  "confidence": 1
+ },
+ {
+  "text": " satu",
+  "startMs": 56580,
+  "endMs": 56840,
+  "timestampMs": 56580,
+  "confidence": 0.5
+ },
+ {
+  "text": " juta",
+  "startMs": 56840,
+  "endMs": 57130,
+  "timestampMs": 56840,
+  "confidence": 1
+ },
+ {
+  "text": " batu",
+  "startMs": 57130,
+  "endMs": 57420,
+  "timestampMs": 57130,
+  "confidence": 1
+ },
+ {
+  "text": " dibongkar,",
+  "startMs": 57420,
+  "endMs": 58230,
+  "timestampMs": 57420,
+  "confidence": 1
+ },
+ {
+  "text": " dibersihkan,",
+  "startMs": 58230,
+  "endMs": 59030,
+  "timestampMs": 58230,
+  "confidence": 1
+ },
+ {
+  "text": " dan",
+  "startMs": 59030,
+  "endMs": 59310,
+  "timestampMs": 59030,
+  "confidence": 1
+ },
+ {
+  "text": " dipasang",
+  "startMs": 59310,
+  "endMs": 59860,
+  "timestampMs": 59310,
+  "confidence": 1
+ },
+ {
+  "text": " lagi.",
+  "startMs": 59860,
+  "endMs": 60409,
+  "timestampMs": 59860,
+  "confidence": 1
+ },
+ {
+  "text": " Satu",
+  "startMs": 60589,
+  "endMs": 60900,
+  "timestampMs": 60589,
+  "confidence": 1
+ },
+ {
+  "text": " lagi.",
+  "startMs": 60900,
+  "endMs": 61540,
+  "timestampMs": 60900,
+  "confidence": 1
+ },
+ {
+  "text": " Tahun",
+  "startMs": 61540,
+  "endMs": 61742,
+  "timestampMs": 61540,
+  "confidence": 1
+ },
+ {
+  "text": " seribu",
+  "startMs": 61742,
+  "endMs": 61977,
+  "timestampMs": 61742,
+  "confidence": 0.5
+ },
+ {
+  "text": " delapan",
+  "startMs": 61977,
+  "endMs": 62246,
+  "timestampMs": 61977,
+  "confidence": 0.5
+ },
+ {
+  "text": " ratus",
+  "startMs": 62246,
+  "endMs": 62448,
+  "timestampMs": 62246,
+  "confidence": 0.5
+ },
+ {
+  "text": " delapan",
+  "startMs": 62448,
+  "endMs": 62717,
+  "timestampMs": 62448,
+  "confidence": 0.5
+ },
+ {
+  "text": " puluh",
+  "startMs": 62717,
+  "endMs": 62918,
+  "timestampMs": 62717,
+  "confidence": 0.5
+ },
+ {
+  "text": " lima,",
+  "startMs": 62918,
+  "endMs": 63120,
+  "timestampMs": 62918,
+  "confidence": 0.5
+ },
+ {
+  "text": " ditemukan",
+  "startMs": 63120,
+  "endMs": 63930,
+  "timestampMs": 63120,
+  "confidence": 1
+ },
+ {
+  "text": " kaki",
+  "startMs": 63930,
+  "endMs": 64190,
+  "timestampMs": 63930,
+  "confidence": 1
+ },
+ {
+  "text": " candi",
+  "startMs": 64190,
+  "endMs": 64610,
+  "timestampMs": 64190,
+  "confidence": 1
+ },
+ {
+  "text": " tersembunyi,",
+  "startMs": 64610,
+  "endMs": 65660,
+  "timestampMs": 64610,
+  "confidence": 1
+ },
+ {
+  "text": " dengan",
+  "startMs": 65660,
+  "endMs": 66018,
+  "timestampMs": 65660,
+  "confidence": 1
+ },
+ {
+  "text": " seratus",
+  "startMs": 66018,
+  "endMs": 66427,
+  "timestampMs": 66018,
+  "confidence": 0.5
+ },
+ {
+  "text": " enam",
+  "startMs": 66427,
+  "endMs": 66683,
+  "timestampMs": 66427,
+  "confidence": 0.5
+ },
+ {
+  "text": " puluh",
+  "startMs": 66683,
+  "endMs": 66990,
+  "timestampMs": 66683,
+  "confidence": 0.5
+ },
+ {
+  "text": " panel",
+  "startMs": 66990,
+  "endMs": 67370,
+  "timestampMs": 66990,
+  "confidence": 1
+ },
+ {
+  "text": " relief.",
+  "startMs": 67370,
+  "endMs": 67838,
+  "timestampMs": 67370,
+  "confidence": 1
+ },
+ {
+  "text": " Kaki",
+  "startMs": 68018,
+  "endMs": 68380,
+  "timestampMs": 68018,
+  "confidence": 1
+ },
+ {
+  "text": " itu",
+  "startMs": 68380,
+  "endMs": 68670,
+  "timestampMs": 68380,
+  "confidence": 1
+ },
+ {
+  "text": " ditutup",
+  "startMs": 68670,
+  "endMs": 69240,
+  "timestampMs": 68670,
+  "confidence": 1
+ },
+ {
+  "text": " lagi.",
+  "startMs": 69240,
+  "endMs": 69900,
+  "timestampMs": 69240,
+  "confidence": 1
+ },
+ {
+  "text": " Sekarang",
+  "startMs": 69900,
+  "endMs": 70350,
+  "timestampMs": 69900,
+  "confidence": 1
+ },
+ {
+  "text": " cuma",
+  "startMs": 70350,
+  "endMs": 70580,
+  "timestampMs": 70350,
+  "confidence": 1
+ },
+ {
+  "text": " pojok",
+  "startMs": 70580,
+  "endMs": 70850,
+  "timestampMs": 70580,
+  "confidence": 1
+ },
+ {
+  "text": " tenggara",
+  "startMs": 70850,
+  "endMs": 71300,
+  "timestampMs": 70850,
+  "confidence": 1
+ },
+ {
+  "text": " yang",
+  "startMs": 71300,
+  "endMs": 71530,
+  "timestampMs": 71300,
+  "confidence": 1
+ },
+ {
+  "text": " kelihatan.",
+  "startMs": 71530,
+  "endMs": 72166,
+  "timestampMs": 71530,
+  "confidence": 1
+ },
+ {
+  "text": " Jadi",
+  "startMs": 72346,
+  "endMs": 72670,
+  "timestampMs": 72346,
+  "confidence": 1
+ },
+ {
+  "text": " sebagian",
+  "startMs": 72670,
+  "endMs": 73210,
+  "timestampMs": 72670,
+  "confidence": 1
+ },
+ {
+  "text": " Borobudur",
+  "startMs": 73210,
+  "endMs": 73820,
+  "timestampMs": 73210,
+  "confidence": 1
+ },
+ {
+  "text": " masih",
+  "startMs": 73820,
+  "endMs": 74300,
+  "timestampMs": 73820,
+  "confidence": 1
+ },
+ {
+  "text": " tertutup",
+  "startMs": 74300,
+  "endMs": 74700,
+  "timestampMs": 74300,
+  "confidence": 1
+ },
+ {
+  "text": " sampai",
+  "startMs": 74700,
+  "endMs": 75120,
+  "timestampMs": 74700,
+  "confidence": 1
+ },
+ {
+  "text": " hari",
+  "startMs": 75120,
+  "endMs": 75410,
+  "timestampMs": 75120,
+  "confidence": 1
+ },
+ {
+  "text": " ini!",
+  "startMs": 75410,
+  "endMs": 75845,
+  "timestampMs": 75410,
+  "confidence": 1
+ },
+ {
+  "text": " Kamu",
+  "startMs": 76025,
+  "endMs": 76120,
+  "timestampMs": 76025,
+  "confidence": 1
+ },
+ {
+  "text": " pernah",
+  "startMs": 76120,
+  "endMs": 76470,
+  "timestampMs": 76120,
+  "confidence": 1
+ },
+ {
+  "text": " ke",
+  "startMs": 76470,
+  "endMs": 76580,
+  "timestampMs": 76470,
+  "confidence": 1
+ },
+ {
+  "text": " Borobudur?",
+  "startMs": 76580,
+  "endMs": 77125,
+  "timestampMs": 76580,
+  "confidence": 1
+ },
+ {
+  "text": " Tulis",
+  "startMs": 77125,
+  "endMs": 77423,
+  "timestampMs": 77125,
+  "confidence": 0.5
+ },
+ {
+  "text": " di",
+  "startMs": 77423,
+  "endMs": 77571,
+  "timestampMs": 77423,
+  "confidence": 0.5
+ },
+ {
+  "text": " komentar!",
+  "startMs": 77571,
+  "endMs": 78067,
+  "timestampMs": 77571,
+  "confidence": 0.5
+ }
+]

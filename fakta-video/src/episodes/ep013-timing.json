@@ -1,0 +1,68 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 4.833,
+    "words": 12
+  },
+  {
+    "id": "name",
+    "start": 5.133,
+    "end": 8.728,
+    "words": 9
+  },
+  {
+    "id": "long",
+    "start": 9.028,
+    "end": 13.721,
+    "words": 11
+  },
+  {
+    "id": "why",
+    "start": 14.021,
+    "end": 18.529,
+    "words": 12
+  },
+  {
+    "id": "narrow",
+    "start": 18.829,
+    "end": 22.085,
+    "words": 6
+  },
+  {
+    "id": "width",
+    "start": 22.385,
+    "end": 26.69,
+    "words": 9
+  },
+  {
+    "id": "tebak",
+    "start": 26.99,
+    "end": 30.684,
+    "words": 10
+  },
+  {
+    "id": "reveal",
+    "start": 30.984,
+    "end": 35.365,
+    "words": 8
+  },
+  {
+    "id": "deep",
+    "start": 35.665,
+    "end": 41.976,
+    "words": 16
+  },
+  {
+    "id": "lombok",
+    "start": 42.276,
+    "end": 48.46,
+    "words": 13
+  },
+  {
+    "id": "question",
+    "start": 48.76,
+    "end": 51.68,
+    "words": 8
+  }
+]

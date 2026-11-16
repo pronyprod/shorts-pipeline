@@ -1,0 +1,126 @@
+{
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Puck",
+  "lines": [
+    {
+      "n": 1,
+      "request": {
+        "text": "What if a raindrop DOUBLED in size, every second?",
+        "style": "Energetic, charismatic YouTube science narrator talking to a friend: conversational, human, smiling, natural breaths. excited and fast, big smile, hit DOUBLED hard, rising on the question; excited"
+      },
+      "expected": "What if a raindrop doubled in size, every second?",
+      "attempts": [
+        {
+          "heard": "What if a raindrop doubled in size every second?",
+          "ok": true,
+          "seconds": 3.76
+        }
+      ],
+      "final": "match"
+    },
+    {
+      "n": 2,
+      "request": {
+        "text": "It started as a normal raindrop. <short pause> Two millimeters wide.",
+        "style": "Energetic, charismatic YouTube science narrator talking to a friend: conversational, human, smiling, natural breaths. relaxed and conversational, a bit slower, setting the scene"
+      },
+      "expected": "It started as a normal raindrop. Two millimeters wide.",
+      "attempts": [
+        {
+          "heard": "It started as a normal raindrop, two millimeters wide.",
+          "ok": true,
+          "seconds": 4.56
+        }
+      ],
+      "final": "match"
+    },
+    {
+      "n": 3,
+      "request": {
+        "text": "Two seconds: EIGHT millimeters. Already bigger than almost any real raindrop.",
+        "style": "Energetic, charismatic YouTube science narrator talking to a friend: conversational, human, smiling, natural breaths. curious, picking up speed, impressed on the second sentence; impressed"
+      },
+      "expected": "Two seconds: eight millimeters. Already bigger than almost any real raindrop.",
+      "attempts": [
+        {
+          "heard": "two seconds eight millimeters already bigger than almost any real raindrop",
+          "ok": true,
+          "seconds": 5
+        }
+      ],
+      "final": "match"
+    },
+    {
+      "n": 4,
+      "request": {
+        "text": "Three seconds. <short pause> The size of a MARBLE.",
+        "style": "Energetic, charismatic YouTube science narrator talking to a friend: conversational, human, smiling, natural breaths. playful, mock-surprised, tiny pause before the object"
+      },
+      "expected": "Three seconds. The size of a marble.",
+      "attempts": [
+        {
+          "heard": "Three seconds the size of a marble",
+          "ok": true,
+          "seconds": 3.89
+        }
+      ],
+      "final": "match"
+    },
+    {
+      "n": 5,
+      "request": {
+        "text": "Seven. Bigger than a FOOTBALL.",
+        "style": "Energetic, charismatic YouTube science narrator talking to a friend: conversational, human, smiling, natural breaths. faster, energy rising, punch the object; excited"
+      },
+      "expected": "Seven. Bigger than a football.",
+      "attempts": [
+        {
+          "heard": "Seven. Bigger than a football!",
+          "ok": true,
+          "seconds": 2.82
+        }
+      ],
+      "final": "match"
+    },
+    {
+      "n": 6,
+      "request": {
+        "text": "Eleven. As long as a CAR.",
+        "style": "Energetic, charismatic YouTube science narrator talking to a friend: conversational, human, smiling, natural breaths. quick and bright, slightly higher pitch than before"
+      },
+      "expected": "Eleven. As long as a car.",
+      "attempts": [
+        {
+          "heard": "11 as long as a car",
+          "ok": true,
+          "seconds": 2.68
+        }
+      ],
+      "final": "match"
+    },
+    {
+      "n": 7,
+      "request": {
+        "text": "Twelve. <laugh> As tall as a HOUSE.",
+        "style": "Energetic, charismatic YouTube science narrator talking to a friend: conversational, human, smiling, natural breaths. quick, amused, a short laugh at how silly it is"
+      },
+      "expected": "Twelve. As tall as a house.",
+      "attempts": [
+        {
+          "heard": "12 as tall as a house",
+          "ok": true,
+          "seconds": 3.18
+        }
+      ],
+      "final": "match"
+    }
+  ],
+  "seconds": 27.77,
+  "loudnessLUFS": -16.9,
+  "stats": {
+    "requests": 7,
+    "outTokens": 651,
+    "throttled": [],
+    "networkRetries": 0
+  }
+}

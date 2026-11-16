@@ -1,0 +1,80 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 4.693,
+    "words": 12
+  },
+  {
+    "id": "run",
+    "start": 4.873,
+    "end": 10.953,
+    "words": 16
+  },
+  {
+    "id": "tebak",
+    "start": 11.133,
+    "end": 14.989,
+    "words": 13
+  },
+  {
+    "id": "reveal",
+    "start": 15.169,
+    "end": 18.904,
+    "words": 10
+  },
+  {
+    "id": "english",
+    "start": 19.084,
+    "end": 26.179,
+    "words": 16
+  },
+  {
+    "id": "newyork",
+    "start": 26.359,
+    "end": 34.604,
+    "words": 25
+  },
+  {
+    "id": "breda",
+    "start": 34.784,
+    "end": 40.483,
+    "words": 15
+  },
+  {
+    "id": "win",
+    "start": 40.663,
+    "end": 43.78,
+    "words": 8
+  },
+  {
+    "id": "twist",
+    "start": 43.96,
+    "end": 50.353,
+    "words": 17
+  },
+  {
+    "id": "flag",
+    "start": 50.533,
+    "end": 52.996,
+    "words": 7
+  },
+  {
+    "id": "banda",
+    "start": 53.176,
+    "end": 56.761,
+    "words": 10
+  },
+  {
+    "id": "today",
+    "start": 56.941,
+    "end": 62.62,
+    "words": 16
+  },
+  {
+    "id": "question",
+    "start": 62.8,
+    "end": 64.545,
+    "words": 7
+  }
+]

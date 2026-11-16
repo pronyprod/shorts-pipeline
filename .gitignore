@@ -1,0 +1,32 @@
+node_modules/
+dist/
+out/
+.DS_Store
+.env
+.env.*
+*.pem
+*.log
+
+# renders and takes: finished videos live in Releases, work in progress in the Actions cache
+*/renders/
+*/tts-out/
+*/data/tts/
+*/data/*-16k.wav
+*/recordings/
+
+# music is licensed (YouTube Audio Library): never commit it in the clear, see assets/*.enc
+*/public/music/
+# whisper.cpp builds and models (built and cached by the workflow)
+*/whisper/
+*/whisper.cpp/
+# workflow scratch
+ci-out/
+.cache/
+
+# voice audio: rebuilt per episode and carried between runs by the Actions cache.
+# (The newest episode's files that are already committed stay tracked for the environment check.)
+*/public/voice/
+*/public/voices/
+*/tests/*.wav
+*/tests/offline_run/
+render.log

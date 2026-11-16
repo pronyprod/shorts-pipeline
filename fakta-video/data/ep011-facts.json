@@ -1,0 +1,46 @@
+{
+  "method": "Natural Earth 1:50m admin-0 polygons, d3 geoArea on a sphere R = 6371.0088 km (main Borneo polygon per country; Brunei both parts)",
+  "ne": {
+    "borneoKm2": 732282,
+    "idnKm2": 531136,
+    "mysKm2": 195473,
+    "brnKm2": 5672,
+    "brnParts": 2,
+    "brnPartsKm2": [
+      4363,
+      1309
+    ],
+    "shareIdn": 0.725316825338899,
+    "shareMys": 0.2669374080318831,
+    "shareBrn": 0.007745766629217959,
+    "javaKm2": 126410,
+    "franceMetroKm2": 545729
+  },
+  "sourced": {
+    "borneoKm2": 743330,
+    "bruneiKm2": 5765,
+    "franceMetroKm2": 543940,
+    "javaKm2": 128297
+  },
+  "ratios": {
+    "borneoOverFrance": 1.366566165385888,
+    "bruneiShare": 0.007755640159821345,
+    "kalimantanOverJava_ne": 4.201709144951759,
+    "kalimantanOverJava_sourced": 4.22949016734608,
+    "borneoOverJava": 5.793822147049425
+  },
+  "centroids": {
+    "borneo": [
+      114.20662676999764,
+      0.8613799815622617
+    ],
+    "france": [
+      2.5728781310281543,
+      46.505583349154485
+    ],
+    "java": [
+      109.92126921652057,
+      -7.301696004202641
+    ]
+  }
+}

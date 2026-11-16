@@ -1,0 +1,19 @@
+{
+  "episode": "ep011",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep011.ts lines: only CAPITALS added; words identical to say. Owner rule 12 Nov: clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is drinking far too much coffee. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a little amazed, punch on the number", "tagged": "One HUNDRED cups of coffee. One hour. You drink every one." },
+    { "n": 2, "style": "calm and clear, explaining", "tagged": "Cup one. Caffeine BLOCKS your brain's tired signal." },
+    { "n": 3, "style": "clear, a touch of warning", "tagged": "By cup five, you've passed a whole DAY'S safe amount." },
+    { "n": 4, "style": "tense and steady, each short sentence landing on its own", "tagged": "Your heart RACES. Your hands SHAKE. Sleep is gone." },
+    { "n": 5, "style": "serious and clear, punch on toxic", "tagged": "Cup thirteen. Over twelve hundred milligrams. Now it can turn TOXIC." },
+    { "n": 6, "style": "the key line: big, clear punch on the number, then grave", "tagged": "Cup one HUNDRED. Nine thousand six hundred milligrams. Your body gives up way before this." },
+    { "n": 7, "style": "clear and surprised, a smart aside", "tagged": "It's also almost twenty four litres of WATER. Your kidneys clear about ONE an hour." },
+    { "n": 8, "style": "leaning in, playful, sharing a secret", "tagged": "Here's the twist. Coffee plants don't make caffeine for YOU." },
+    { "n": 9, "style": "clear and amazed, punch on poison", "tagged": "They make it to POISON the insects that eat them." },
+    { "n": 10, "style": "warm and amused, a little grin", "tagged": "Your morning coffee is BUG SPRAY. You just get a tiny dose." },
+    { "n": 11, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}

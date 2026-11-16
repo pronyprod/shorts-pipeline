@@ -1,0 +1,124 @@
+// Delivery after Claude has made and checked an episode. Claude never runs this: the workflow does.
+//   1. upload the MP4 as a GitHub Release asset (test mode: a pre-release)
+//   2. download it back WITHOUT any login and compare it byte for byte
+//   3. write the queue row and the Uploads row (ci/sheet.mjs: same rules and read-back checks as the laptop)
+//   4. add one line to shared/PROJECT_LOG.md
+// If any step fails: "CHECK NEEDED" goes into the log, ci/pending/<channel>.json remembers the episode,
+// and the next run of that channel retries the delivery before making anything new.
+//
+// Environment: CHANNEL, TEST (true/false), PUBLISH_AT, GITHUB_REPOSITORY, GH_TOKEN, GITHUB_RUN_ID,
+//              GOOGLE_SA_JSON, SHEET_ID, RUN_START.
+import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import path from "node:path";
+import { CHANNELS } from "./sheet.mjs";
+
+const repo = path.resolve(import.meta.dirname, "..");
+const env = process.env;
+const channel = env.CHANNEL;
+const test = env.TEST === "true";
+const c = CHANNELS[channel];
+if (!c) throw new Error(`CHANNEL must be one of ${Object.keys(CHANNELS).join(", ")}`);
+
+const LOG = path.join(repo, "shared", "PROJECT_LOG.md");
+const PENDING = path.join(repo, "ci", "pending", `${channel}.json`);
+const RESULT = path.join(repo, "ci-out", "result.json");
+const runUrl = `https://github.com/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}`;
+const today = new Date(Date.now() + 7 * 3600 * 1000).toISOString().slice(0, 10);
+
+const summary = (text) => {
+  console.log(text);
+  if (env.GITHUB_STEP_SUMMARY) appendFileSync(env.GITHUB_STEP_SUMMARY, `${text}\n\n`);
+};
+const logLine = (line) => {
+  const text = readFileSync(LOG, "utf8");
+  if (text.includes(line)) return; // never the same line twice
+  writeFileSync(LOG, `${text.replace(/\s*$/, "")}\n${line}\n`);
+};
+const run = (cmd, args, opts = {}) => spawnSync(cmd, args, { encoding: "utf8", cwd: repo, ...opts });
+
+let result;
+const stop = (reason, keepPending = true) => {
+  const ep = result?.episode ?? "(no episode)";
+  logLine(`CHECK NEEDED: ${c.sheetName} ${ep} cloud delivery${test ? " (TEST)" : ""}: ${reason} (${today}, ${runUrl})`);
+  if (keepPending && !test && result?.episode) {
+    mkdirSync(path.dirname(PENDING), { recursive: true });
+    writeFileSync(PENDING, `${JSON.stringify(result, null, 2)}\n`);
+  }
+  summary(`**CHECK NEEDED** ${c.sheetName} ${ep}: ${reason}`);
+  process.exit(1);
+};
+
+// ---------- what did Claude leave? ----------
+if (!existsSync(RESULT)) {
+  logLine(`CHECK NEEDED: ${c.sheetName} cloud run${test ? " (TEST)" : ""} ended without a result file (${today}, ${runUrl})`);
+  summary(`**CHECK NEEDED** ${c.sheetName}: the Claude step ended without ci-out/result.json. Open the run log.`);
+  process.exit(1);
+}
+result = JSON.parse(readFileSync(RESULT, "utf8"));
+if (result.status !== "ready") {
+  // Claude already wrote its own log line (CHECK NEEDED or waiting for quota) and kept its state file.
+  summary(`${c.sheetName}: nothing to deliver. Status **${result.status}**${result.reason ? `: ${result.reason}` : ""}`);
+  process.exit(result.status === "waiting-quota" ? 0 : 1);
+}
+
+const episode = result.episode;
+if (!/^Ep\d{3}(V\d+)?$/.test(episode ?? "")) stop(`result.json has a bad episode name: ${episode}`, false);
+const fileName = c.file(episode);
+const mp4 = path.join(repo, c.project, "renders", fileName);
+const publishAt = env.PUBLISH_AT;
+if (!publishAt) stop("PUBLISH_AT was not computed");
+
+// ---------- 1. release ----------
+const tag = test ? `test-${channel}-${episode}-r${env.GITHUB_RUN_ID}` : `${channel}-${episode}`;
+let url = result.url;
+if (!url) {
+  if (!existsSync(mp4)) stop(`MP4 not found at ${c.project}/renders/${fileName} (and no release yet); it must be rendered again`);
+  const probe = run("ffprobe", ["-v", "error", "-show_entries", "stream=codec_type", "-of", "csv=p=0", mp4]);
+  const streams = (probe.stdout ?? "").trim().split(/\s+/).sort().join(",");
+  if (probe.status !== 0 || streams !== "audio,video") stop(`MP4 is not one video + one audio stream (ffprobe: ${streams || probe.stderr})`);
+
+  const title = `${c.sheetName} ${episode}${test ? " (TEST)" : ""}`;
+  const notes = test ? "Test run. Not for upload." : `Queued for ${publishAt}.`;
+  const exists = run("gh", ["release", "view", tag]).status === 0;
+  const up = exists
+    ? run("gh", ["release", "upload", tag, mp4, "--clobber"])
+    : run("gh", ["release", "create", tag, mp4, "--title", title, "--notes", notes, ...(test ? ["--prerelease"] : []), "--latest=false"]);
+  if (up.status !== 0) stop(`release upload failed: ${(up.stderr ?? "").slice(0, 200)}`);
+  url = `https://github.com/${env.GITHUB_REPOSITORY}/releases/download/${tag}/${fileName}`;
+  result.url = url;
+}
+
+// ---------- 2. public download check (no token, no cookies) ----------
+if (existsSync(mp4)) {
+  const local = createHash("sha256").update(readFileSync(mp4)).digest("hex");
+  let ok = false;
+  let why = "";
+  for (let attempt = 1; attempt <= 4 && !ok; attempt++) {
+    try {
+      const r = await fetch(url, { redirect: "follow" });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const body = Buffer.from(await r.arrayBuffer());
+      if (body.length !== statSync(mp4).size) throw new Error(`size ${body.length} != ${statSync(mp4).size}`);
+      if (createHash("sha256").update(body).digest("hex") !== local) throw new Error("content differs");
+      ok = true;
+    } catch (e) {
+      why = String(e.message ?? e);
+      await new Promise((res) => setTimeout(res, 8000));
+    }
+  }
+  if (!ok) stop(`the release URL does not download the file without login (${why})`);
+  console.log(`deliver: ${url} downloads without login, identical to the render`);
+}
+
+// ---------- 3. spreadsheet ----------
+const sheet = run("node", ["ci/sheet.mjs", "deliver", "--channel", channel, "--episode", episode, "--url", url, "--publish-at", publishAt, "--topic", result.topic ?? "", ...(test ? ["--test"] : [])]);
+process.stdout.write(sheet.stdout ?? "");
+if (sheet.status !== 0) stop(`${sheet.status === 2 ? "queue or Uploads row" : "spreadsheet"}: ${(sheet.stderr ?? "").trim().slice(0, 300)}`);
+const rows = JSON.parse(sheet.stdout.trim().split("\n").pop());
+
+// ---------- 4. log ----------
+logLine(`- **${c.sheetName} ${episode} cloud delivery${test ? " (TEST, not for upload)" : ""} (${today}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; video ${url}`);
+rmSync(PENDING, { force: true });
+summary(`**${c.sheetName} ${episode}** ${test ? "TEST delivered" : "queued"} for ${publishAt}\n\n- ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}\n- ${url}`);

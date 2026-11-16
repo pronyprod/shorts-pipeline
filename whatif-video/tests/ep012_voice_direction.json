@@ -1,0 +1,19 @@
+{
+  "episode": "ep012",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep012.ts lines: only CAPITALS added; words identical to say. Owner rule 12 Nov: clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is stuck inside a whale's mouth. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a hushed shock", "tagged": "A whale just CLOSED its mouth around you. It's pitch black." },
+    { "n": 2, "style": "tense and steady", "tagged": "Second one. You're forty five feet down, SQUEEZED from every side." },
+    { "n": 3, "style": "tense, each short sentence landing on its own", "tagged": "Second five. You can't SEE. You can't push your way out." },
+    { "n": 4, "style": "relieved and warm, a smart reveal", "tagged": "Good news. A humpback's throat is about the size of your FIST." },
+    { "n": 5, "style": "clear and reassuring", "tagged": "Even stretched, it's about fifteen inches. It CAN'T swallow you." },
+    { "n": 6, "style": "building suspense, steady", "tagged": "Second fifteen. The whale starts rising to the SURFACE." },
+    { "n": 7, "style": "the key line: big, clear punch, then a burst of relief", "tagged": "Second thirty. It shakes its head and SPITS you out." },
+    { "n": 8, "style": "leaning in, amazed, sharing a true story", "tagged": "This REALLY happened. In June twenty twenty one, a humpback scooped up diver Michael Packard." },
+    { "n": 9, "style": "clear and amazed", "tagged": "He was inside for thirty to forty seconds, and broke NO bones." },
+    { "n": 10, "style": "warm and amused, a little grin", "tagged": "Humpbacks eat krill and small fish. You were NEVER on the menu." },
+    { "n": 11, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}

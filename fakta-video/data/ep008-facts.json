@@ -1,0 +1,152 @@
+{
+  "cities": {
+    "pontianak": {
+      "2026": [
+        {
+          "date": "2026-03-20",
+          "localTime": "11:50",
+          "offDeg": -0.135
+        },
+        {
+          "date": "2026-09-23",
+          "localTime": "11:35",
+          "offDeg": -0.045
+        }
+      ],
+      "2027": [
+        {
+          "date": "2027-03-21",
+          "localTime": "11:49",
+          "offDeg": 0.165
+        },
+        {
+          "date": "2027-09-23",
+          "localTime": "11:35",
+          "offDeg": 0.048
+        }
+      ]
+    },
+    "jakarta": {
+      "2026": [
+        {
+          "date": "2026-03-05",
+          "localTime": "12:04",
+          "offDeg": 0.159
+        },
+        {
+          "date": "2026-10-09",
+          "localTime": "11:39",
+          "offDeg": -0.052
+        }
+      ],
+      "2027": [
+        {
+          "date": "2027-03-05",
+          "localTime": "12:04",
+          "offDeg": 0.066
+        },
+        {
+          "date": "2027-10-09",
+          "localTime": "11:40",
+          "offDeg": 0.04
+        }
+      ]
+    },
+    "sabang": {
+      "2026": [
+        {
+          "date": "2026-04-04",
+          "localTime": "12:41",
+          "offDeg": -0.187
+        },
+        {
+          "date": "2026-09-07",
+          "localTime": "12:36",
+          "offDeg": 0.157
+        }
+      ],
+      "2027": [
+        {
+          "date": "2027-04-05",
+          "localTime": "12:41",
+          "offDeg": 0.102
+        },
+        {
+          "date": "2027-09-08",
+          "localTime": "12:36",
+          "offDeg": -0.127
+        }
+      ]
+    },
+    "merauke": {
+      "2026": [
+        {
+          "date": "2026-02-27",
+          "localTime": "11:51",
+          "offDeg": 0.118
+        },
+        {
+          "date": "2026-10-15",
+          "localTime": "11:24",
+          "offDeg": 0.016
+        }
+      ],
+      "2027": [
+        {
+          "date": "2027-02-27",
+          "localTime": "11:51",
+          "offDeg": 0.028
+        },
+        {
+          "date": "2027-10-15",
+          "localTime": "11:24",
+          "offDeg": 0.106
+        }
+      ]
+    },
+    "tegal": {
+      "2026": [
+        {
+          "date": "2026-03-03",
+          "localTime": "11:55",
+          "offDeg": 0.047
+        },
+        {
+          "date": "2026-10-11",
+          "localTime": "11:30",
+          "offDeg": -0.146
+        }
+      ],
+      "2027": [
+        {
+          "date": "2027-03-03",
+          "localTime": "11:55",
+          "offDeg": -0.045
+        },
+        {
+          "date": "2027-10-11",
+          "localTime": "11:30",
+          "offDeg": -0.054
+        }
+      ]
+    }
+  },
+  "tropicsShareOfEarthPct": 39.8,
+  "minNoonShadowDeg": {
+    "tokyo": 12.24,
+    "paris": 25.42,
+    "newYork": 17.27
+  },
+  "minutesWithin1DegOfZenith": 8,
+  "shadowOf1mAt1DegCm": 1.75,
+  "eratosthenes": {
+    "latDiffDeg": 6.843,
+    "lonDiffDeg": 0.193,
+    "pontianakTegalKm": 761.2,
+    "shadow1mStickAtTegalCm": 12,
+    "circumferenceKm": 40046,
+    "originalAngleDeg": 7.2,
+    "originalFractionOfCircle": 50
+  },
+  "yearsSinceEratosthenes240BC": 2266
+}

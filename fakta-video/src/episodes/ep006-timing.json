@@ -1,0 +1,92 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 5.371,
+    "words": 14
+  },
+  {
+    "id": "ship",
+    "start": 5.551,
+    "end": 11.53,
+    "words": 19
+  },
+  {
+    "id": "bali",
+    "start": 11.71,
+    "end": 13.917,
+    "words": 8
+  },
+  {
+    "id": "lombok",
+    "start": 14.097,
+    "end": 17.835,
+    "words": 9
+  },
+  {
+    "id": "bogor",
+    "start": 18.015,
+    "end": 20.695,
+    "words": 8
+  },
+  {
+    "id": "line",
+    "start": 20.875,
+    "end": 27.289,
+    "words": 14
+  },
+  {
+    "id": "animals",
+    "start": 27.469,
+    "end": 31.366,
+    "words": 11
+  },
+  {
+    "id": "tebak",
+    "start": 31.546,
+    "end": 36.939,
+    "words": 15
+  },
+  {
+    "id": "reveal",
+    "start": 37.119,
+    "end": 38.51,
+    "words": 4
+  },
+  {
+    "id": "land",
+    "start": 38.69,
+    "end": 43.996,
+    "words": 14
+  },
+  {
+    "id": "twist",
+    "start": 44.176,
+    "end": 48.378,
+    "words": 11
+  },
+  {
+    "id": "gap",
+    "start": 48.558,
+    "end": 53.349,
+    "words": 14
+  },
+  {
+    "id": "wall",
+    "start": 53.529,
+    "end": 58.798,
+    "words": 17
+  },
+  {
+    "id": "payoff",
+    "start": 58.978,
+    "end": 63.043,
+    "words": 9
+  },
+  {
+    "id": "question",
+    "start": 63.223,
+    "end": 65.292,
+    "words": 7
+  }
+]

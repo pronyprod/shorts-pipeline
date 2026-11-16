@@ -1,0 +1,52 @@
+import { Composition } from "remotion";
+import { Ep001, EP001_SECONDS } from "./episodes/Ep001";
+import { Ep001V2, EP001V2_SECONDS } from "./episodes/Ep001V2";
+import { Ep001V3, EP001V3_SECONDS } from "./episodes/Ep001V3";
+import { Ep002, EP002_SECONDS } from "./episodes/Ep002";
+import { Ep003, EP003_SECONDS } from "./episodes/Ep003";
+import { Ep004, EP004_SECONDS } from "./episodes/Ep004";
+import { Ep005, EP005_SECONDS } from "./episodes/Ep005";
+import { Ep006, EP006_SECONDS } from "./episodes/Ep006";
+import { Ep007, EP007_SECONDS } from "./episodes/Ep007";
+import { Ep008, EP008_SECONDS } from "./episodes/Ep008";
+import { Ep009, EP009_SECONDS } from "./episodes/Ep009";
+import { Ep010, EP010_SECONDS } from "./episodes/Ep010";
+import { Ep011, EP011_SECONDS } from "./episodes/Ep011";
+import { Ep012, EP012_SECONDS } from "./episodes/Ep012";
+import { Ep013, EP013_SECONDS } from "./episodes/Ep013";
+import { MixTest, MIXTEST_SECONDS } from "./episodes/MixTest";
+import { LiveTest, LIVETEST_SECONDS } from "./episodes/LiveTest";
+import { LiveTest2, LIVETEST2_SECONDS } from "./episodes/LiveTest2";
+import { H, W } from "./theme";
+
+const FPS = 30;
+
+export const RemotionRoot: React.FC = () => {
+  return (
+    <>
+      {/* TEST ONLY (12 Nov 2026): lively captions + SFX layer */}
+      <Composition id="LiveTest" component={LiveTest} durationInFrames={Math.ceil(LIVETEST_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      {/* TEST ONLY (14 Nov 2026): captions v2 + SfxLayer2 + v2 mix; Voice/Bed = level-check stems */}
+      <Composition id="LiveTest2" component={LiveTest2} durationInFrames={Math.ceil(LIVETEST2_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="LiveTest2Voice" component={LiveTest2} durationInFrames={Math.ceil(LIVETEST2_SECONDS * FPS)} fps={FPS} width={W} height={H} defaultProps={{ mute: "bed" as const }} />
+      <Composition id="LiveTest2Bed" component={LiveTest2} durationInFrames={Math.ceil(LIVETEST2_SECONDS * FPS)} fps={FPS} width={W} height={H} defaultProps={{ mute: "voice" as const }} />
+      <Composition id="LiveTestDry" component={LiveTest} durationInFrames={Math.ceil(LIVETEST_SECONDS * FPS)} fps={FPS} width={W} height={H} defaultProps={{ sfx: false }} />
+      <Composition id="Fakta-Ep001" component={Ep001} durationInFrames={Math.ceil(EP001_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep001V2" component={Ep001V2} durationInFrames={Math.ceil(EP001V2_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep001V3" component={Ep001V3} durationInFrames={Math.ceil(EP001V3_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep002" component={Ep002} durationInFrames={Math.ceil(EP002_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep003" component={Ep003} durationInFrames={Math.ceil(EP003_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep004" component={Ep004} durationInFrames={Math.ceil(EP004_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep005" component={Ep005} durationInFrames={Math.ceil(EP005_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep006" component={Ep006} durationInFrames={Math.ceil(EP006_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep007" component={Ep007} durationInFrames={Math.ceil(EP007_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep008" component={Ep008} durationInFrames={Math.ceil(EP008_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep009" component={Ep009} durationInFrames={Math.ceil(EP009_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep010" component={Ep010} durationInFrames={Math.ceil(EP010_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep011" component={Ep011} durationInFrames={Math.ceil(EP011_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep012" component={Ep012} durationInFrames={Math.ceil(EP012_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep013" component={Ep013} durationInFrames={Math.ceil(EP013_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-MixTest" component={MixTest} durationInFrames={MIXTEST_SECONDS * FPS} fps={FPS} width={W} height={H} defaultProps={{}} />
+    </>
+  );
+};

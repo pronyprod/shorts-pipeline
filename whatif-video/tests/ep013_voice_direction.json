@@ -1,0 +1,19 @@
+{
+  "episode": "ep013",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep013.ts lines: only CAPITALS added; words identical to say. Owner rule 12 Nov: clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is watching every ant on Earth march towards them. Conversational, warm and playful, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a playful shock", "tagged": "EVERY ant on Earth just turned, and they're all marching at you." },
+    { "n": 2, "style": "light and amused, relaxed", "tagged": "The first few reach your shoe. Twelve ants. Easy." },
+    { "n": 3, "style": "growing tension, steady", "tagged": "Then come the driver ants. Up to twenty MILLION in one column." },
+    { "n": 4, "style": "amazed, building", "tagged": "Then a colony six thousand kilometers LONG, from Italy to Spain." },
+    { "n": 5, "style": "the key line: big, clear punch, slow and heavy", "tagged": "Now all twenty QUADRILLION. Coming for you." },
+    { "n": 6, "style": "clear and amazed", "tagged": "That's almost two and a half million for EVERY person alive." },
+    { "n": 7, "style": "a sly, relieved reveal", "tagged": "But a driver ant army marches about twenty meters an HOUR." },
+    { "n": 8, "style": "relaxed and amused, a little grin", "tagged": "You walk over two hundred times faster. Just STROLL away." },
+    { "n": 9, "style": "leaning in, sharing a true story", "tagged": "Scientists REALLY counted them in twenty twenty two." },
+    { "n": 10, "style": "clear and amazed, a smart reveal", "tagged": "And all those ants OUTWEIGH every wild bird and mammal combined." },
+    { "n": 11, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}

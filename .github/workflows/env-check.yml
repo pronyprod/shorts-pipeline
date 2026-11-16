@@ -1,0 +1,133 @@
+name: Environment check
+
+# Manual only. No Claude, no Gemini, no spreadsheet: it proves that the Linux runner can do what the
+# laptop does (whisper, Kokoro, ffmpeg, Chrome with software WebGL, a full render of the newest episode)
+# and shows how long it takes. Needs only the ASSETS_KEY secret (for the music); without it the
+# full renders are skipped and the rest still runs.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { channel: countryballs, project: countryballs-video, model: base.en }
+          - { channel: whatif, project: whatif-video, model: small }
+          - { channel: fakta, project: fakta-video, model: small }
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      TZ: Asia/Jakarta
+      HAS_MUSIC: ${{ secrets.ASSETS_KEY != '' && 'true' || 'false' }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - uses: actions/cache@v4
+        with:
+          path: .cache/whisper
+          key: whisper-1.5.5-${{ matrix.model }}-v1
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ${{ matrix.project }}/node_modules/.remotion
+            ${{ matrix.project }}/node_modules/@huggingface/transformers/.cache
+          key: nm-extras-${{ matrix.project }}-${{ hashFiles(format('{0}/package-lock.json', matrix.project)) }}-v1
+      - name: Set up the Linux tools
+        working-directory: .
+        env:
+          ASSETS_KEY: ${{ secrets.ASSETS_KEY }}
+        run: bash ci/setup.sh "${{ matrix.channel }}"
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      # ---------- countryballs ----------
+      - name: "countryballs: whisper reads the newest episode's voice lines"
+        if: matrix.channel == 'countryballs'
+        run: |
+          EP="$(ls public/voices | grep -E '^ep[0-9]+$' | sort | tail -1)"; echo "EP=$EP" >> "$GITHUB_ENV"
+          node --no-warnings scripts/check-voices.mjs "$EP"
+      - name: "countryballs: Kokoro makes one line again"
+        if: matrix.channel == 'countryballs'
+        run: |
+          time node --no-warnings scripts/generate-voices.mjs "$EP" --line punch1 --attempt 1
+          git checkout -- . # throw the re-made line away so the render uses the committed voices
+      - name: "countryballs: full render + loudness"
+        if: matrix.channel == 'countryballs' && env.HAS_MUSIC == 'true'
+        run: |
+          ID="Ep${EP#ep}"
+          time npx remotion render "$ID" "renders/$ID.mp4" --codec=h264 > render.log 2>&1 || { tail -40 render.log; exit 1; }
+          node scripts/loudness.mjs "renders/$ID.mp4"
+          ffprobe -v error -show_entries format=duration:stream=codec_name,width,height -of default=nw=1 "renders/$ID.mp4"
+
+      # ---------- what if ----------
+      - name: "whatif: line joins + whisper on one line"
+        if: matrix.channel == 'whatif'
+        run: |
+          EP="$(ls public/voices | grep -E '^ep[0-9]+$' | sort | tail -1)"; echo "EP=$EP" >> "$GITHUB_ENV"
+          node scripts/voice-clean.mjs check "public/voices/$EP"
+          ffmpeg -v error -y -i "public/voices/$EP/line01.wav" -ar 16000 -ac 1 "$RUNNER_TEMP/l1.wav"
+          ../fakta-video/whisper/main.exe -m ../fakta-video/whisper/ggml-small.bin -f "$RUNNER_TEMP/l1.wav" -nt -np -l en
+      - name: "whatif: one 3D still with software WebGL"
+        if: matrix.channel == 'whatif'
+        run: |
+          mkdir -p renders
+          time npx remotion still src/index.ts "Kit-k${EP#ep}" renders/still_check.png --frame=300 --gl=swangle --scale=0.3
+      - name: "whatif: full 3D render + loudness (slow without a GPU)"
+        if: matrix.channel == 'whatif' && env.HAS_MUSIC == 'true'
+        run: |
+          OUT="renders/WhatIf_Ep${EP#ep}.mp4"
+          time npx remotion render src/index.ts "Kit-k${EP#ep}" "$OUT" --gl=swangle > render.log 2>&1 || { tail -40 render.log; exit 1; }
+          node scripts/loudness.mjs "$OUT"
+          ffprobe -v error -show_entries format=duration:stream=codec_name,width,height -of default=nw=1 "$OUT"
+
+      # ---------- fakta ----------
+      - name: "fakta: captions from whisper (Indonesian) + line joins"
+        if: matrix.channel == 'fakta'
+        run: |
+          EP="$(ls public/voice | grep -E '^ep[0-9]+$' | sort | tail -1)"; echo "EP=$EP" >> "$GITHUB_ENV"
+          node scripts/voice-clean.mjs check "public/voice/$EP" --pattern "[a-z]*.wav"
+          cp "src/episodes/$EP-captions.json" "$RUNNER_TEMP/captions_laptop.json"
+          time node scripts/make-captions.mts "--ep=$EP"
+          node -e '
+            const fs = require("fs");
+            const words = (f) => JSON.stringify(JSON.parse(fs.readFileSync(f, "utf8"))).toLowerCase().match(/"text":"[^"]*"/g) || [];
+            const a = words(process.argv[1]), b = words(process.argv[2]);
+            const same = a.filter((w, i) => w === b[i]).length;
+            console.log(`caption words: laptop ${a.length}, cloud ${b.length}, identical in place ${same}`);
+          ' "$RUNNER_TEMP/captions_laptop.json" "src/episodes/$EP-captions.json"
+          git checkout -- . # render with the committed captions
+      - name: "fakta: full render + finalize"
+        if: matrix.channel == 'fakta' && env.HAS_MUSIC == 'true'
+        run: |
+          time npm run "render:$EP" > render.log 2>&1 || { tail -60 render.log; exit 1; }
+          tail -15 render.log
+          OUT="renders/Fakta_Ep${EP#ep}.mp4"
+          ls -la renders
+          ffprobe -v error -show_entries format=duration:stream=codec_name,width,height -of default=nw=1 "$OUT"
+
+      - name: Keep the results (videos and stills) as a download on this run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: env-check-${{ matrix.channel }}
+          path: |
+            ${{ matrix.project }}/renders/*.mp4
+            ${{ matrix.project }}/renders/*.png
+            ${{ matrix.project }}/render.log
+            !${{ matrix.project }}/renders/_*
+          if-no-files-found: ignore
+          retention-days: 7

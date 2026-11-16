@@ -1,0 +1,60 @@
+{
+  "days": {
+    "2026-10-30": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 7
+      }
+    },
+    "2026-10-31": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 6
+      }
+    },
+    "2026-11-04": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 5
+      }
+    },
+    "2026-11-05": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 1
+      }
+    },
+    "2026-11-07": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 2
+      }
+    },
+    "2026-11-08": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 4
+      }
+    },
+    "2026-11-10": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 4
+      }
+    },
+    "2026-11-11": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 2
+      }
+    },
+    "2026-11-12": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 4
+      }
+    },
+    "2026-11-14": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 1
+      }
+    },
+    "2026-11-15": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 1
+      }
+    }
+  },
+  "note": "Fakta's Gemini TTS requests per model per Pacific-time day (the other channels keep their own files)."
+}

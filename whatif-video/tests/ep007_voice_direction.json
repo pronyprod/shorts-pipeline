@@ -1,0 +1,88 @@
+{
+    "episode":  "ep007",
+    "model":  "gemini-3.8-flash-tts",
+    "notes":  "Built from ep007.ts lines: only tags and CAPITALS added; words identical to say.",
+    "persona":  "You are an energetic, charismatic science YouTuber narrating a vertical short video. Sound like a real human influencer talking to a friend: conversational, expressive, with natural breaths and a smile in the voice. Change your speed, pitch, emphasis and rhythm with what is happening: an excited hook, tension that builds as the numbers climb (a little faster and higher each time), a punchy pause right before every big reveal, quiet awe at the climax, a playful twist, and a warm, friendly call to action. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions or the bracketed tags aloud. Keep a brisk, punchy pace throughout, about 170 words per minute: no long pauses inside a line.",
+    "lines":  [
+                  {
+                      "n":  1,
+                      "style":  "excited and quick, big smile, stress VANISHED",
+                      "tagged":  "What if the Moon VANISHED for exactly one day?"
+                  },
+                  {
+                      "n":  2,
+                      "style":  "sly and quick, as if sharing a secret",
+                      "tagged":  "It\u0027s GONE. But for about one point three seconds, NOBODY on Earth can tell."
+                  },
+                  {
+                      "n":  3,
+                      "style":  "curious, explaining quickly",
+                      "tagged":  "That\u0027s how long its LIGHT takes to reach us. Its GRAVITY travels just as fast."
+                  },
+                  {
+                      "n":  4,
+                      "style":  "wide-eyed and brisk, clear on the number",
+                      "tagged":  "Then the full moon sky goes about a HUNDRED times darker."
+                  },
+                  {
+                      "n":  5,
+                      "style":  "quiet awe, but keep it moving",
+                      "tagged":  "And far from city lights, the MILKY WAY takes over."
+                  },
+                  {
+                      "n":  6,
+                      "style":  "quick setup, then teasing, a real question to the viewer",
+                      "tagged":  "The Moon makes the TIDES. So with no Moon, do they STOP? Take a GUESS."
+                  },
+                  {
+                      "n":  7,
+                      "style":  "punchy and delighted",
+                      "tagged":  "They DON\u0027T stop. They SHRINK."
+                  },
+                  {
+                      "n":  8,
+                      "style":  "playful reveal, proud on the number",
+                      "tagged":  "Because the SUN makes tides too. Forty six percent as strong as the Moon\u0027s."
+                  },
+                  {
+                      "n":  9,
+                      "style":  "quick and clever, say the last word very clearly",
+                      "tagged":  "It\u0027s twenty seven million times HEAVIER, but three hundred eighty nine times FARTHER, and tides fade with distance CUBED."
+                  },
+                  {
+                      "n":  10,
+                      "style":  "calm and reassuring, a smile in the voice",
+                      "tagged":  "The sea still moves, just LESS. One day can\u0027t calm it anyway."
+                  },
+                  {
+                      "n":  11,
+                      "style":  "playful twist, picking up speed",
+                      "tagged":  "Now the STRANGE part. Earth and Moon both circle one point, DEEP inside the Earth."
+                  },
+                  {
+                      "n":  12,
+                      "style":  "cheeky, then a little alarmed",
+                      "tagged":  "DELETE the Moon, and Earth SLIPS off that circle."
+                  },
+                  {
+                      "n":  13,
+                      "style":  "building, amazed by the number",
+                      "tagged":  "By hour twenty four, we\u0027re over one hundred twenty kilometers OFF COURSE."
+                  },
+                  {
+                      "n":  14,
+                      "style":  "amused, comparing, quick on the big number",
+                      "tagged":  "That\u0027s about three MARATHONS, out of over two and a half MILLION kilometers flown."
+                  },
+                  {
+                      "n":  15,
+                      "style":  "light and funny, a shrug in the voice",
+                      "tagged":  "Then the Moon POPS back. Its distance swings over forty two THOUSAND kilometers a month anyway."
+                  },
+                  {
+                      "n":  16,
+                      "style":  "warm, friendly invitation",
+                      "tagged":  "What should we ERASE next? The best comment becomes the next video."
+                  }
+              ]
+}

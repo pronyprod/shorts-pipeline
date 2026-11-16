@@ -1,0 +1,98 @@
+{
+  "episode": "ep002",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep002.ts lines: only tags and CAPITALS added; words identical to `say`.",
+  "persona": "You are an energetic, charismatic science YouTuber narrating a vertical short video. Sound like a real human influencer talking to a friend: conversational, expressive, with natural breaths and a smile in the voice. Change your speed, pitch, emphasis and rhythm with what is happening: an excited hook, tension that builds as the numbers climb (a little faster and higher each time), a punchy pause right before every big reveal, quiet awe at the climax, a playful twist, and a warm, friendly call to action. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions or the bracketed tags aloud.",
+  "lines": [
+    {
+      "n": 1,
+      "style": "excited and fast, big smile, punch BIGGER, rising on the question",
+      "tagged": "What if every domino was one and a half times BIGGER than the one before?"
+    },
+    {
+      "n": 2,
+      "style": "relaxed and conversational, a little smaller voice for something tiny",
+      "tagged": "The first one is about EIGHT millimeters tall."
+    },
+    {
+      "n": 3,
+      "style": "curious, setting up the rule, slight lean-in",
+      "tagged": "And each one can knock over the next."
+    },
+    {
+      "n": 4,
+      "style": "bright, playful, starting to build",
+      "tagged": "Domino ten. Taller than a sheet of PAPER."
+    },
+    {
+      "n": 5,
+      "style": "quick, impressed",
+      "tagged": "Thirteen. Over a METER tall."
+    },
+    {
+      "n": 6,
+      "style": "quick and bright, a little higher than before",
+      "tagged": "Eighteen. As tall as a HOUSE."
+    },
+    {
+      "n": 7,
+      "style": "tension building, faster",
+      "tagged": "Twenty five. Taller than MONAS."
+    },
+    {
+      "n": 8,
+      "style": "faster, higher pitch, excited",
+      "tagged": "Twenty eight. Taller than the EIFFEL TOWER."
+    },
+    {
+      "n": 9,
+      "style": "intense, leaning in, stress ANY",
+      "tagged": "Thirty. Taller than ANY skyscraper on Earth."
+    },
+    {
+      "n": 10,
+      "style": "awed but still driving forward",
+      "tagged": "Thirty six. Taller than Mount EVEREST."
+    },
+    {
+      "n": 11,
+      "style": "highest energy so far, almost breathless",
+      "tagged": "Forty five. Higher than the SPACE STATION flies."
+    },
+    {
+      "n": 12,
+      "style": "dramatic: slow down, a punchy pause before the reveal, awed",
+      "tagged": "And domino sixty two <short pause> is TALLER than the distance to the MOON."
+    },
+    {
+      "n": 13,
+      "style": "quiet and playful, almost a whisper, like a secret",
+      "tagged": "Now give the first one a TINY push."
+    },
+    {
+      "n": 14,
+      "style": "a crisp click, then building awe and speed as they fall",
+      "tagged": "Click. <short pause> And they all come down, one after another, BIGGER and BIGGER."
+    },
+    {
+      "n": 15,
+      "style": "playful and conspiratorial, like sharing a secret",
+      "tagged": "Here's the twist. This is REAL physics."
+    },
+    {
+      "n": 16,
+      "style": "clear and confident, explaining something cool",
+      "tagged": "A falling domino can knock over one about one and a half times its size. A physics lab in Toronto does it with THIRTEEN."
+    },
+    {
+      "n": 17,
+      "style": "honest and warm, a small smile on the last sentence",
+      "tagged": "No domino could ever stand that tall. But the chain reaction is REAL."
+    },
+    {
+      "n": 18,
+      "style": "warm and friendly, straight to the viewer, smiling",
+      "tagged": "What should we knock over next? Comment below!"
+    }
+  ]
+}

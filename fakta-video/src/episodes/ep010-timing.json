@@ -1,0 +1,68 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 3.903,
+    "words": 9
+  },
+  {
+    "id": "name",
+    "start": 4.203,
+    "end": 7.878,
+    "words": 8
+  },
+  {
+    "id": "comet",
+    "start": 8.178,
+    "end": 13.743,
+    "words": 12
+  },
+  {
+    "id": "grain",
+    "start": 14.043,
+    "end": 18.069,
+    "words": 8
+  },
+  {
+    "id": "tebak",
+    "start": 18.369,
+    "end": 23.714,
+    "words": 12
+  },
+  {
+    "id": "reveal",
+    "start": 24.014,
+    "end": 29.696,
+    "words": 14
+  },
+  {
+    "id": "burn",
+    "start": 29.996,
+    "end": 32.875,
+    "words": 6
+  },
+  {
+    "id": "storm",
+    "start": 33.175,
+    "end": 40.377,
+    "words": 14
+  },
+  {
+    "id": "now",
+    "start": 40.677,
+    "end": 44.517,
+    "words": 12
+  },
+  {
+    "id": "tips",
+    "start": 44.817,
+    "end": 48.029,
+    "words": 9
+  },
+  {
+    "id": "question",
+    "start": 48.329,
+    "end": 51.131,
+    "words": 8
+  }
+]

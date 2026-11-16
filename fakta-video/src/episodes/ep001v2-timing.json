@@ -1,0 +1,74 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 5.694,
+    "words": 13
+  },
+  {
+    "id": "sabang",
+    "start": 5.874,
+    "end": 9.655,
+    "words": 13
+  },
+  {
+    "id": "extremes",
+    "start": 9.835,
+    "end": 14.271,
+    "words": 16
+  },
+  {
+    "id": "lift",
+    "start": 14.451,
+    "end": 21.178,
+    "words": 15
+  },
+  {
+    "id": "usWidth",
+    "start": 21.358,
+    "end": 26.239,
+    "words": 17
+  },
+  {
+    "id": "overhang",
+    "start": 26.419,
+    "end": 31.755,
+    "words": 13
+  },
+  {
+    "id": "diagonal",
+    "start": 31.935,
+    "end": 38.032,
+    "words": 18
+  },
+  {
+    "id": "area",
+    "start": 38.212,
+    "end": 46.114,
+    "words": 19
+  },
+  {
+    "id": "europe",
+    "start": 46.294,
+    "end": 54.242,
+    "words": 16
+  },
+  {
+    "id": "timezones",
+    "start": 54.422,
+    "end": 60.275,
+    "words": 14
+  },
+  {
+    "id": "close",
+    "start": 60.455,
+    "end": 64.394,
+    "words": 13
+  },
+  {
+    "id": "question",
+    "start": 64.574,
+    "end": 67.321,
+    "words": 8
+  }
+]

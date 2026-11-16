@@ -1,0 +1,30 @@
+{
+  "speedKmS": 71,
+  "speedKmH": 255600,
+  "timesSound": 206.99708454810494,
+  "jkSbKm": 663.4764340594036,
+  "jkSbSec": 9.344738507878924,
+  "jkSbSecAt69_7": 9.519030617781974,
+  "sabangMeraukeKm": 5240,
+  "sabangMeraukeSec": 73.80281690140845,
+  "storm1833PerHour": 150000,
+  "storm1966PerSec": 70,
+  "storm1966PerHour": 252000,
+  "rate2026PerHour": [
+    10,
+    15
+  ],
+  "cometKm": 3.6,
+  "orbitYears": 33,
+  "nextReturn": 2031,
+  "points": {
+    "jakarta": [
+      106.8272,
+      -6.1754
+    ],
+    "surabaya": [
+      112.7378,
+      -7.2458
+    ]
+  }
+}

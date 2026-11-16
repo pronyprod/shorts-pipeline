@@ -1,0 +1,48 @@
+{
+  "method": "great-circle haversine R=6371.0088 km, Vincenty WGS84 cross-check",
+  "points": {
+    "tidore": {
+      "coord": [
+        127.4,
+        0.68
+      ],
+      "source": "Wikipedia, 'Tidore' (island) infobox: 0°41′N 127°24′E"
+    },
+    "seville": {
+      "coord": [
+        -5.9869,
+        37.3772
+      ],
+      "source": "Wikipedia, 'Seville' infobox: 37°22′38″N 5°59′13″W"
+    },
+    "sabang": {
+      "name": "Sabang (kota)",
+      "coord": [
+        95.31916666666666,
+        5.894166666666666
+      ],
+      "source": "Wikipedia, 'Sabang, Aceh' infobox: 5°53′39″N 95°19′9″E (accessed 2026-10-29)"
+    },
+    "merauke": {
+      "name": "Merauke (kota)",
+      "coord": [
+        140.33333333333334,
+        -8.466666666666667
+      ],
+      "source": "Wikipedia, 'Merauke' infobox: 8°28′S 140°20′E (accessed 2026-10-29)"
+    }
+  },
+  "tidoreSeville": {
+    "haversineKm": 13631.40199687221,
+    "vincentyKm": 13642.635346112322
+  },
+  "sabangMerauke": {
+    "haversineKm": 5239.980181767918,
+    "vincentyKm": 5242.7099292931625
+  },
+  "ratio": 2.6014224336766687,
+  "years": {
+    "voyageToLinnaeus": 236,
+    "voyageToLesson": 302
+  }
+}

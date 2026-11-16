@@ -1,0 +1,95 @@
+{
+ "points": {
+  "krakatau": {
+   "coord": [
+    105.423,
+    -6.102
+   ],
+   "source": "Wikipedia, 'Krakatoa' infobox: 6°06′07″S 105°25′23″E (accessed 2026-10-31)"
+  },
+  "rodrigues": {
+   "coord": [
+    63.417,
+    -19.717
+   ],
+   "source": "Wikipedia, 'Rodrigues' infobox: 19°43′S 63°25′E (accessed 2026-10-31)"
+  },
+  "tokyo": {
+   "coord": [
+    139.692,
+    35.69
+   ],
+   "source": "Wikipedia, 'Tokyo' (35°41′N 139°41′E)"
+  },
+  "vienna": {
+   "coord": [
+    16.372,
+    48.208
+   ],
+   "source": "Wikipedia, 'Vienna' (48°12′N 16°22′E)"
+  },
+  "newYork": {
+   "coord": [
+    -74.006,
+    40.713
+   ],
+   "source": "Wikipedia, 'New York City' (40°43′N 74°00′W)"
+  },
+  "glasgow": {
+   "coord": [
+    -4.251,
+    55.861
+   ],
+   "source": "Wikipedia, 'Glasgow' (55°52′N 4°15′W)"
+  },
+  "medellin": {
+   "coord": [
+    -75.575,
+    6.244
+   ],
+   "source": "Wikipedia, 'Medellín' (6°15′N 75°35′W)"
+  }
+ },
+ "antipode": [
+  -74.577,
+  6.102
+ ],
+ "antipodeToMedellinKm": 111,
+ "distKm": {
+  "krakatau": 0,
+  "rodrigues": 4781,
+  "tokyo": 5865,
+  "vienna": 10443,
+  "newYork": 16166,
+  "glasgow": 11788,
+  "medellin": 19904
+ },
+ "sabangMeraukeKm": 5240,
+ "rodriguesVsSabangMerauke": 0.912,
+ "soundHoursToRodrigues": 3.87,
+ "waveHours": {
+  "tokyo": 5.4,
+  "vienna": 9.7,
+  "newYork": 15
+ },
+ "waveHoursToAntipode": 18.5,
+ "reported": {
+  "tokyoH": 6,
+  "viennaH": 10,
+  "newYorkH": 15,
+  "stations": "more than 50",
+  "glasgowPassages": 7,
+  "glasgowHours": [
+   11,
+   25,
+   48,
+   59,
+   84,
+   94,
+   121
+  ],
+  "audibleShareOfEarth": 0.07692307692307693
+ },
+ "audibleAreaKm2": 39235837,
+ "audibleVsIndonesia": 20.6
+}

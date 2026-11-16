@@ -1,0 +1,27 @@
+{
+  "episode": "ep001v2",
+  "model": "gemini-3.1-flash-tts-preview",
+  "notes": "The words in `tagged` must stay identical to the episode's `say` text (captions depend on it). Only tags in [brackets] and CAPITALS for emphasis are added. `style` is the per-line direction; `arc` says where the line sits in the energy curve.",
+  "persona": "You are an energetic, charismatic science YouTuber narrating a vertical short video. Sound like a real human influencer talking to a friend: conversational, expressive, with natural breaths and a smile in the voice. Change your speed, pitch, emphasis and rhythm with what is happening: an excited hook, tension that builds as the numbers climb (a little faster and higher each time), a punchy pause right before every big reveal, quiet awe at the climax, a playful twist, and a warm, friendly call to action. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions or the bracketed tags aloud.",
+  "lines": [
+    { "n": 1, "arc": "hook", "style": "excited and fast, big smile, hit DOUBLED hard, rising on the question", "tagged": "[excited] What if a raindrop DOUBLED in size, every second?" },
+    { "n": 2, "arc": "setup", "style": "relaxed and conversational, a bit slower, setting the scene", "tagged": "It started as a normal raindrop. [short pause] Two millimeters wide." },
+    { "n": 3, "arc": "ladder start", "style": "curious, picking up speed, impressed on the second sentence", "tagged": "Two seconds: EIGHT millimeters. [impressed] Already bigger than almost any real raindrop." },
+    { "n": 4, "arc": "ladder", "style": "playful, mock-surprised, tiny pause before the object", "tagged": "Three seconds. [short pause] The size of a MARBLE." },
+    { "n": 5, "arc": "ladder", "style": "faster, energy rising, punch the object", "tagged": "Seven. [excited] Bigger than a FOOTBALL." },
+    { "n": 6, "arc": "ladder", "style": "quick and bright, slightly higher pitch than before", "tagged": "Eleven. As long as a CAR." },
+    { "n": 7, "arc": "ladder", "style": "quick, amused, a short laugh at how silly it is", "tagged": "Twelve. [laughs] As tall as a HOUSE." },
+    { "n": 8, "arc": "tension", "style": "tension building, faster tempo, higher pitch", "tagged": "Sixteen. Longer than a football FIELD." },
+    { "n": 9, "arc": "tension", "style": "intense, leaning in, stress ANY", "tagged": "Nineteen. [building tension] Taller than ANY skyscraper on the planet." },
+    { "n": 10, "arc": "big reveal", "style": "dramatic: steady first sentence, slow down, then a punchy pause and a low, heavy reveal", "tagged": "At twenty seconds, it's two kilometers wide. [short pause] It doesn't rain on the city. [long pause] It SWALLOWS it." },
+    { "n": 11, "arc": "tension", "style": "awed but still driving forward", "tagged": "Twenty three. [awed] Taller than Mount EVEREST." },
+    { "n": 12, "arc": "tension peak", "style": "fast and intense, highest energy so far", "tagged": "Twenty nine. Longer than the WHOLE island of Java." },
+    { "n": 13, "arc": "reveal", "style": "drop to a hushed, almost whispered build, then a clear amazed reveal", "tagged": "[whispers] And it holds more water... [short pause] than every ocean on Earth, combined." },
+    { "n": 14, "arc": "climax start", "style": "big and slow, savoring the moment", "tagged": "Thirty three seconds. [short pause] It's wider than the EARTH." },
+    { "n": 15, "arc": "climax", "style": "suspenseful, slowing down, a long pause before the turn", "tagged": "Then it gets HEAVIER than the Earth. [long pause] So the raindrop doesn't fall on Earth." },
+    { "n": 16, "arc": "climax", "style": "awed and softer, slow, full of wonder", "tagged": "[awed] Earth falls INTO the raindrop, and sinks to the middle, like a pebble." },
+    { "n": 17, "arc": "twist", "style": "playful and conspiratorial, like sharing a secret", "tagged": "[playful] Here's the twist. [short pause] Every real raindrop grows around a tiny speck of dust." },
+    { "n": 18, "arc": "twist punchline", "style": "deadpan setup, long pause, then a grin on the last word", "tagged": "This one just found its speck. [long pause] [chuckles] Us." },
+    { "n": 19, "arc": "call to action", "style": "warm and friendly, straight to the viewer, smiling", "tagged": "[friendly] What should double next? Comment below!" }
+  ]
+}

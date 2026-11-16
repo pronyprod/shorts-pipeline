@@ -1,0 +1,51 @@
+{
+  "method": "great-circle haversine R=6371.0088 km, Vincenty WGS84 cross-check",
+  "points": {
+    "jakarta": {
+      "coord": [
+        106.8272,
+        -6.1754
+      ],
+      "source": "Monas, Jakarta (Wikipedia, 'National Monument (Indonesia)': 6°10′31″S 106°49′38″E)"
+    },
+    "surabaya": {
+      "coord": [
+        112.7378,
+        -7.2458
+      ],
+      "source": "Tugu Pahlawan, Surabaya (Wikipedia, 'Heroes Monument': 7°14′45″S 112°44′16″E)"
+    }
+  },
+  "jakartaSurabaya": {
+    "haversineKm": 663.4764340594036,
+    "vincentyKm": 664.1084779737755
+  },
+  "straitLengthKm": {
+    "value": 900,
+    "source": "Wikipedia, 'Strait of Malacca' (lead: 900 km long; infobox max 930 km)"
+  },
+  "lengthVsJakartaSurabaya": 1.3564912840889531,
+  "ships": {
+    "y2024": 94300,
+    "y2025": 102500,
+    "source": "Malaysia Marine Department via Reuters / Malay Mail, 23 Apr 2026"
+  },
+  "shipsPerDay2025": 280.82191780821915,
+  "phillipsKm": {
+    "value": 2.8,
+    "source": "Wikipedia, 'Strait of Malacca' (2.8 km = 1.5 nmi at Phillip Channel); Reuters/Malay Mail: 2.7 km"
+  },
+  "suramaduKm": {
+    "value": 5.438,
+    "source": "Wikipedia, 'Suramadu Bridge' infobox 5,438 m"
+  },
+  "phillipsVsSuramadu": 0.5148951820522251,
+  "phillipsVsSuramaduLow": 0.49650606840750283,
+  "depthM": {
+    "malaccaMin": 25,
+    "lombokMin": 250,
+    "malaccamaxDraft": 20.5,
+    "source": "Wikipedia, 'Malaccamax' (25 m deep strait, 20.5 m draught); 'Lombok Strait' (minimum 250 m)"
+  },
+  "depthRatio": 10
+}

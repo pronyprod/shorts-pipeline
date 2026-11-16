@@ -1,0 +1,104 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 3.277,
+    "words": 7
+  },
+  {
+    "id": "sun",
+    "start": 3.457,
+    "end": 8.103,
+    "words": 13
+  },
+  {
+    "id": "pontianak",
+    "start": 8.283,
+    "end": 14.9,
+    "words": 18
+  },
+  {
+    "id": "wait",
+    "start": 15.08,
+    "end": 17.593,
+    "words": 7
+  },
+  {
+    "id": "dates",
+    "start": 17.773,
+    "end": 22.8,
+    "words": 10
+  },
+  {
+    "id": "all",
+    "start": 22.98,
+    "end": 26.713,
+    "words": 11
+  },
+  {
+    "id": "tebak",
+    "start": 26.893,
+    "end": 30.419,
+    "words": 12
+  },
+  {
+    "id": "reveal",
+    "start": 30.599,
+    "end": 32.034,
+    "words": 4
+  },
+  {
+    "id": "never",
+    "start": 32.214,
+    "end": 36.107,
+    "words": 8
+  },
+  {
+    "id": "moment",
+    "start": 36.287,
+    "end": 39.885,
+    "words": 10
+  },
+  {
+    "id": "sabang",
+    "start": 40.065,
+    "end": 43.398,
+    "words": 14
+  },
+  {
+    "id": "erat",
+    "start": 43.578,
+    "end": 49.416,
+    "words": 17
+  },
+  {
+    "id": "erat2",
+    "start": 49.596,
+    "end": 56.03,
+    "words": 18
+  },
+  {
+    "id": "local",
+    "start": 56.21,
+    "end": 61.632,
+    "words": 16
+  },
+  {
+    "id": "result",
+    "start": 61.812,
+    "end": 68.016,
+    "words": 15
+  },
+  {
+    "id": "payoff",
+    "start": 68.196,
+    "end": 70.041,
+    "words": 5
+  },
+  {
+    "id": "question",
+    "start": 70.221,
+    "end": 72.105,
+    "words": 7
+  }
+]

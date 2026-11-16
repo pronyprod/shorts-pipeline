@@ -1,0 +1,68 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 2.979,
+    "words": 7
+  },
+  {
+    "id": "name",
+    "start": 3.279,
+    "end": 7.013,
+    "words": 7
+  },
+  {
+    "id": "ship",
+    "start": 7.313,
+    "end": 12.346,
+    "words": 14
+  },
+  {
+    "id": "far",
+    "start": 12.646,
+    "end": 16.871,
+    "words": 10
+  },
+  {
+    "id": "nofeet",
+    "start": 17.171,
+    "end": 20.71,
+    "words": 8
+  },
+  {
+    "id": "myth",
+    "start": 21.01,
+    "end": 24.858,
+    "words": 11
+  },
+  {
+    "id": "tebak",
+    "start": 25.158,
+    "end": 28.544,
+    "words": 9
+  },
+  {
+    "id": "reveal",
+    "start": 28.844,
+    "end": 34.86,
+    "words": 13
+  },
+  {
+    "id": "twist",
+    "start": 35.16,
+    "end": 39.096,
+    "words": 8
+  },
+  {
+    "id": "species",
+    "start": 39.396,
+    "end": 43.995,
+    "words": 13
+  },
+  {
+    "id": "question",
+    "start": 44.295,
+    "end": 47.111,
+    "words": 8
+  }
+]

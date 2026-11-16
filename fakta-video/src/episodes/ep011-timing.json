@@ -1,0 +1,62 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 3.012,
+    "words": 6
+  },
+  {
+    "id": "name",
+    "start": 3.312,
+    "end": 6.979,
+    "words": 7
+  },
+  {
+    "id": "europe",
+    "start": 7.279,
+    "end": 12.405,
+    "words": 10
+  },
+  {
+    "id": "three",
+    "start": 12.705,
+    "end": 19.025,
+    "words": 13
+  },
+  {
+    "id": "tebak",
+    "start": 19.325,
+    "end": 22.586,
+    "words": 9
+  },
+  {
+    "id": "reveal",
+    "start": 22.886,
+    "end": 28.5,
+    "words": 8
+  },
+  {
+    "id": "brunei",
+    "start": 28.8,
+    "end": 33.407,
+    "words": 9
+  },
+  {
+    "id": "java",
+    "start": 33.707,
+    "end": 37.474,
+    "words": 10
+  },
+  {
+    "id": "prov",
+    "start": 37.774,
+    "end": 44.07,
+    "words": 14
+  },
+  {
+    "id": "question",
+    "start": 44.37,
+    "end": 46.829,
+    "words": 8
+  }
+]

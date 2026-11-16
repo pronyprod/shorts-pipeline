@@ -1,0 +1,98 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 3.936,
+    "words": 11
+  },
+  {
+    "id": "build",
+    "start": 4.116,
+    "end": 8.462,
+    "words": 13
+  },
+  {
+    "id": "cover",
+    "start": 8.642,
+    "end": 14.677,
+    "words": 15
+  },
+  {
+    "id": "raffles",
+    "start": 14.857,
+    "end": 21.857,
+    "words": 21
+  },
+  {
+    "id": "locals",
+    "start": 22.037,
+    "end": 26.994,
+    "words": 13
+  },
+  {
+    "id": "cornelius",
+    "start": 27.174,
+    "end": 32.849,
+    "words": 15
+  },
+  {
+    "id": "notyet",
+    "start": 33.029,
+    "end": 40.463,
+    "words": 20
+  },
+  {
+    "id": "tebak",
+    "start": 40.643,
+    "end": 43.662,
+    "words": 11
+  },
+  {
+    "id": "reveal",
+    "start": 43.842,
+    "end": 45.546,
+    "words": 4
+  },
+  {
+    "id": "stupa",
+    "start": 45.726,
+    "end": 48.492,
+    "words": 10
+  },
+  {
+    "id": "siam",
+    "start": 48.672,
+    "end": 54.491,
+    "words": 18
+  },
+  {
+    "id": "million",
+    "start": 54.671,
+    "end": 60.409,
+    "words": 13
+  },
+  {
+    "id": "hidden",
+    "start": 60.589,
+    "end": 67.838,
+    "words": 19
+  },
+  {
+    "id": "still",
+    "start": 68.018,
+    "end": 72.166,
+    "words": 10
+  },
+  {
+    "id": "payoff",
+    "start": 72.346,
+    "end": 75.845,
+    "words": 8
+  },
+  {
+    "id": "question",
+    "start": 76.025,
+    "end": 78.067,
+    "words": 7
+  }
+]

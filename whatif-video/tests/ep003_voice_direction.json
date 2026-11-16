@@ -1,0 +1,93 @@
+{
+  "episode": "ep003",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep003.ts lines: only tags and CAPITALS added; words identical to `say`.",
+  "persona": "You are an energetic, charismatic science YouTuber narrating a vertical short video. Sound like a real human influencer talking to a friend: conversational, expressive, with natural breaths and a smile in the voice. Change your speed, pitch, emphasis and rhythm with what is happening: an excited hook, tension that builds as the numbers climb (a little faster and higher each time), a punchy pause right before every big reveal, quiet awe at the climax, a playful twist, and a warm, friendly call to action. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions or the bracketed tags aloud.",
+  "lines": [
+    {
+      "n": 1,
+      "style": "excited and fast, big smile, punch TWICE, rising on the question",
+      "tagged": "What if you could jump TWICE as high, every jump?"
+    },
+    {
+      "n": 2,
+      "style": "relaxed and conversational, a little bounce",
+      "tagged": "Your first jump: about HALF a meter."
+    },
+    {
+      "n": 3,
+      "style": "curious, setting up the rule, slight lean-in",
+      "tagged": "Then every jump goes TWICE as high."
+    },
+    {
+      "n": 4,
+      "style": "bright and playful, starting to build",
+      "tagged": "Jump four. Higher than a BASKETBALL HOOP."
+    },
+    {
+      "n": 5,
+      "style": "quick and bright, a little higher than before",
+      "tagged": "Five. As high as a HOUSE."
+    },
+    {
+      "n": 6,
+      "style": "tension building, faster",
+      "tagged": "Ten. Higher than MONAS."
+    },
+    {
+      "n": 7,
+      "style": "faster, higher pitch, excited, stress ANY",
+      "tagged": "Twelve. Higher than ANY skyscraper."
+    },
+    {
+      "n": 8,
+      "style": "awed but still driving forward",
+      "tagged": "Sixteen. Higher than Mount EVEREST."
+    },
+    {
+      "n": 9,
+      "style": "thrilled, a quick laugh of disbelief",
+      "tagged": "Nineteen. You jump into SPACE."
+    },
+    {
+      "n": 10,
+      "style": "highest energy so far, almost breathless",
+      "tagged": "Twenty one. Higher than the SPACE STATION."
+    },
+    {
+      "n": 11,
+      "style": "a quick honest aside, a little drier and faster, then back to the fun",
+      "tagged": "Ignore the air. In real life, at these speeds, it would burn you up."
+    },
+    {
+      "n": 12,
+      "style": "dramatic and awed, slowing down",
+      "tagged": "Thirty one. You jump farther than the MOON."
+    },
+    {
+      "n": 13,
+      "style": "suspense: slow, a punchy pause before the reveal, low and serious on the last words",
+      "tagged": "And jump thirty three... <short pause> you DON'T come back down."
+    },
+    {
+      "n": 14,
+      "style": "awed and calm, full of wonder",
+      "tagged": "Two million kilometers up, the SUN'S gravity wins. You'd orbit the Sun instead."
+    },
+    {
+      "n": 15,
+      "style": "playful and conspiratorial, like sharing a secret",
+      "tagged": "Here's the twist. Escape velocity is eleven point two kilometers a second."
+    },
+    {
+      "n": 16,
+      "style": "clear and amazed, stress ONLY",
+      "tagged": "But this jump ONLY needed ninety nine point eight percent of it."
+    },
+    {
+      "n": 17,
+      "style": "warm and friendly, straight to the viewer, smiling",
+      "tagged": "What should we try next? Comment below!"
+    }
+  ]
+}

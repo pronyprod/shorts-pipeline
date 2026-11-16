@@ -1,0 +1,78 @@
+{
+  "method": "Great-circle distance (haversine), sphere R = 6371.0088 km (IUGG mean radius). Cross-check: Vincenty on WGS84.",
+  "points": {
+    "sabang": {
+      "name": "Sabang (kota)",
+      "coord": [
+        95.31916666666666,
+        5.894166666666666
+      ],
+      "source": "Wikipedia, 'Sabang, Aceh' infobox: 5°53′39″N 95°19′9″E (accessed 2026-10-29)"
+    },
+    "merauke": {
+      "name": "Merauke (kota)",
+      "coord": [
+        140.33333333333334,
+        -8.466666666666667
+      ],
+      "source": "Wikipedia, 'Merauke' infobox: 8°28′S 140°20′E (accessed 2026-10-29)"
+    },
+    "idWest": {
+      "name": "Pulau Benggala, Aceh (titik paling barat Indonesia)",
+      "coord": [
+        94.97277777777778,
+        5.792222222222222
+      ],
+      "source": "Wikipedia, 'Extreme points of Indonesia': 5°47′32″N 94°58′22″E (accessed 2026-10-29)"
+    },
+    "idEast": {
+      "name": "Muara Torasi, Merauke (titik paling timur Indonesia)",
+      "coord": [
+        141.01944444444445,
+        -9.128333333333334
+      ],
+      "source": "Wikipedia, 'Extreme points of Indonesia': 9°7′42″S 141°1′10″E (accessed 2026-10-29)"
+    },
+    "usWest": {
+      "name": "Cape Alava, Washington (titik paling barat AS daratan)",
+      "coord": [
+        -124.73661111111112,
+        48.166666666666664
+      ],
+      "source": "Wikipedia, 'Cape Alava': 48°10′N, longitude 124°44′11.8″W (accessed 2026-10-29)"
+    },
+    "usEast": {
+      "name": "West Quoddy Head, Maine (titik paling timur AS daratan)",
+      "coord": [
+        -66.95047,
+        44.81511
+      ],
+      "source": "Wikipedia, 'West Quoddy Head Light': 44°48′54″N 66°57′02″W (accessed 2026-10-29)"
+    }
+  },
+  "sabangMerauke": {
+    "from": "sabang",
+    "to": "merauke",
+    "greatCircleKm": 5240,
+    "wgs84Km": 5243
+  },
+  "indonesiaExtremes": {
+    "from": "idWest",
+    "to": "idEast",
+    "greatCircleKm": 5366,
+    "wgs84Km": 5369
+  },
+  "usContiguous": {
+    "from": "usWest",
+    "to": "usEast",
+    "greatCircleKm": 4334,
+    "wgs84Km": 4347
+  },
+  "areas": {
+    "indonesiaKm2": 1904569,
+    "indonesiaSource": "Wikipedia 'Indonesia' and 'Geography of Indonesia' (total area 1,904,569 km², citing CIA World Factbook 2025), accessed 2026-10-29",
+    "usContiguousKm2": 8080464,
+    "usContiguousSource": "Wikipedia 'Contiguous United States' (3,119,884.69 sq mi = 8,080,464.3 km²), accessed 2026-10-29",
+    "ratio": 4.24
+  }
+}

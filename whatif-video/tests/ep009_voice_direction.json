@@ -1,0 +1,22 @@
+{
+  "episode": "ep009",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep009.ts lines: only CAPITALS added; words identical to say.",
+  "persona": "You are an energetic, charismatic YouTuber narrating a vertical short video, talking straight to one friend whose house is about to be buried. Conversational, expressive, a little mischievous and amazed, with natural breaths. Change your speed, pitch, emphasis and rhythm with what is happening: an urgent hook, a teasing fake calm, escalation that climbs line by line (a little faster and bigger each time), a huge punch on the million tonnes, wonder at the scale, then a sly, mind-blown reveal for the twist and a warm, friendly call to action. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud. Keep a brisk, punchy pace throughout, about 175 words per minute: no long pauses inside a line.",
+  "lines": [
+    { "n": 1, "style": "urgent and quick, right in your ear, hit the number hard", "tagged": "One TRILLION dollar bills are falling on your house. Right NOW." },
+    { "n": 2, "style": "fake calm, teasing", "tagged": "Each one weighs about a GRAM. Harmless, right?" },
+    { "n": 3, "style": "sudden snap, then building alarm", "tagged": "WRONG. Soon a Statue of Liberty's weight sits on your ROOF." },
+    { "n": 4, "style": "fast, two short punches", "tagged": "Your roof caves IN. Then your WALLS." },
+    { "n": 5, "style": "bigger, amazed, clear on the number", "tagged": "Eleven THOUSAND tonnes. More than the WHOLE Eiffel Tower." },
+    { "n": 6, "style": "urgent, ominous on the last words", "tagged": "Your whole street DISAPPEARS. And it keeps FALLING." },
+    { "n": 7, "style": "huge and slow, the climax, a dramatic punch", "tagged": "One MILLION tonnes. Heavier than TWO Empire State Buildings." },
+    { "n": 8, "style": "wide-eyed wonder, brisk; say packed and tight as two crisp, clearly separate words", "tagged": "Packed tight, your cash is BIGGER than that whole building." },
+    { "n": 9, "style": "amazed, a little playful", "tagged": "Spread over a square kilometre, it's STILL over a metre deep." },
+    { "n": 10, "style": "rising excitement, looking up", "tagged": "Stacked, it climbs over a hundred THOUSAND kilometres. Past every GPS satellite." },
+    { "n": 11, "style": "leaning in, sly, building suspense, trailing off", "tagged": "Here's the TWIST. Every REAL dollar bill in circulation, about fifteen billion..." },
+    { "n": 12, "style": "the reveal, mind-blown", "tagged": "would cover less than TWO percent of your pile." },
+    { "n": 13, "style": "punchy and triumphant", "tagged": "Your trillion dollar bills don't even EXIST." },
+    { "n": 14, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "episode": "ep006",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep006.ts lines: only tags and CAPITALS added; words identical to say.",
+  "persona": "You are an energetic, charismatic science YouTuber narrating a vertical short video. Sound like a real human influencer talking to a friend: conversational, expressive, with natural breaths and a smile in the voice. Change your speed, pitch, emphasis and rhythm with what is happening: an excited hook, tension that builds as the numbers climb (a little faster and higher each time), a punchy pause right before every big reveal, quiet awe at the climax, a playful twist, and a warm, friendly call to action. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions or the bracketed tags aloud.",
+  "lines": [
+    {
+      "n": 1,
+      "style": "excited and fast, big smile, stress EVERY HUMAN",
+      "tagged": "What if EVERY HUMAN on Earth jumped at the same moment?"
+    },
+    {
+      "n": 2,
+      "style": "relaxed and friendly, then quietly surprised at the second sentence",
+      "tagged": "Start with just you. You jump up, and the Earth REALLY does move down."
+    },
+    {
+      "n": 3,
+      "style": "building, a little faster and higher each time",
+      "tagged": "Now fill a stadium. Fill all of JAKARTA. Fill all of INDONESIA."
+    },
+    {
+      "n": 4,
+      "style": "big and proud, slow on the number",
+      "tagged": "Now EVERYONE alive. Eight point two BILLION people."
+    },
+    {
+      "n": 5,
+      "style": "stopping short, a playful catch, then explaining quickly",
+      "tagged": "But WAIT. People on opposite sides push in OPPOSITE directions, so a lot of it cancels out."
+    },
+    {
+      "n": 6,
+      "style": "sly and conspiratorial, enjoying the cheat",
+      "tagged": "So let's CHEAT. Pack all of us into ONE spot, all pushing the same way."
+    },
+    {
+      "n": 7,
+      "style": "a real countdown, slow and tense, shouting the last word",
+      "tagged": "Three. Two. One. JUMP!"
+    },
+    {
+      "n": 8,
+      "style": "floating, then leaning in, teasing, a real question to the viewer",
+      "tagged": "We all rise half a meter. How far does the Earth drop? Take a GUESS."
+    },
+    {
+      "n": 9,
+      "style": "playful, shaking your head, each one smaller and quieter",
+      "tagged": "Not a centimeter. Not the width of a hair. Not even a VIRUS."
+    },
+    {
+      "n": 10,
+      "style": "quiet awe, slow and clear, then amazed",
+      "tagged": "Smaller than a single ATOM. Over two thousand times smaller."
+    },
+    {
+      "n": 11,
+      "style": "calm, explaining, a smile in the voice",
+      "tagged": "Because the Earth outweighs all of us almost TWELVE TRILLION to one."
+    },
+    {
+      "n": 12,
+      "style": "playful twist, picking up speed",
+      "tagged": "And it doesn't even LAST. We land, and our landing pushes the Earth straight back."
+    },
+    {
+      "n": 13,
+      "style": "amused and matter of fact, landing on ZERO",
+      "tagged": "Right back where it started. Everyone alive, and the final score is ZERO."
+    },
+    {
+      "n": 14,
+      "style": "warm and delighted, a little secret for the viewer",
+      "tagged": "But every jump you've EVER made really did move the planet. Just not for long."
+    },
+    {
+      "n": 15,
+      "style": "warm, friendly invitation",
+      "tagged": "What should we TRY next? The best comment becomes the next video."
+    }
+  ]
+}

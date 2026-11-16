@@ -1,0 +1,74 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 3.45,
+    "words": 11
+  },
+  {
+    "id": "java",
+    "start": 3.63,
+    "end": 8.58,
+    "words": 14
+  },
+  {
+    "id": "tebak",
+    "start": 8.76,
+    "end": 13.96,
+    "words": 16
+  },
+  {
+    "id": "reveal",
+    "start": 14.14,
+    "end": 15.565,
+    "words": 4
+  },
+  {
+    "id": "why",
+    "start": 15.745,
+    "end": 18.342,
+    "words": 6
+  },
+  {
+    "id": "levels",
+    "start": 18.522,
+    "end": 25.086,
+    "words": 16
+  },
+  {
+    "id": "easy",
+    "start": 25.266,
+    "end": 31.458,
+    "words": 17
+  },
+  {
+    "id": "trade",
+    "start": 31.638,
+    "end": 36.171,
+    "words": 12
+  },
+  {
+    "id": "fair",
+    "start": 36.351,
+    "end": 39.78,
+    "words": 9
+  },
+  {
+    "id": "pledge",
+    "start": 39.96,
+    "end": 48.583,
+    "words": 22
+  },
+  {
+    "id": "today",
+    "start": 48.763,
+    "end": 53.857,
+    "words": 16
+  },
+  {
+    "id": "question",
+    "start": 54.037,
+    "end": 55.945,
+    "words": 6
+  }
+]
