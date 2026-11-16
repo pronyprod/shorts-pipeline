@@ -1,5 +1,5 @@
 # PROJECT LOG: AI Shorts Channel Business
-Last updated: 2026-11-16 16:30 WIB (Monday)
+Last updated: 2026-11-16 23:30 WIB (Monday)
 Owner: the channel owner (UTC+7)
 
 > **For any future Claude session:** this is the master record. Read all of it before
@@ -372,6 +372,9 @@ python trend_finder_v2.py --combine            # merge all runs -> results\combi
 - **Fakta Ep013 (2026-11-15):** Selat Malaka: jalan tol laut tersibuk (bank #7), geography, 52.0 s, -14.03 LUFS, true peak -1.91 dBTP, 1 Gemini request, queued for 2026-11-18 18:00.
   File: fakta-video\renders\Fakta_Ep013.mp4, uploads\Ep013.txt. Drive ID [drive-id]; Queue row 15, Uploads row 38. First episode on captions v2 + SfxLayer2 + mix v2.
   Uncertain: width 2.8 km (Wikipedia) vs 2.7 km (Reuters), spoken as "nggak sampai tiga kilometer"; 280/day is the 2025 average (102,500/365); lane and Lombok detour lines are approximate drawings; 22% trade share (CSIS) on screen only; #6 Puncak Jaya skipped (depressing); question on screen 3.1 s (spoken 2.9 s + 0.3 s hold), slightly over 3 s.
+- **Fakta Ep014 (2026-11-16):** CHECK NEEDED: Ep014 voice lines 7-9 (language, bank V5 'Indonesia nomor dua bahasa terbanyak'), 4 Gemini requests used (run cap), not queued.
+  Whisper on the final lines 7-9: line split is shifted (line 7 starts with the end of line 6) and 428 reads as '424', so a number is unverified; no render, bank not marked. Files kept: src/episodes/ep014-script.ts, data/tts/ep014 (raw take cached).
+  Uncertain: next run resumes from step 3 (re-take lines 6-9 as one block, 6 requests left today); 'Papua 428 bahasa' rests on Badan Bahasa data via GoodStats (secondary).
 
 ## 10b. Roadmap to launch (agreed plan, 2026-10-29 16:20)
 **Stage 1: lock templates (Thu–Fri).** At most 2 more fix rounds per format. A format is "ready to test" when it has: motion/hook in the first second; phone readability (checked on the owner's phone); the core idea visible, not just spoken; about -14 LUFS with clear voices; facts checked and no copyrighted material; **and a new episode needs only new content, not new code**. After locking, no template changes until the test data comes in.

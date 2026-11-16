@@ -1,0 +1,56 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 5.199,
+    "words": 11
+  },
+  {
+    "id": "name",
+    "start": 5.499,
+    "end": 9.088,
+    "words": 9
+  },
+  {
+    "id": "count",
+    "start": 9.388,
+    "end": 13.95,
+    "words": 8
+  },
+  {
+    "id": "tebak",
+    "start": 14.25,
+    "end": 18.262,
+    "words": 9
+  },
+  {
+    "id": "reveal",
+    "start": 18.563,
+    "end": 26.512,
+    "words": 13
+  },
+  {
+    "id": "third",
+    "start": 26.812,
+    "end": 31.434,
+    "words": 9
+  },
+  {
+    "id": "papua",
+    "start": 31.734,
+    "end": 39.634,
+    "words": 13
+  },
+  {
+    "id": "share",
+    "start": 39.934,
+    "end": 45.537,
+    "words": 9
+  },
+  {
+    "id": "question",
+    "start": 45.837,
+    "end": 50.334,
+    "words": 6
+  }
+]
