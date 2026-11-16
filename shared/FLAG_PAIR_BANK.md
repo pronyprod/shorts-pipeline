@@ -82,10 +82,10 @@ Every flag below was compared by eye against the flag-icons 4x3 SVGs in `public/
 | Ep009 | BO → LT | Red-yellow-green shuffled, shield gone | "I left my shield behind." | disappointed | innocent | **(DONE: Ep009)**
 | Ep009 | GH → SN | Same colours, stripes now vertical, star green | "I turned sideways." | confused | smug | **(DONE: Ep009)**
 | Ep009 | JP → LA | Red disc on white → white disc on blue and red | "My sun turned white." | squint | defiant | **(DONE: Ep009)**
-| Ep013 | AR → UY | Light blue and white, sun in the corner | "My sun moved upstairs." | proud | smug |
-| Ep013 | HU → TJ | Same colours, gold crown and stars added | "I got a crown." | shocked | proud |
-| Ep013 | IT → HU | Green-white-red rotated to horizontal | "I rolled over." | confused | innocent |
-| Ep013 | AU → FJ | Union Jack kept, stars gone, shield added | "I swapped stars for a shield." | disappointed | defiant |
+| Ep013 | AR → UY | Light blue and white, sun in the corner | "My sun moved upstairs." | proud | smug | **(DONE: Ep013)**
+| Ep013 | HU → TJ | Same colours, gold crown and stars added | "I got a crown." | shocked | proud | **(DONE: Ep013)**
+| Ep013 | IT → HU | Green-white-red rotated to horizontal | "I rolled over." | confused | innocent | **(DONE: Ep013)**
+| Ep013 | AU → FJ | Union Jack kept, stars gone, shield added | "I swapped stars for a shield." | disappointed | defiant | **(DONE: Ep013)**
 | Ep017 | BO → ET | Green-yellow-red + blue disc with star | "I got a blue badge." | shocked | proud |
 | Ep017 | ML → CM | Green-red-yellow + gold star in the middle | "I found a star." | proud | innocent |
 | Ep017 | EC → VE | Yellow-blue-red, condor arms → arc of eight stars | "I swapped birds for stars." | confused | smug |

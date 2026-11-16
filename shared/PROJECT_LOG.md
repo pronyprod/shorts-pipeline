@@ -483,6 +483,10 @@ FIXED 15 Nov 00:50 (by/buy + lied/lie added to HOMOPHONES; resumes next run) - w
 - countryballs-video/renders/Ep012.mp4, 18.9 s, -13.7 LUFS (ffmpeg -13.6), true peak -1.18 dBTP.
 - Uncertain: nothing uncertain (Dutch schoen also means "cover"; round 1 punchline shortened to "Germany: hand shoes." for caption fit).
 
+- Ep013 (reverse quiz): AR→UY, HU→TJ, IT→HU, AU→FJ; music Bubble Bath. Ready for 2026-11-18 07:30 WIB.
+- countryballs-video/renders/Ep013.mp4, 22.7 s, -14.2 LUFS (ffmpeg -14.06), true peak -1.28 dBTP.
+- Uncertain: nothing uncertain (Whisper hears "son" for "sun" in round 1, accepted as homophone; audio not listened to by a human).
+
 ## 11. Open questions
 - Countryballs: English or Indonesian? (or both later)
 - Formats #2 and #3: pending the ID scan.
@@ -602,3 +606,4 @@ FIXED 15 Nov 00:50 (by/buy + lied/lie added to HOMOPHONES; resumes next run) - w
   (3) Music: "Happy Bee" (Kevin MacLeod, CC BY 4.0), 122.00 BPM, measured from the track (no drift over 65 s). Cuts every 4 or 6 beats on the main beat grid; around 30-45 s the track's accent moves to the off-beat, so cuts land on a hit either way, never between beats. ffmpeg's built-in AAC encoder raised this track's peak by about 4 dB, so the Windows encoder (`aac_mf`, 256k) was used.
   (4) No contact details, channel names or handles on screen (1 fps sheets of every source clip checked); end-of-episode CTAs ("best comment becomes the next video", "tulis di komentar") were left out.
   (5) GIG.md: titles, description, packages (Style row), FAQ ("Which style?", stylised low-poly 3D only, no-AI buyers ask first) and proposal now cover 2D/3D/paper/pixel; the owner's credit line is at the end of the description; all honesty notes kept. Section 6 re-checked. Done: showreel music, Fiverr AI rules (official page read), contact rule, rights warning, project files. Still open: links in a Fiverr description and its length (1,570 characters with the credit; the 1,200 limit is unconfirmed), Fiverr fee (third parties say 20%; official page would not load), client music, Gemini quota for delivery times, owner watch-through. Clips from What If Ep013, Country Flux Ep012 and Fakta Ep013 go public on 17-18 Nov.
+- **Countryballs Ep013 cloud delivery (2026-11-16):** queued for 2026-11-18T07:30:00+07:00; Queue Countryballs row 15, Uploads row 41; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep013/Ep013.mp4
