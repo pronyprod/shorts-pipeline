@@ -162,22 +162,33 @@ jobs:
 
       - name: Commit state, log and bank changes
         if: always() && steps.ctx.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          git config user.name "github-actions[bot]"
+          # Each failure names itself in a public annotation, so the reason is visible without opening the log.
+          die() { echo "::error title=Commit step::$1"; exit 1; }
+          # The Claude action changes git's login settings; push with the workflow's own token, explicitly.
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          GIT="git -c http.https://github.com/.extraheader= -c credential.helper="
+          git config user.name "github-actions[bot]" || die "git config failed"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add -A || die "git add failed"
           if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
-          bash tools/scan.sh
+          echo "Files in this commit:"; git diff --cached --name-status
+          if ! bash tools/scan.sh > "$RUNNER_TEMP/scan.txt" 2>&1; then
+            cat "$RUNNER_TEMP/scan.txt"
+            die "secrets scan failed on: $(grep -oE '^[^:]+:[0-9]+' "$RUNNER_TEMP/scan.txt" | head -5 | tr '\n' ' ')"
+          fi
           if [ "$TEST" = true ]; then
             BRANCH="test/$CHANNEL-$GITHUB_RUN_ID"
-            git checkout -q -b "$BRANCH"
-            git commit -q -m "TEST $CHANNEL run $GITHUB_RUN_ID"
-            git push -q origin "$BRANCH"
+            git checkout -q -b "$BRANCH" || die "could not create branch $BRANCH"
+            git commit -q -m "TEST $CHANNEL run $GITHUB_RUN_ID" || die "git commit failed"
+            $GIT push -q "$REMOTE" "HEAD:refs/heads/$BRANCH" 2> "$RUNNER_TEMP/push.txt" || die "git push failed: $(tail -1 "$RUNNER_TEMP/push.txt" | cut -c1-160)"
             echo "Test changes are on branch \`$BRANCH\` (main is untouched)." >> "$GITHUB_STEP_SUMMARY"
           else
-            git commit -q -m "$CHANNEL: daily run $GITHUB_RUN_ID"
-            git pull -q --rebase origin main
-            git push -q origin HEAD:main
+            git commit -q -m "$CHANNEL: daily run $GITHUB_RUN_ID" || die "git commit failed"
+            $GIT pull -q --rebase "$REMOTE" main 2> "$RUNNER_TEMP/pull.txt" || die "git pull --rebase failed: $(tail -1 "$RUNNER_TEMP/pull.txt" | cut -c1-160)"
+            $GIT push -q "$REMOTE" HEAD:refs/heads/main 2> "$RUNNER_TEMP/push.txt" || die "git push failed: $(tail -1 "$RUNNER_TEMP/push.txt" | cut -c1-160)"
           fi
 
       - name: Keep the MP4 as a download on this run (14 days)
