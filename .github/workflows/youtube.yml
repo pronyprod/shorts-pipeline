@@ -1,0 +1,65 @@
+name: YouTube comment and tracking
+
+# No Claude here: two small scripts (ci/youtube.mjs).
+#   comment: shortly after each channel's publish time, posts the "Pinned comment" text (Uploads column Q)
+#            on that day's video, as the channel, once (record: Uploads column R). The API cannot pin.
+#   track:   once a day, fills the empty numbers in the Tracking tab for videos posted 3 or more days ago.
+# Times (WIB = UTC+7). GitHub often starts scheduled runs 5-30 minutes late, so each comment time has a
+# second try an hour later; a run with nothing left to do costs no YouTube quota.
+on:
+  schedule:
+    - cron: "35 0 * * *" # comment 07:35 WIB: Country Flux, PomProds
+    - cron: "35 1 * * *" # comment 08:35 WIB: second try
+    - cron: "5 11 * * *" # comment 18:05 WIB: FaktaMantra
+    - cron: "5 12 * * *" # comment 19:05 WIB: second try
+    - cron: "40 2 * * *" # track 09:40 WIB
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "What to run"
+        type: choice
+        required: true
+        options: [comment, track, whoami]
+      dry_run:
+        description: "Dry run: show what would be posted or filled, change nothing"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: youtube-jobs
+  cancel-in-progress: false
+
+jobs:
+  youtube:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      JOB: ${{ inputs.job || (github.event.schedule == '40 2 * * *' && 'track') || 'comment' }}
+      DRY: ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run) && '--dry-run' || '' }}
+      GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+      SHEET_ID: ${{ secrets.SHEET_ID }}
+      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      YT_REFRESH_COUNTRYBALLS: ${{ secrets.YT_REFRESH_COUNTRYBALLS }}
+      YT_REFRESH_WHATIF: ${{ secrets.YT_REFRESH_WHATIF }}
+      YT_REFRESH_FAKTA: ${{ secrets.YT_REFRESH_FAKTA }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: ci
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Secrets present?
+        run: |
+          miss=""
+          for n in GOOGLE_SA_JSON SHEET_ID YT_CLIENT_ID YT_CLIENT_SECRET YT_REFRESH_COUNTRYBALLS YT_REFRESH_WHATIF YT_REFRESH_FAKTA; do
+            [ -n "${!n}" ] || miss="$miss $n"
+          done
+          if [ -n "$miss" ]; then echo "::error::Missing repository secrets:$miss"; exit 1; fi
+      - name: Run
+        run: |
+          if [ "$JOB" = whoami ]; then node ci/youtube.mjs whoami; else node ci/youtube.mjs "$JOB" $DRY; fi
