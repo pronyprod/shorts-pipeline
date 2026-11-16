@@ -1,0 +1,2 @@
+Since 16 Nov 2026 the episodes are made here on GitHub Actions and this repo is the master copy.
+While this file exists, tools/sync-from-laptop.sh refuses to run (it would wipe the cloud episodes).

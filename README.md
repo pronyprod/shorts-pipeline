@@ -51,12 +51,7 @@ Never put any of these in a file in this repo or in a chat.
 - A failed delivery is remembered in `ci/pending/` and retried by that channel's next run before anything new.
 - Nothing is committed without passing `tools/scan.sh` (keys, tokens, personal details, Drive IDs, music files).
 
-## Keeping the repo in step with the laptop (until the switch)
+## Master copy
 
-While the laptop still makes the daily episodes, it is the source of truth. Before a test and before the switch:
-
-```bash
-bash tools/sync-from-laptop.sh
-```
-
-then commit and push. If a music folder changed: `bash tools/pack-music.sh`.
+Since 16 Nov 2026 this repo is the master copy: new episodes exist only here, not in the laptop folders.
+The file `CLOUD_IS_MASTER` makes `tools/sync-from-laptop.sh` refuse to run, because a sync would wipe them.
