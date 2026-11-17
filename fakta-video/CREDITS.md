@@ -35,6 +35,7 @@ Tracks from the **YouTube Audio Library**, downloaded on 30 Oct 2026 (320 kbps) 
 | Ep011 (`renders/Fakta_Ep011.mp4`, Kalimantan tiga negara) | Dog Park | Silent Partner | Music: "Dog Park" by Silent Partner (YouTube Audio Library) |
 | Ep012 (`renders/Fakta_Ep012.mp4`, cenderawasih tanpa kaki) | Dog and Pony Show | Silent Partner | Music: "Dog and Pony Show" by Silent Partner (YouTube Audio Library) |
 | Ep013 (`renders/Fakta_Ep013.mp4`, Selat Malaka) | Good Starts | Jingle Punks | Music: "Good Starts" by Jingle Punks (YouTube Audio Library) |
+| Ep014 (`renders/Fakta_Ep014.mp4`, 718 bahasa daerah) | Mr. Sunny Face | Wayne Jones | Music: "Mr. Sunny Face" by Wayne Jones (YouTube Audio Library) |
 | Ep001 V1 / V2 (published files) | "Peta Pulse" (generated, retired) | channel | none needed |
 
 All tracks:

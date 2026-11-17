@@ -352,260 +352,260 @@
  {
   "text": " Nomor",
   "startMs": 26812,
-  "endMs": 27436,
+  "endMs": 27521,
   "timestampMs": 26812,
   "confidence": 1
  },
  {
   "text": " tiga,",
-  "startMs": 27436,
-  "endMs": 28060,
-  "timestampMs": 27436,
+  "startMs": 27521,
+  "endMs": 28230,
+  "timestampMs": 27521,
   "confidence": 0.5
  },
  {
   "text": " Nigeria,",
-  "startMs": 28060,
-  "endMs": 29320,
-  "timestampMs": 28060,
+  "startMs": 28230,
+  "endMs": 29330,
+  "timestampMs": 28230,
   "confidence": 1
  },
  {
   "text": " cuma",
-  "startMs": 29320,
-  "endMs": 29640,
-  "timestampMs": 29320,
+  "startMs": 29330,
+  "endMs": 29649,
+  "timestampMs": 29330,
   "confidence": 1
  },
  {
   "text": " lima",
-  "startMs": 29640,
-  "endMs": 29961,
-  "timestampMs": 29640,
+  "startMs": 29649,
+  "endMs": 29968,
+  "timestampMs": 29649,
   "confidence": 0.5
  },
  {
   "text": " ratus",
-  "startMs": 29961,
-  "endMs": 30345,
-  "timestampMs": 29961,
+  "startMs": 29968,
+  "endMs": 30350,
+  "timestampMs": 29968,
   "confidence": 0.5
  },
  {
   "text": " dua",
-  "startMs": 30345,
-  "endMs": 30601,
-  "timestampMs": 30345,
+  "startMs": 30350,
+  "endMs": 30605,
+  "timestampMs": 30350,
   "confidence": 0.5
  },
  {
   "text": " puluh",
-  "startMs": 30601,
-  "endMs": 30986,
-  "timestampMs": 30601,
+  "startMs": 30605,
+  "endMs": 30988,
+  "timestampMs": 30605,
   "confidence": 0.5
  },
  {
   "text": " tujuh.",
-  "startMs": 30986,
+  "startMs": 30988,
   "endMs": 31434,
-  "timestampMs": 30986,
+  "timestampMs": 30988,
   "confidence": 0.5
  },
  {
   "text": " Tapi",
   "startMs": 31734,
-  "endMs": 34020,
+  "endMs": 32250,
   "timestampMs": 31734,
   "confidence": 1
  },
  {
   "text": " tunggu...",
-  "startMs": 34020,
-  "endMs": 35300,
-  "timestampMs": 34020,
+  "startMs": 32250,
+  "endMs": 33200,
+  "timestampMs": 32250,
   "confidence": 1
  },
  {
   "text": " satu",
-  "startMs": 35300,
-  "endMs": 35620,
-  "timestampMs": 35300,
+  "startMs": 33200,
+  "endMs": 34030,
+  "timestampMs": 33200,
   "confidence": 1
  },
  {
   "text": " daerah",
-  "startMs": 35620,
-  "endMs": 36180,
-  "timestampMs": 35620,
+  "startMs": 34030,
+  "endMs": 35000,
+  "timestampMs": 34030,
   "confidence": 1
  },
  {
   "text": " saja,",
-  "startMs": 36180,
-  "endMs": 37010,
-  "timestampMs": 36180,
+  "startMs": 35000,
+  "endMs": 36030,
+  "timestampMs": 35000,
   "confidence": 1
  },
  {
   "text": " Papua,",
-  "startMs": 37010,
-  "endMs": 38020,
-  "timestampMs": 37010,
+  "startMs": 36030,
+  "endMs": 37230,
+  "timestampMs": 36030,
   "confidence": 1
  },
  {
   "text": " menyimpan",
-  "startMs": 38020,
-  "endMs": 38356,
-  "timestampMs": 38020,
+  "startMs": 37230,
+  "endMs": 37818,
+  "timestampMs": 37230,
   "confidence": 1
  },
  {
   "text": " empat",
-  "startMs": 38356,
-  "endMs": 38558,
-  "timestampMs": 38356,
+  "startMs": 37818,
+  "endMs": 38170,
+  "timestampMs": 37818,
   "confidence": 0.5
  },
  {
   "text": " ratus",
-  "startMs": 38558,
-  "endMs": 38760,
-  "timestampMs": 38558,
+  "startMs": 38170,
+  "endMs": 38523,
+  "timestampMs": 38170,
   "confidence": 0.5
  },
  {
   "text": " dua",
-  "startMs": 38760,
-  "endMs": 38894,
-  "timestampMs": 38760,
+  "startMs": 38523,
+  "endMs": 38758,
+  "timestampMs": 38523,
   "confidence": 0.5
  },
  {
   "text": " puluh",
-  "startMs": 38894,
-  "endMs": 39096,
-  "timestampMs": 38894,
+  "startMs": 38758,
+  "endMs": 39110,
+  "timestampMs": 38758,
   "confidence": 0.5
  },
  {
   "text": " delapan",
-  "startMs": 39096,
-  "endMs": 39365,
-  "timestampMs": 39096,
+  "startMs": 39110,
+  "endMs": 39580,
+  "timestampMs": 39110,
   "confidence": 0.5
  },
  {
   "text": " bahasa.",
-  "startMs": 39365,
-  "endMs": 39634,
-  "timestampMs": 39365,
-  "confidence": 0.5
+  "startMs": 39580,
+  "endMs": 40348,
+  "timestampMs": 39580,
+  "confidence": 1
  },
  {
   "text": " Hampir",
-  "startMs": 39934,
-  "endMs": 41156,
-  "timestampMs": 39934,
+  "startMs": 40648,
+  "endMs": 41251,
+  "timestampMs": 40648,
   "confidence": 1
  },
  {
   "text": " enam",
-  "startMs": 41156,
-  "endMs": 42030,
-  "timestampMs": 41156,
+  "startMs": 41251,
+  "endMs": 41681,
+  "timestampMs": 41251,
   "confidence": 0.5
  },
  {
   "text": " puluh",
-  "startMs": 42030,
-  "endMs": 43078,
-  "timestampMs": 42030,
+  "startMs": 41681,
+  "endMs": 42197,
+  "timestampMs": 41681,
   "confidence": 0.5
  },
  {
   "text": " persen",
-  "startMs": 43078,
-  "endMs": 44300,
-  "timestampMs": 43078,
+  "startMs": 42197,
+  "endMs": 42800,
+  "timestampMs": 42197,
   "confidence": 0.5
  },
  {
   "text": " dari",
-  "startMs": 44300,
-  "endMs": 44750,
-  "timestampMs": 44300,
+  "startMs": 42800,
+  "endMs": 43070,
+  "timestampMs": 42800,
   "confidence": 1
  },
  {
   "text": " semua",
-  "startMs": 44750,
-  "endMs": 45340,
-  "timestampMs": 44750,
+  "startMs": 43070,
+  "endMs": 43400,
+  "timestampMs": 43070,
   "confidence": 1
  },
  {
   "text": " bahasa",
-  "startMs": 45340,
-  "endMs": 45409,
-  "timestampMs": 45340,
+  "startMs": 43400,
+  "endMs": 43810,
+  "timestampMs": 43400,
   "confidence": 1
  },
  {
   "text": " daerah",
-  "startMs": 45409,
-  "endMs": 45478,
-  "timestampMs": 45409,
-  "confidence": 0.5
+  "startMs": 43810,
+  "endMs": 44200,
+  "timestampMs": 43810,
+  "confidence": 1
  },
  {
   "text": " kita!",
-  "startMs": 45478,
-  "endMs": 45537,
-  "timestampMs": 45478,
-  "confidence": 0.5
+  "startMs": 44200,
+  "endMs": 44522,
+  "timestampMs": 44200,
+  "confidence": 1
  },
  {
   "text": " Bahasa",
-  "startMs": 45837,
-  "endMs": 48210,
-  "timestampMs": 45837,
+  "startMs": 44822,
+  "endMs": 45360,
+  "timestampMs": 44822,
   "confidence": 1
  },
  {
   "text": " daerahmu",
-  "startMs": 48210,
-  "endMs": 48950,
-  "timestampMs": 48210,
+  "startMs": 45360,
+  "endMs": 46220,
+  "timestampMs": 45360,
   "confidence": 1
  },
  {
   "text": " apa?",
-  "startMs": 48950,
-  "endMs": 49620,
-  "timestampMs": 48950,
+  "startMs": 46220,
+  "endMs": 46990,
+  "timestampMs": 46220,
   "confidence": 1
  },
  {
   "text": " Tulis",
-  "startMs": 49620,
-  "endMs": 49710,
-  "timestampMs": 49620,
+  "startMs": 46990,
+  "endMs": 47110,
+  "timestampMs": 46990,
   "confidence": 1
  },
  {
   "text": " di",
-  "startMs": 49710,
-  "endMs": 49800,
-  "timestampMs": 49710,
+  "startMs": 47110,
+  "endMs": 47200,
+  "timestampMs": 47110,
   "confidence": 1
  },
  {
   "text": " komentar!",
-  "startMs": 49800,
-  "endMs": 50334,
-  "timestampMs": 49800,
+  "startMs": 47200,
+  "endMs": 47654,
+  "timestampMs": 47200,
   "confidence": 1
  }
 ]

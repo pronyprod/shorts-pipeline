@@ -38,19 +38,19 @@
   {
     "id": "papua",
     "start": 31.734,
-    "end": 39.634,
+    "end": 40.348,
     "words": 13
   },
   {
     "id": "share",
-    "start": 39.934,
-    "end": 45.537,
+    "start": 40.648,
+    "end": 44.522,
     "words": 9
   },
   {
     "id": "question",
-    "start": 45.837,
-    "end": 50.334,
+    "start": 44.822,
+    "end": 47.654,
     "words": 6
   }
 ]

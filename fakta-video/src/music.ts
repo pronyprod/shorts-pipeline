@@ -50,6 +50,7 @@ export const USED: Record<number, string> = {
   11: "dog-park", // Ep011 Kalimantan tiga negara (47.4 s): least recently used (Ep003)
   12: "dog-and-pony-show", // Ep012 cenderawasih tanpa kaki (47.4 s): least recently used (Ep004)
   13: "good-starts", // Ep013 Selat Malaka (52.3 s, under the 58 s limit): least recently used (Ep005)
+  14: "mr-sunny-face", // Ep014 bahasa daerah (48.0 s): least recently used (Ep006)
 };
 
 // Rotation: an episode that already has a track keeps it. A new episode takes the eligible track that was
