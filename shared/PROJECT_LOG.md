@@ -490,6 +490,8 @@ FIXED 15 Nov 00:50 (by/buy + lied/lie added to HOMOPHONES; resumes next run) - w
 - countryballs-video/renders/Ep013.mp4, 22.7 s, -14.2 LUFS (ffmpeg -14.06), true peak -1.28 dBTP.
 - Uncertain: nothing uncertain (Whisper hears "son" for "sun" in round 1, accepted as homophone; audio not listened to by a human).
 
+CHECK NEEDED: Ep014 voice lines punch1 ("I centred myself." heard as "scented", 67%) and punch3 ("I added eight stars." heard as "8 stars", 75%) still fail check-voices after 2 retries each; state file kept, ep014 files and registrations are in place. Suggest rewording punch1 (e.g. "I moved to the middle.") and re-running voices.
+
 ## 11. Open questions
 - Countryballs: English or Indonesian? (or both later)
 - Formats #2 and #3: pending the ID scan.
