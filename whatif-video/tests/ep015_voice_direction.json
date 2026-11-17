@@ -1,0 +1,17 @@
+{
+  "episode": "ep015",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep015.ts lines: only CAPITALS added; words identical to say. Owner rule 12 Nov: clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is standing on Mars beside a sleeping volcano. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a hushed shock", "tagged": "You're standing on MARS, and the volcano under your feet may be WAKING up." },
+    { "n": 2, "style": "amazed, steady", "tagged": "This is Alba Mons, the biggest volcano on Mars by area. About two thousand kilometers LONG." },
+    { "n": 3, "style": "calm and amused", "tagged": "The slope is half a degree. You'd never notice you're climbing." },
+    { "n": 4, "style": "growing tension, steady", "tagged": "But gas is leaking from fresh CRACKS, hundreds of meters long." },
+    { "n": 5, "style": "the key line: big, clear punch, slow and heavy", "tagged": "And you can't BREATHE here. The air is ninety five percent carbon dioxide." },
+    { "n": 6, "style": "clear and wary", "tagged": "Winter nights fall to minus one hundred twenty degrees. Ice may SEAL the cracks shut." },
+    { "n": 7, "style": "leaning in, sharing real news", "tagged": "Scientists spotted the gas from ORBIT, and reported it this MONTH." },
+    { "n": 8, "style": "clear and amazed, a smart reveal", "tagged": "So FAR, nobody has EVER seen a volcano erupt on Mars." },
+    { "n": 9, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}
