@@ -1,0 +1,2 @@
+# Cloud runs append to the log at the same place; keep both sides instead of a rebase conflict (run 44218676881).
+shared/PROJECT_LOG.md merge=union

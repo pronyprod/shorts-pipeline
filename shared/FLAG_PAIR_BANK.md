@@ -98,10 +98,10 @@ Every flag below was compared by eye against the flag-icons 4x3 SVGs in `public/
 | Ep010 | QA → BH | Maroon and 9 points → red and 5 points | "I'm just less pointy." | confused | innocent | **(DONE: Ep010)**
 | Ep010 | SI → SK | White-blue-red, bigger shield lower on the side | "My shield hit the gym." | shocked | proud | **(DONE: Ep010)**
 | Ep010 | GR → UY | Blue and white stripes, cross → sun | "Same stripes. Better weather." | disappointed | defiant | **(DONE: Ep010)**
-| Ep014 | TH → CR | Five stripes, red and blue swapped | "I turned inside out." | confused | innocent |
-| Ep014 | DK → CH | White cross on red, moved to the centre | "I moved to the middle." | squint | proud |
-| Ep014 | CO → VE | Yellow-blue-red + arc of eight stars | "I added eight stars." | proud | smug |
-| Ep014 | KW → AE | Black and red swap places | "We swapped black and red." | laughing | laughing |
+| Ep014 | TH → CR | Five stripes, red and blue swapped | "I turned inside out." | confused | innocent | **(DONE: Ep014)**
+| Ep014 | DK → CH | White cross on red, moved to the centre | "I moved to the middle." | squint | proud | **(DONE: Ep014)**
+| Ep014 | CO → VE | Yellow-blue-red + arc of eight stars | "I added eight stars." | proud | smug | **(DONE: Ep014)**
+| Ep014 | KW → AE | Black and red swap places | "We swapped black and red." | laughing | laughing | **(DONE: Ep014)**
 | Ep018 | NO → FO | Cross stays, red field → white field | "I painted the walls white." | disappointed | innocent |
 | Ep018 | PL → MC | White over red → red over white | "I'm upside down." | confused | defiant |
 | Ep018 | BO → GH | Same stripes, shield → black star | "My shield became a star." | shocked | proud |
