@@ -1,0 +1,19 @@
+{
+  "episode": "ep016",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep016.ts lines: only CAPITALS added; words identical to say. Owner rule 12 Nov: clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is caught in a thunderstorm again and again. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a hushed shock", "tagged": "LIGHTNING just hit you. That's about three hundred million volts." },
+    { "n": 2, "style": "tense and steady", "tagged": "Strike two. It finds you in your truck and WRECKS your watch." },
+    { "n": 3, "style": "tense, disbelieving", "tagged": "Strike three. It finds you in your GARDEN." },
+    { "n": 4, "style": "tense and steady, each sentence landing", "tagged": "Strike four. It sets your hair on FIRE." },
+    { "n": 5, "style": "darkly amused, steady", "tagged": "Strike five. Your hair catches fire AGAIN." },
+    { "n": 6, "style": "building suspense, steady", "tagged": "Strike six, on a walk. Strike seven, FISHING." },
+    { "n": 7, "style": "the key line: big, clear punch, then a burst of relief", "tagged": "Seven strikes. You SURVIVE every single one." },
+    { "n": 8, "style": "leaning in, amazed, sharing a true story", "tagged": "This REALLY happened. Park ranger Roy Sullivan, Virginia, nineteen forty two to nineteen seventy seven." },
+    { "n": 9, "style": "clear and amazed", "tagged": "GUINNESS still lists him for the most lightning strikes survived." },
+    { "n": 10, "style": "warm and amused, a little grin", "tagged": "He lived to seventy one and was NEVER struck again." },
+    { "n": 11, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}
