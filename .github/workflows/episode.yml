@@ -179,8 +179,7 @@ jobs:
           EP="$(node -p 'require("./ci-out/result.json").episode')"
           COMP="$(node -p 'require("./ci-out/result.json").composition')"
           fail() {
-            printf '{ "status": "check-needed", "episode": "%s", "reason": "cloud render: %s" }
-' "$EP" "$1" > "$ROOT/ci-out/result.json"
+            printf '{ "status": "check-needed", "episode": "%s", "reason": "cloud render: %s" }\n' "$EP" "$1" > "$ROOT/ci-out/result.json"
             echo "CHECK NEEDED: What If $EP cloud render: $1; state kept at step 5, the next run renders again without new voice requests ($(date +%F), $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)" >> "$ROOT/shared/PROJECT_LOG.md"
             echo "**CHECK NEEDED** What If $EP render: $1" >> "$GITHUB_STEP_SUMMARY"
             exit 0
