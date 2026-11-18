@@ -99,6 +99,11 @@ jobs:
 
       - name: npm ci
         working-directory: ${{ env.PROJECT }}
+        env:
+          # onnxruntime-node (Kokoro) tries to download a CUDA build we never use; on 18 Nov that download gave 404
+          # and broke npm ci (run 44218429231). The CPU build ships inside the package.
+          ONNXRUNTIME_NODE_INSTALL_CUDA: skip
+          npm_config_onnxruntime_node_install_cuda: skip
         run: npm ci --no-audit --no-fund
 
       - name: Cache whisper.cpp and its model
