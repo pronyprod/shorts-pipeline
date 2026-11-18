@@ -491,6 +491,7 @@ FIXED 15 Nov 00:50 (by/buy + lied/lie added to HOMOPHONES; resumes next run) - w
 - Uncertain: nothing uncertain (Whisper hears "son" for "sun" in round 1, accepted as homophone; audio not listened to by a human).
 
 CHECK NEEDED: Ep014 voice lines punch1 ("I centred myself." heard as "scented", 67%) and punch3 ("I added eight stars." heard as "8 stars", 75%) still fail check-voices after 2 retries each; state file kept, ep014 files and registrations are in place. Suggest rewording punch1 (e.g. "I moved to the middle.") and re-running voices.
+- **CHECK NEEDED: Ep015** (countryballs, cloud run 2026-11-18) voice check cannot run: whisper.cpp `main.exe` on the runner crashes with "Illegal instruction" (exit 132, CPU mismatch), so `check-voices.mjs` hears nothing on every clip. Ep015 (size duel, timely: Mexico Revolution Day) is written, voices generated with Kokoro, tsc not yet re-run; state kept at step 2. Needs a whisper binary built for this runner's CPU.
 
 ## 11. Open questions
 - Countryballs: English or Indonesian? (or both later)
