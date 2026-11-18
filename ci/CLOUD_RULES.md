@@ -160,7 +160,8 @@ checks, fix only what fails, then write the full result.
 delivered; its old video may be scheduled on YouTube. Then:
 - Do not pick a premise, do not mark the bank, do not change the script, the voice text or the voice takes (they
   passed their checks; the voice files come back from the work-in-progress cache). Only if they are missing may you
-  re-take the voice, within the quota limits.
+  re-take the voice, within the quota limits. If you do, say so in the log entry and `redoReason` ("new voice take, N Gemini requests"):
+  never write "voice unchanged" or "0 requests" when `.tts-quota.json` or `epNNN.voices.json` changed (18 Nov: that happened).
 - Write `.episode_state.json` = `{ "episode": "EpNNN", "redo": true, "step": 5, "publishAt": <context publishAt>,
   "note": "<redoNote>" }` first, so a stop can be resumed.
 - Fix what the note says in the episode's own files (the maintainer may already have committed the fix: then check it).

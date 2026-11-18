@@ -196,6 +196,16 @@ if (cmd === "whoami") {
   }
 }
 
+// ---------- recent (read only): the newest uploads with their privacy and publish time ----------
+//   node tools/yt-local.mjs recent --channel whatif [--count 8]
+else if (cmd === "recent") {
+  for (const key of wanted) {
+    const vids = (await videosOf(key, 1)).slice(0, Number(opt("count") ?? 8));
+    say(`${key}: ${vids.length} newest uploads`);
+    for (const v of vids) say(`  ${v.id}  ${v.privacy.padEnd(8)} ${v.publishedAt ? wib(new Date(v.publishedAt)).slice(0, 16).replace("T", " ") + " WIB" : "-"}  ${v.title}`);
+  }
+}
+
 // ---------- comment ----------
 else if (cmd === "comment") {
   const uploads = await readUploads();
