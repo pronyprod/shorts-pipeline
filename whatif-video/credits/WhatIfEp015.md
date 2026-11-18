@@ -1,18 +1,18 @@
 # Credits: WhatIfEp015 ("What if you stood on Mars as a volcano woke?")
 
-Render: `renders/WhatIf_Ep015.mp4` (47.5 s). Template 3.
+Render: `renders/WhatIf_Ep015.mp4` (49.0 s). Template 3.
 
 ## Narration
 - Generated with the **Google Gemini API**, model `gemini-3.8-flash-tts`, prebuilt voice **Puck**.
-  3 API request(s); tempo 1x (pitch kept), pauses inside lines capped at 0.45s.
+  1 API request(s); tempo 1x (pitch kept), pauses inside lines capped at 0.45s.
   AI-generated voice. Use is subject to the Gemini API Terms of Service. Script and direction: this channel.
   Checked line by line with whisper.cpp (MIT licence, run locally).
 
 ## Music
 - **"New Morning" by TrackTribe**, from the **YouTube Audio Library**.
   Original: `public/music/New Morning - TrackTribe.mp3`; loudness-normalised copy `public/music/whatif/new-morning.m4a`.
-  Section used: 0:05-0:53 of the track (212s long), ducked about 19 dB under the voice.
-  Its build at 0:27 lands on the climax (21.1s into the video).
+  Section used: 0:02-0:51 of the track (212s long), ducked about 19 dB under the voice.
+  Its build at 0:27 lands on the climax (24.1s into the video).
   Licence: YouTube Audio Library. Before publishing, check this track's licence note in YouTube Studio > Audio Library
   (some tracks require an attribution line in the description). Off YouTube, if a platform mutes it, swap to that platform's library.
 
@@ -35,7 +35,7 @@ Render: `renders/WhatIf_Ep015.mp4` (47.5 s). Template 3.
 - Average slope of the northern flank about 0.5 degrees (over five times lower than other large Tharsis volcanoes). (Carr (2006), p. 54; Boyce (2008), as summarised in Wikipedia 'Alba Mons' (accessed 17 Nov 2026))
 - Mars's atmosphere is 95.1% carbon dioxide by volume; surface pressure about 6.36 mb (Earth about 1,013 mb). (NASA NSSDC Mars Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html))
 - Mars winter temperatures can drop to about -120 degrees C; the authors suggest winter ice seals the fractures until it sublimates in early summer (a hypothesis). (ScienceDaily / ESA, 7 Nov 2026)
-- ILLUSTRATIVE: the counter's in-between values are a story ramp; only 2,000 km, 0.5 degrees, 95 percent and minus 120 are spoken, and those come from the facts above. (Our illustration of the facts above)
+- Every board shows a sourced value only (no in-between ramp: owner, 18 Nov 2026, after a '34 km' frame appeared before the 2,000 km board). The length board shows 2,000 km from the first frame. (The facts above)
 
 ## Software
 - **Remotion** (free for individuals and teams of up to 3; https://www.remotion.dev/license).
