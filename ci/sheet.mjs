@@ -1,7 +1,9 @@
 // Spreadsheet access for the cloud runs (no dependencies; Node 20+).
 //
 //   node ci/sheet.mjs check                       can the service account read the sheet?
-//   node ci/sheet.mjs publish-at --channel X      prints the publish time for the next episode
+//   node ci/sheet.mjs publish-at --channel X [--state <.episode_state.json>]
+//                                                  prints the publish time for the next episode; a resumed
+//                                                  episode keeps its state publishAt only while it is still ahead
 //   node ci/sheet.mjs deliver --channel X --episode EpNNN --url <mp4 url> --publish-at <iso> --topic "<text>" [--test]
 //
 // Environment: GOOGLE_SA_JSON (the service account key file's content), SHEET_ID (the spreadsheet ID),
@@ -17,7 +19,7 @@
 // Publish date rule (fixes the after-midnight bug): the day after the latest date in the queue,
 // or the day after the run's START date in WIB if that is later. Never the time the run finishes.
 import { createSign } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 export const CHANNELS = {
@@ -55,6 +57,16 @@ export const publishAtFor = (queueDates, runStart, time) => {
   const afterStart = addDays(wibDate(runStart), 1);
   const day = afterLatest > afterStart ? afterLatest : afterStart;
   return `${day}T${time}:00+07:00`;
+};
+
+// A resumed episode (state file) keeps the publishAt it was given, but only while that time is still after the
+// run start and no queue row already uses that date. If it has passed (or is taken), the normal rule above applies.
+export const publishAtResumed = (statePublishAt, queueDates, runStart, time) => {
+  const normal = publishAtFor(queueDates, runStart, time);
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:00\+07:00$/.test(statePublishAt ?? "")) return { publishAt: normal, kept: false };
+  const ahead = Date.parse(statePublishAt) > runStart.getTime() + 3600 * 1000; // at least 1 h of margin
+  const taken = queueDates.includes(statePublishAt.slice(0, 10));
+  return ahead && !taken ? { publishAt: statePublishAt, kept: true } : { publishAt: normal, kept: false, stale: statePublishAt };
 };
 
 // ---------- Google auth (service account, JWT bearer) ----------
@@ -174,7 +186,13 @@ if (cmd === "check") {
   const runStart = new Date(process.env.RUN_START || Date.now());
   const col = await get(`'${c.queueTab}'!E:E`);
   const dates = col.slice(2).map((r) => String(r[0] ?? "").slice(0, 10));
-  console.log(publishAtFor(dates, runStart, c.time));
+  const statePath = opt("state");
+  let statePublishAt;
+  if (statePath && existsSync(statePath)) statePublishAt = JSON.parse(readFileSync(statePath, "utf8")).publishAt;
+  const r = publishAtResumed(statePublishAt, dates, runStart, c.time);
+  if (r.stale) console.error(`sheet: the resumed episode's publishAt ${r.stale} has passed or is taken; recomputed ${r.publishAt}`);
+  else if (r.kept) console.error(`sheet: resumed episode keeps its publishAt ${r.publishAt}`);
+  console.log(r.publishAt);
 } else if (cmd === "deliver") {
   const c = channelOf();
   const test = flag("test");

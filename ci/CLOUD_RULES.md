@@ -34,9 +34,27 @@ If it is missing, stop (section 3, reason `GEMINI_API_KEY missing`).
 its own daily episodes, it uses the same Google quota without this file knowing. Keep to the per-run request limit
 in the instructions; if Google answers that the daily limit is reached, that is the normal "quota is out" stop.
 
-**WebGL (What If kit renders and stills).** There is no GPU. Wherever the instructions say `--gl=angle`, use
-`--gl=swangle` (software rendering). It is slow: a full render can take 20-40 minutes. Run it in the background
-with output to a log file and wait for it; do not start it twice. Keep stills to the ones the instructions ask for.
+**WebGL (What If kit stills).** There is no GPU. Wherever the instructions say `--gl=angle`, use
+`--gl=swangle` (software rendering). It is slow. Keep stills to the ones the instructions ask for.
+
+**Background processes.** Anything you start in the background is killed the moment your session ends. Never end
+your session while a process you started is still running, and never rely on being "notified" later
+(run 44103438051, 17 Nov: a What If render was started in the background, the session ended, no MP4).
+
+**What If full render: hand it to the workflow (render hand-off).** Do NOT run the full
+`npx remotion render ... renders/WhatIf_EpNNN.mp4` yourself, in the foreground or the background.
+- *Part 1* (your normal run): do step 5 up to the render: register the episode, write `kNNN.tsx`, lint, stills,
+  the `git status` template check below, credits, `uploads/EpNNN.txt`. Then set the state file to
+  `"step": 5, "note": "render handed to workflow"` and write
+  `ci-out/result.json` = `{ "status": "render", "episode": "EpNNN", "composition": "Kit-kNNN" }` (the exact composition
+  id you registered) and end your session. The workflow renders with `--gl=swangle` (up to 95 minutes, retried with
+  one Chrome tab if it fails) and then starts part 2. A resumed state at step 5 whose MP4 is missing: hand off again.
+- *Part 2* (prompt says "Part 2"): `renders/WhatIf_EpNNN.mp4` exists, made by the workflow from the state file's
+  episode. Do not render. Continue with step 6 (mandatory checks) and section 2 below, then write the normal final
+  `ci-out/result.json`. If a check fails because of the picture and you can fix it in the episode's own files, fix it,
+  set the state to `"step": 5, "note": "render handed to workflow"`, delete the MP4 and stop with a `check-needed`
+  result ("visual fixed, needs a new render"): the next run hands the render off again.
+- If the workflow's render fails, it writes the CHECK NEEDED line and keeps the state; the next run hands off again.
 
 **Tools already installed by the workflow** (do not install or rebuild them): Node, ffmpeg and ffprobe on PATH,
 whisper.cpp 1.5.5 with its model in the folder the scripts expect (`main.exe` there is the Linux program under a
@@ -67,7 +85,9 @@ Do the instructions' steps up to and including the **mandatory checks**, plus th
   read-back rules, and adds its own delivery line to the log.
 - **Publish time** is already decided: read `publishAt` from `ci-out/context.json`. Use that date wherever the
   instructions want the publish date (for example the What If style target, or "queued for" in the log entry).
-  Never compute it yourself.
+  Never compute it yourself, and never take it from the state file. (The workflow decides it at the start of the run:
+  a resumed episode keeps the state's `publishAt` only while it is still ahead; if it has passed it is recomputed
+  with the normal rule, day after the latest queued date or run start date + 1, and the state file is updated.)
 - **Log entry:** write the normal 3-line entry in `shared/PROJECT_LOG.md` exactly where the channel's instructions say,
   but leave out the Drive ID and the row numbers (the delivery line adds the video link and rows). Write
   "ready for <publish date>" instead of "queued for". In a TEST run start the entry with `TEST RUN (cloud):`.
@@ -94,6 +114,17 @@ Follow the instructions' own stop rules (CHECK NEEDED line in `shared/PROJECT_LO
 ```
 
 For a clean quota stop use `"status": "waiting-quota"` with the reset time in `reason`.
+
+**Retry after a stop (the workflow handles it, `ci/stop-retry.mjs`).** After a `check-needed` stop the workflow keeps
+`cloudStop` in the state file. The next run always tries once more; if that try stops again, later runs do not start
+you at all until a new commit (a fix) changes this channel's project folder, `ci/` or `.github/`, and then you try once
+more. When `ci-out/context.json` has `"retryAfterStop": true`: the workflow has already reset the attempt counters
+(`voiceAttempts`) and removed `cloudStop`; redo the stopped step from its start with the instructions' normal limits
+(quota limits still apply), as if it had not been tried. If it fails again, write the CHECK NEEDED line again with
+`(retry after stop)` at the end, and the `check-needed` result. Never edit `cloudStop` yourself.
+
+**A `note` in the state file** (written by the owner or the maintainer after a fix) says how to resume: follow it,
+as long as it does not break a rule in this file or the instructions.
 Always leave a `ci-out/result.json`, whatever happens: the workflow treats a missing file as a crash.
 
 ## 4. TEST runs

@@ -34,13 +34,16 @@ jobs:
   episode:
     if: github.event_name == 'workflow_dispatch' || vars.CLOUD_SCHEDULE == 'on'
     runs-on: ubuntu-latest
-    timeout-minutes: 170
+    timeout-minutes: 220
     env:
       TZ: Asia/Jakarta
       CHANNEL: ${{ inputs.channel || (github.event.schedule == '20 12 * * *' && 'countryballs') || (github.event.schedule == '20 13 * * *' && 'whatif') || 'fakta' }}
       TEST: ${{ (github.event_name == 'workflow_dispatch' && inputs.test) && 'true' || 'false' }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history (without file contents) so ci/stop-retry.mjs can see whether a fix landed
+          filter: blob:none
 
       - name: Run start time and project folder
         run: |
@@ -82,11 +85,16 @@ jobs:
           SHEET_ID: ${{ secrets.SHEET_ID }}
         run: |
           node ci/sheet.mjs check
-          PUBLISH_AT="$(node ci/sheet.mjs publish-at --channel "$CHANNEL")"
+          # A resumed episode keeps its state publishAt only while it is still ahead; a passed one is recomputed
+          # with the normal rule (day after the latest queued date, or run start date + 1).
+          PUBLISH_AT="$(node ci/sheet.mjs publish-at --channel "$CHANNEL" --state "$PROJECT/.episode_state.json")"
           echo "PUBLISH_AT=$PUBLISH_AT" >> "$GITHUB_ENV"
           mkdir -p ci-out
           printf '{ "channel": "%s", "test": %s, "runStart": "%s", "publishAt": "%s" }\n' "$CHANNEL" "$TEST" "$RUN_START" "$PUBLISH_AT" > ci-out/context.json
           cat ci-out/context.json
+          if [ -f "$PROJECT/.episode_state.json" ]; then
+            node -e 'const f=process.argv[1],fs=require("fs"),s=JSON.parse(fs.readFileSync(f,"utf8"));if(s.publishAt!==process.argv[2]){console.log(`state publishAt ${s.publishAt} -> ${process.argv[2]}`);s.publishAt=process.argv[2];fs.writeFileSync(f,JSON.stringify(s,null,2)+"\n")}' "$PROJECT/.episode_state.json" "$PUBLISH_AT"
+          fi
           echo "Publish time: $PUBLISH_AT" >> "$GITHUB_STEP_SUMMARY"
 
       - name: npm ci
@@ -133,8 +141,14 @@ jobs:
             echo "Retrying the delivery of an episode made earlier; no new episode this run." >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Claude makes the episode
+      - name: Retry an episode that stopped earlier, or keep waiting for a fix?
+        id: retry
         if: steps.pending.outputs.skip != 'true'
+        run: node ci/stop-retry.mjs start
+
+      - name: Claude makes the episode
+        id: claude1
+        if: steps.pending.outputs.skip != 'true' && steps.retry.outputs.skip != 'true'
         uses: anthropics/claude-code-action@v1
         env:
           GEMINI_API_KEY: ${{ env.CHANNEL != 'countryballs' && secrets.GEMINI_API_KEY || '' }}
@@ -152,6 +166,70 @@ jobs:
             --allowedTools Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch
             --max-turns 400
 
+      # What If: Claude hands the full render to the workflow (result "render"), because a background render dies
+      # when the Claude session ends (run 44103438051, 17 Nov). The render runs here with no session to outlive.
+      - name: Render handed over by Claude
+        id: render
+        if: steps.claude1.outcome == 'success'
+        run: |
+          ROOT="$GITHUB_WORKSPACE"
+          STATUS="$(node -p 'try{require("./ci-out/result.json").status}catch{""}')"
+          if [ "$STATUS" != render ]; then echo "handoff=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          echo "handoff=true" >> "$GITHUB_OUTPUT"
+          EP="$(node -p 'require("./ci-out/result.json").episode')"
+          COMP="$(node -p 'require("./ci-out/result.json").composition')"
+          fail() {
+            printf '{ "status": "check-needed", "episode": "%s", "reason": "cloud render: %s" }
+' "$EP" "$1" > "$ROOT/ci-out/result.json"
+            echo "CHECK NEEDED: What If $EP cloud render: $1; state kept at step 5, the next run renders again without new voice requests ($(date +%F), $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)" >> "$ROOT/shared/PROJECT_LOG.md"
+            echo "**CHECK NEEDED** What If $EP render: $1" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          }
+          [ "$CHANNEL" = whatif ] || fail "render hand-off is only for What If"
+          [[ "$EP" =~ ^Ep[0-9]{3}$ ]] || fail "bad episode name in result.json"
+          [[ "$COMP" =~ ^Kit-k[0-9]{3}[a-z]?$ ]] || fail "bad composition name in result.json"
+          cd "$ROOT/$PROJECT"
+          OUT="renders/WhatIf_$EP.mp4"
+          rm -f "$OUT"
+          # Software WebGL is slow: a long per-frame timeout, two Chrome tabs on the 4-core runner, then one if that fails.
+          for CONC in 2 1; do
+            LOG="$ROOT/ci-out/render-$CONC.log"
+            START=$(date +%s)
+            CODE=0
+            timeout 95m npx remotion render src/index.ts "$COMP" "$OUT" --gl=swangle --concurrency=$CONC --timeout=240000 > "$LOG" 2>&1 || CODE=$?
+            MIN=$(( ($(date +%s) - START) / 60 ))
+            echo "concurrency $CONC: exit $CODE after $MIN min"; tail -5 "$LOG"
+            if [ $CODE -eq 0 ] && [ -s "$OUT" ]; then
+              echo "Rendered $OUT in $MIN min (concurrency $CONC)" >> "$GITHUB_STEP_SUMMARY"
+              rm -f "$ROOT/ci-out/result.json" # Claude's part 2 writes the real result
+              echo "rendered=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if [ $CODE -eq 124 ]; then fail "render took over 95 minutes"; fi
+            rm -f "$OUT"
+          done
+          fail "remotion render failed twice: $(grep -m1 -iE 'error' "$ROOT/ci-out/render-1.log" | cut -c1-150 | tr -d '"\')"
+
+      - name: Claude finishes the episode (checks after the workflow's render)
+        if: steps.render.outputs.rendered == 'true'
+        uses: anthropics/claude-code-action@v1
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Channel: ${{ env.CHANNEL }}
+            Test run: ${{ env.TEST }}
+            Part 2 of this run: the workflow has rendered the episode for you.
+
+            Read ci/CLOUD_RULES.md first and follow it exactly, especially "Render hand-off, part 2". Resume from the
+            state file, do the mandatory checks and everything after them that CLOUD_RULES.md gives you, and always
+            leave ci-out/result.json when you finish or stop.
+          claude_args: |
+            --permission-mode default
+            --allowedTools Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch
+            --max-turns 300
+
       - name: Deliver (release, public download check, spreadsheet rows, log line)
         if: always() && steps.ctx.outcome == 'success'
         env:
@@ -159,6 +237,13 @@ jobs:
           GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
           SHEET_ID: ${{ secrets.SHEET_ID }}
         run: node ci/deliver.mjs
+
+      - name: Remember a CHECK NEEDED stop (the next run retries once; after that it waits for a fix)
+        if: always() && steps.ctx.outcome == 'success'
+        env:
+          FIX_MARK: ${{ steps.retry.outputs.fix_mark }}
+          RETRY: ${{ steps.retry.outputs.retry }}
+        run: node ci/stop-retry.mjs end
 
       - name: Commit state, log and bank changes
         if: always() && steps.ctx.outcome == 'success'
@@ -196,7 +281,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.CHANNEL }}-renders-${{ github.run_id }}
-          path: ${{ env.PROJECT }}/renders/*.mp4
+          path: |
+            ${{ env.PROJECT }}/renders/*.mp4
+            ci-out/render-*.log
           if-no-files-found: ignore
           retention-days: 14
 

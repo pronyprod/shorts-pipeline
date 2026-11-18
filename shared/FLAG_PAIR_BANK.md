@@ -99,7 +99,7 @@ Every flag below was compared by eye against the flag-icons 4x3 SVGs in `public/
 | Ep010 | SI → SK | White-blue-red, bigger shield lower on the side | "My shield hit the gym." | shocked | proud | **(DONE: Ep010)**
 | Ep010 | GR → UY | Blue and white stripes, cross → sun | "Same stripes. Better weather." | disappointed | defiant | **(DONE: Ep010)**
 | Ep014 | TH → CR | Five stripes, red and blue swapped | "I turned inside out." | confused | innocent |
-| Ep014 | DK → CH | White cross on red, moved to the centre | "I centred myself." | squint | proud |
+| Ep014 | DK → CH | White cross on red, moved to the centre | "I moved to the middle." | squint | proud |
 | Ep014 | CO → VE | Yellow-blue-red + arc of eight stars | "I added eight stars." | proud | smug |
 | Ep014 | KW → AE | Black and red swap places | "We swapped black and red." | laughing | laughing |
 | Ep018 | NO → FO | Cross stays, red field → white field | "I painted the walls white." | disappointed | innocent |

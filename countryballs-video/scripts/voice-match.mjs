@@ -1,10 +1,29 @@
 // How closely a whisper transcript matches a script line.
 // Case and punctuation are ignored. Proper nouns (country names) may differ a little.
 // A line passes when at least 90% of its words match.
+// Number words and digits are the same word ("eight" = "8", "twenty one" = "21"; owner, 18 Nov 2026).
 export const PASS_SCORE = 0.9;
 
 const clean = (s) => s.toLowerCase().replace(/['’]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
-const split = (s) => clean(s).split(" ").filter(Boolean);
+const UNITS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
+  "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+const TENS = { twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90 };
+const ORDINALS = { first: 1, second: 2, third: 3, fourth: 4, fifth: 5, sixth: 6, seventh: 7, eighth: 8, ninth: 9, tenth: 10 };
+// Turns number words into digits ("twenty one" -> "21", "eighth" -> "8th") so both spellings compare equal
+const numbers = (words) => {
+  const out = words.map((w) => {
+    if (w in TENS) return String(TENS[w]);
+    if (UNITS.includes(w)) return String(UNITS.indexOf(w));
+    if (w in ORDINALS) return `${ORDINALS[w]}th`;
+    return w.replace(/^(\d+)(st|nd|rd|th)$/, "$1th");
+  });
+  // "twenty one" -> "21"
+  for (let i = out.length - 2; i >= 0; i--) {
+    if (/^[2-9]0$/.test(out[i]) && /^[1-9]$/.test(out[i + 1])) out.splice(i, 2, String(Number(out[i]) + Number(out[i + 1])));
+  }
+  return out;
+};
+const split = (s) => numbers(clean(s).split(" ").filter(Boolean));
 
 // Words that sound the same, so whisper can't tell them apart
 const HOMOPHONES = [
@@ -20,7 +39,8 @@ const HOMOPHONES = [
   ["by", "buy", "bye"],
   ["lied", "lie"],
 ];
-const homophones = (a, b) => HOMOPHONES.some((set) => set.includes(a) && set.includes(b));
+const HOMOPHONE_SETS = HOMOPHONES.map((set) => set.map((w) => numbers([w])[0])); // "eight" is stored as "8"
+const homophones = (a, b) => HOMOPHONE_SETS.some((set) => set.includes(a) && set.includes(b));
 
 const distance = (a, b) => {
   let row = Array.from({ length: b.length + 1 }, (_, j) => j);
@@ -53,14 +73,19 @@ for (const w of ["and", "the", "of", "new", "south", "north", "west", "east", "i
 }
 
 // Capitalised words are proper nouns, except "I" forms and an ordinary sentence start
-const scriptWords = (line) =>
-  line.trim().split(/\s+/).flatMap((raw, i) => {
+const scriptWords = (line) => {
+  const words = line.trim().split(/\s+/).flatMap((raw, i) => {
     const capital = /^\p{Lu}/u.test(raw.replace(/^[^\p{L}]+/u, ""));
-    return split(raw).map((text) => ({
+    return clean(raw).split(" ").filter(Boolean).map((text) => ({
       text,
       proper: countryWords.has(text) || (capital && i > 0 && !/^i(m|ve|ll|d)?$/.test(text)),
     }));
   });
+  // Numbers are converted over the whole line, so "twenty one" spread over two words becomes one "21"
+  const texts = numbers(words.map((w) => w.text));
+  if (texts.length === words.length) return words.map((w, i) => ({ ...w, text: texts[i] }));
+  return texts.map((text) => ({ text, proper: false }));
+};
 
 export const matchScore = (script, heard) => {
   const want = scriptWords(script);

@@ -1,1 +1,7 @@
-{"episode":"Ep014","step":3,"voiceAttempts":{"punch1":2,"punch3":2},"reason":"voice lines punch1, punch3"}
+{
+  "episode": "Ep014",
+  "step": 2,
+  "voiceAttempts": {},
+  "reason": "voice lines punch1, punch3",
+  "note": "Fixed 18 Nov 2026: punch1 reworded to \"I moved to the middle.\" (whisper heard \"centred\" as \"scented\"); check-voices now treats number words and digits as equal, so punch3 \"I added eight stars.\" heard as \"8 stars\" passes. Resume at step 3 by running check-voices FIRST; re-take only the lines it lists as Failed (expected: punch1 only), with --line <clip> --attempt 1 / 2. Generate all voices only if the clips are missing."
+}

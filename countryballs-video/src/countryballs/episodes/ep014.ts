@@ -9,7 +9,7 @@ export const ep014: Episode = {
     {
       parents: "dk",
       child: "ch",
-      punchline: "I centred myself.",
+      punchline: "I moved to the middle.",
       childColor: "#ff0000",
       parentReaction: "squint",
       childReaction: "proud",
