@@ -1,5 +1,5 @@
 # PROJECT LOG: AI Shorts Channel Business
-Last updated: 2026-11-17 22:10 WIB (Tuesday)
+Last updated: 2026-11-18 (Wednesday), Fakta Ep015
 Owner: the channel owner (UTC+7)
 
 > **For any future Claude session:** this is the master record. Read all of it before
@@ -375,6 +375,9 @@ python trend_finder_v2.py --combine            # merge all runs -> results\combi
 - **Fakta Ep014 (2026-11-17):** 718 bahasa daerah, Indonesia nomor dua di dunia (bank V5), language, 48.0 s, -14.03 LUFS, true peak -1.85 dBTP, 7 Gemini requests over two runs (first take had a 428/424 mis-hear; lines 7-9 re-taken), ready for 2026-11-19 18:00 WIB.
   File: fakta-video\renders\Fakta_Ep014.mp4, uploads\Ep014.txt. Music: Mr. Sunny Face.
   Uncertain: 718 (Badan Bahasa) vs 715 (Ethnologue) are different sources, each attributed on screen; Papua 428 rests on Badan Bahasa data via GoodStats (CNN Indonesia says about 400); Papua pin is a label position.
+- **Fakta Ep015 (2026-11-18):** supermoon 24 Nov 2026 (Timely: detikINET 2 Nov 2026; not from the bank), science, 40.4 s, -14.02 LUFS, true peak -1.91 dBTP, 4 Gemini requests (1 HTTP 400 with no audio), ready for 2026-11-20 18:00 WIB. Checks run by Claude on the final MP4: whisper 10/10 lines, joins OK, no silence over 1 s, 0 decode errors, visual check of 10 beats clean.
+  File: fakta-video/renders/Fakta_Ep015.mp4, uploads/Ep015.txt. Music: Sneaky Business.
+  Uncertain: voice alone was 39.5 s, so the picture holds 1.2 s after the last word to reach 40 s; the spoken peak-time line was cut (wrong number in the take, request cap) and the time 21.55 WIB is on screen only; NASA perigee/apogee are typical values, not the distance of that night; nobody has listened to it.
 
 ## 10b. Roadmap to launch (agreed plan, 2026-10-29 16:20)
 **Stage 1: lock templates (Thu–Fri).** At most 2 more fix rounds per format. A format is "ready to test" when it has: motion/hook in the first second; phone readability (checked on the owner's phone); the core idea visible, not just spoken; about -14 LUFS with clear voices; facts checked and no copyrighted material; **and a new episode needs only new content, not new code**. After locking, no template changes until the test data comes in.
@@ -649,3 +652,4 @@ CHECK NEEDED: What If cloud run ended without a result file (2026-11-18, https:/
   File: whatif-video/renders/WhatIf_Ep016.mp4 (workflow render, swangle); all mandatory checks run by Claude on the final MP4: whisper 11/11 lines, joins OK (11 lines), 47.2 s, -14.3 LUFS, true peak -2.20 dBTP, no silence over 1 s, 0 decode errors, facts self-test OK, visual check of 11 beats clean (side boards peek in from the right edge by design; full text is in the top pill).
   Uncertain: Sullivan's first strike year is per Guinness only (see caveat in FACTS); ready for 2026-11-20T07:30:00+07:00.
 - **What If Ep016 cloud delivery (2026-11-18):** queued for 2026-11-20T07:30:00+07:00; Queue What If row 19, Uploads row 47; video https://github.com/pronyprod/shorts-pipeline/releases/download/whatif-Ep016/WhatIf_Ep016.mp4
+- **Fakta Unik Ep015 cloud delivery (2026-11-18):** queued for 2026-11-20T18:00:00+07:00; Queue Fakta row 17, Uploads row 48; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep015/Fakta_Ep015.mp4

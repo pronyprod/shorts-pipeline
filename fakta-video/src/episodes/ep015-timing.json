@@ -1,0 +1,62 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 4.171,
+    "words": 9
+  },
+  {
+    "id": "what",
+    "start": 4.471,
+    "end": 7.568,
+    "words": 7
+  },
+  {
+    "id": "orbit",
+    "start": 7.868,
+    "end": 12.56,
+    "words": 10
+  },
+  {
+    "id": "tebak",
+    "start": 12.86,
+    "end": 16.562,
+    "words": 8
+  },
+  {
+    "id": "reveal",
+    "start": 16.862,
+    "end": 21.935,
+    "words": 11
+  },
+  {
+    "id": "local",
+    "start": 22.235,
+    "end": 24.865,
+    "words": 8
+  },
+  {
+    "id": "far",
+    "start": 25.165,
+    "end": 28.998,
+    "words": 8
+  },
+  {
+    "id": "twist",
+    "start": 29.298,
+    "end": 33.959,
+    "words": 12
+  },
+  {
+    "id": "bright",
+    "start": 34.259,
+    "end": 36.538,
+    "words": 6
+  },
+  {
+    "id": "question",
+    "start": 36.838,
+    "end": 39.194,
+    "words": 8
+  }
+]

@@ -15,6 +15,7 @@ import { Ep011, EP011_SECONDS } from "./episodes/Ep011";
 import { Ep012, EP012_SECONDS } from "./episodes/Ep012";
 import { Ep013, EP013_SECONDS } from "./episodes/Ep013";
 import { Ep014, EP014_SECONDS } from "./episodes/Ep014";
+import { Ep015, EP015_SECONDS } from "./episodes/Ep015";
 import { MixTest, MIXTEST_SECONDS } from "./episodes/MixTest";
 import { LiveTest, LIVETEST_SECONDS } from "./episodes/LiveTest";
 import { LiveTest2, LIVETEST2_SECONDS } from "./episodes/LiveTest2";
@@ -48,6 +49,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="Fakta-Ep012" component={Ep012} durationInFrames={Math.ceil(EP012_SECONDS * FPS)} fps={FPS} width={W} height={H} />
       <Composition id="Fakta-Ep013" component={Ep013} durationInFrames={Math.ceil(EP013_SECONDS * FPS)} fps={FPS} width={W} height={H} />
       <Composition id="Fakta-Ep014" component={Ep014} durationInFrames={Math.ceil(EP014_SECONDS * FPS)} fps={FPS} width={W} height={H} />
+      <Composition id="Fakta-Ep015" component={Ep015} durationInFrames={Math.ceil(EP015_SECONDS * FPS)} fps={FPS} width={W} height={H} />
       <Composition id="Fakta-MixTest" component={MixTest} durationInFrames={MIXTEST_SECONDS * FPS} fps={FPS} width={W} height={H} defaultProps={{}} />
     </>
   );
