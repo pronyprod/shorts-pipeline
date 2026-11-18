@@ -24,7 +24,7 @@ export const ANCHORS: Record<PlaceId, Anchors> = {
   nightTown: { pom: [0.5, 0, 3.2], board: { p: [3.2, 0, 1.8], yaw: -0.12 }, focus: [0, 1.8, 0] },
   body: { pom: [0, 0.35, 2.2], board: { p: [3.0, 0, 1.4], yaw: -0.15 }, focus: [0, 1.6, 0] },
 };
-export type PlaceOpts = { tide?: number; waves?: number; moon?: number; orbit?: number; earthShift?: number; chamber?: number; collapse?: number; sag?: number; dark?: number; breath?: number; boil?: number };
+export type PlaceOpts = { tide?: number; waves?: number; moon?: number; orbit?: number; earthShift?: number; chamber?: number; collapse?: number; sag?: number; dark?: number; breath?: number; boil?: number; mars?: boolean };
 
 const T3 = (env: EnvState, day: string, night: string) => interpolateColors(env.lamps, [0, 1], [day, night]);
 
@@ -272,31 +272,37 @@ const Space: React.FC<{ frame: number; o: PlaceOpts }> = ({ frame, o }) => {
   );
 };
 
-const Desert: React.FC<{ env: EnvState }> = ({ env }) => (
-  <>
-    <Disc r={45} color={T3(env, "#E9C98E", "#5A4C3A")} />
-    {Array.from({ length: 8 }, (_, i) => (
-      <mesh key={i} position={[-20 + i * 6 + random(`dx${i}`) * 3, -0.6, -6 - random(`dz${i}`) * 14]} scale={[4 + random(`ds${i}`) * 3, 1.4 + random(`dh${i}`), 3]}>
-        <sphereGeometry args={[1, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2]} />
-        <Mat color={T3(env, "#E2BB7A", "#544634")} />
-      </mesh>
-    ))}
-    {[[-3, 1, 1], [5, -2, 1.3], [-7, -4, 0.9], [2, -7, 1.1]].map(([x, z, s], i) => (
-      <group key={i} position={[x, 0, z]} scale={s}>
-        <Box s={[0.35, 1.8, 0.35]} p={[0, 0.9, 0]} color="#4E9A5A" />
-        <Box s={[0.25, 0.8, 0.25]} p={[0.35, 1.0, 0]} color="#4E9A5A" />
-        <Box s={[0.4, 0.2, 0.25]} p={[0.25, 0.6, 0]} color="#4E9A5A" />
-      </group>
-    ))}
-    {[[-12, -18, 6, 4], [14, -22, 8, 5]].map(([x, z, w, h], i) => <Box key={i} s={[w, h, w * 0.8]} p={[x, h / 2, z]} color={T3(env, "#C9774E", "#4A3330")} />)}
-    {[[1.5, 1.5], [-5, 3], [6, 2]].map(([x, z], i) => (
-      <mesh key={i} position={[x, 0.2, z]}>
-        <icosahedronGeometry args={[0.45, 0]} />
-        <Mat color="#A88A6A" />
-      </mesh>
-    ))}
-  </>
-);
+// `mars`: the same desert as Mars (owner, 18 Nov 2026): red rock and dust, dark basalt rocks, no plants at all.
+const Desert: React.FC<{ env: EnvState; o: PlaceOpts }> = ({ env, o }) => {
+  const mars = !!o.mars;
+  return (
+    <>
+      <Disc r={45} color={mars ? T3(env, "#B4532F", "#4A2A20") : T3(env, "#E9C98E", "#5A4C3A")} />
+      {Array.from({ length: 8 }, (_, i) => (
+        <mesh key={i} position={[-20 + i * 6 + random(`dx${i}`) * 3, -0.6, -6 - random(`dz${i}`) * 14]} scale={[4 + random(`ds${i}`) * 3, 1.4 + random(`dh${i}`), 3]}>
+          <sphereGeometry args={[1, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2]} />
+          <Mat color={mars ? T3(env, "#A9492A", "#43261D") : T3(env, "#E2BB7A", "#544634")} />
+        </mesh>
+      ))}
+      {mars
+        ? null
+        : [[-3, 1, 1], [5, -2, 1.3], [-7, -4, 0.9], [2, -7, 1.1]].map(([x, z, s], i) => (
+            <group key={i} position={[x, 0, z]} scale={s}>
+              <Box s={[0.35, 1.8, 0.35]} p={[0, 0.9, 0]} color="#4E9A5A" />
+              <Box s={[0.25, 0.8, 0.25]} p={[0.35, 1.0, 0]} color="#4E9A5A" />
+              <Box s={[0.4, 0.2, 0.25]} p={[0.25, 0.6, 0]} color="#4E9A5A" />
+            </group>
+          ))}
+      {[[-12, -18, 6, 4], [14, -22, 8, 5]].map(([x, z, w, h], i) => <Box key={i} s={[w, h, w * 0.8]} p={[x, h / 2, z]} color={mars ? T3(env, "#8E3B22", "#3A2019") : T3(env, "#C9774E", "#4A3330")} />)}
+      {(mars ? [[1.5, 1.5], [-5, 3], [6, 2], [-3, 1], [5, -2], [-7, -4], [2, -7], [-1.5, 4.2], [4, 4.5]] : [[1.5, 1.5], [-5, 3], [6, 2]]).map(([x, z], i) => (
+        <mesh key={i} position={[x, 0.2, z]} scale={mars ? 0.6 + random(`mr${i}`) * 0.9 : 1}>
+          <icosahedronGeometry args={[0.45, 0]} />
+          <Mat color={mars ? "#4A2A20" : "#A88A6A"} />
+        </mesh>
+      ))}
+    </>
+  );
+};
 
 const Lab: React.FC<{ env: EnvState; frame: number; o: PlaceOpts }> = ({ env, frame, o }) => {
   const chamber = o.chamber ?? 0;
@@ -515,7 +521,7 @@ export const Place: React.FC<{ id: PlaceId; env: EnvState; frame: number; opts?:
     {id === "city" ? <City env={env} frame={frame} /> : null}
     {id === "ocean" ? <Ocean env={env} frame={frame} o={opts} /> : null}
     {id === "space" ? <Space frame={frame} o={opts} /> : null}
-    {id === "desert" ? <Desert env={env} /> : null}
+    {id === "desert" ? <Desert env={env} o={opts} /> : null}
     {id === "lab" ? <Lab env={env} frame={frame} o={opts} /> : null}
     {id === "forest" ? <Forest env={env} frame={frame} /> : null}
     {id === "nightTown" ? <NightTown env={env} frame={frame} /> : null}

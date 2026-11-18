@@ -95,7 +95,8 @@ Do the instructions' steps up to and including the **mandatory checks**, plus th
 - **Write `ci-out/result.json`** (this is how the workflow knows what to deliver):
 
 ```json
-{ "status": "ready", "episode": "Ep014", "topic": "<the Topic text for the Uploads sheet, as earlier rows of this channel do it>" }
+{ "status": "ready", "episode": "Ep014", "topic": "<the Topic text for the Uploads sheet, as earlier rows of this channel do it>",
+  "checks": { ... every mandatory check with its numbers, see "Mandatory checks in the result file" below ... } }
 ```
 
   Topic examples: countryballs `JP→BD, NL→LU, IT→MX, PL→ID` or `Size duel: TH vs ES, DZ vs GL, JP vs DE, BR vs AU`;
@@ -104,6 +105,76 @@ Do the instructions' steps up to and including the **mandatory checks**, plus th
   The MP4 must be at the usual place: `countryballs-video/renders/EpNNN.mp4`, `whatif-video/renders/WhatIf_EpNNN.mp4`
   or `fakta-video/renders/Fakta_EpNNN.mp4`.
 - Finish with the usual report (under 80 words). Say the episode is ready for delivery; never say it is published.
+
+### Mandatory checks in the result file (owner, 18 Nov 2026)
+
+Run every mandatory check of the channel's instructions YOURSELF, in this session, on the final MP4, and write each
+into `result.json` under `checks`, with `"pass": true` and the numbers the tool printed (copy them, never estimate).
+A part 2 that only reads the log of part 1 is not a check. Voice: run whisper again on every final voice clip (What If: the clips in `public/voices/epNNN`, with the whisper binary and model the scripts use; Countryballs: `check-voices.mjs`) and compare with the script. Required keys (What If and Fakta: all; Countryballs: all
+but `lineJoins`):
+
+```json
+"checks": {
+  "voice":     { "pass": true, "lines": 9, "matched": 9, "tool": "whisper", "detail": "<the tool's summary line>" },
+  "loudness":  { "pass": true, "lufs": -14.3 },
+  "truePeak":  { "pass": true, "dbtp": -2.2 },
+  "length":    { "pass": true, "seconds": 45.2 },
+  "silence":   { "pass": true, "longestSeconds": 0, "detail": "silencedetect -50dB d=1: none" },
+  "lineJoins": { "pass": true, "detail": "<voice-clean check output>" },
+  "facts":     { "pass": true, "sources": 8, "detail": "<self-test summary, or: every row of EpNNN.md has its source>" },
+  "file":      { "pass": true, "video": "h264 1080x1920", "audio": "aac", "decodeErrors": 0 },
+  "visual":    { "pass": true, "stills": 11, "beats": 9, "issues": [], "fixed": ["<what you fixed before release>"] }
+}
+```
+
+After you finish, the workflow (`ci/verify.mjs`) measures the MP4 again itself (ffprobe, decode, length, loudness,
+true peak, silence), re-runs the What If line-join check and episode self-test and the Countryballs whisper check,
+and compares your numbers with its own (loudness within 0.5 LU, true peak 0.6 dB, length 0.5 s). A missing check,
+a missing number, a failed check or a mismatch = CHECK NEEDED: nothing is released, the state file is written back
+and the next run resumes at the checks (the render is kept). So a check you skip only delays the episode.
+
+**Visual sanity check (every channel, owner 18 Nov 2026, after What If Ep015 showed cactuses on Mars).** Before the
+render (stills of every beat or round, as the instructions already ask) AND on the final MP4 (one frame per beat or
+round: `ffmpeg -ss <mid-beat seconds> -i <mp4> -frames:v 1 -vf scale=360:-1 $RUNNER_TEMP/v_<n>.png`, then look at each
+one), check that nothing on screen is factually wrong for the setting or the script:
+- plants, trees, cactuses, grass, water, animals, clouds or a blue Earth sky where they cannot be (space, the Moon,
+  Mars, inside a body...); a big Earth-like moon on Mars; Earth landmarks in the wrong place;
+- Countryballs: every flag and emblem right for its country, colours in the right order, nothing mirrored;
+- Fakta: map shapes, borders, labels and the place names right;
+- boards, counters and labels: only sourced values, in a logical order, units right, never a number on screen that
+  contradicts the voice (e.g. a "34 km" length board before the "2,000 km" one);
+- text: spelling, nothing cut off, nothing under the captions or in the top 10% / bottom 20%.
+Fix anything wrong in the episode's own files before release (a kit place may get a new opt only when the default
+look stays byte-identical, e.g. the desert's `mars` opt). Write what you checked into `checks.visual` (`stills` >=
+`beats`). An issue you cannot fix = CHECK NEEDED; never release with an open visual issue.
+For What If, a problem found in part 2 means a new render: follow "Part 2" above (stop with check-needed, the next run
+hands off again).
+
+**Resuming at the checks.** A state file with `"status": "check-needed"` and a note from the workflow's verification
+means the render already exists in `renders/` (What If: do NOT hand off again while the MP4 is there): run all the
+checks, fix only what fails, then write the full result.
+
+## 2b. Redo of an episode that is already queued (owner request)
+
+`ci-out/context.json` has `"redo": "EpNNN"` and `"redoNote"` (what the owner wants fixed). The episode was already
+delivered; its old video may be scheduled on YouTube. Then:
+- Do not pick a premise, do not mark the bank, do not change the script, the voice text or the voice takes (they
+  passed their checks; the voice files come back from the work-in-progress cache). Only if they are missing may you
+  re-take the voice, within the quota limits.
+- Write `.episode_state.json` = `{ "episode": "EpNNN", "redo": true, "step": 5, "publishAt": <context publishAt>,
+  "note": "<redoNote>" }` first, so a stop can be resumed.
+- Fix what the note says in the episode's own files (the maintainer may already have committed the fix: then check it).
+  Run the instructions' lint and stills of every beat, the visual sanity check, credits and `uploads/EpNNN.txt`
+  (keep the title unless the note asks otherwise).
+- Render as usual (What If: render hand-off, part 1 / part 2), then every mandatory check with numbers.
+- `result.json` as usual plus `"redo": true, "redoReason": "<a few words, e.g. Mars look and board order fixed>"`.
+  The workflow then makes a NEW release (`<channel>-EpNNN-v2`), marks the old queue row
+  `EpNNN (REMOVED <date>, owner: <reason>, new upload)` with Publish at cleared and the old Uploads row
+  `Removed (...)` with Planned date cleared (as the owner's earlier removals), and writes new rows with the same
+  publish time, so Zapier uploads the fixed video. Log entry: `- **<Channel> EpNNN REDO (<date>):** <what was fixed>`,
+  then the usual numbers line, "ready for <publish date>".
+- A state file with `"redo": true` (a redo that stopped) is resumed the same way, also in a scheduled run, and its
+  result must still say `"redo": true`.
 
 ## 3. When you must stop
 

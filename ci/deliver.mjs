@@ -71,7 +71,18 @@ const publishAt = env.PUBLISH_AT;
 if (!publishAt) stop("PUBLISH_AT was not computed");
 
 // ---------- 1. release ----------
-const tag = test ? `test-${channel}-${episode}-r${env.GITHUB_RUN_ID}` : `${channel}-${episode}`;
+// A redo (owner fixed an already queued episode) gets its own release: <channel>-<episode>-v2, -v3, ...
+let tag = test ? `test-${channel}-${episode}-r${env.GITHUB_RUN_ID}` : `${channel}-${episode}`;
+if (result.redo && !result.url) {
+  for (let v = 2; v < 20; v++) {
+    const t = `${tag}-v${v}`;
+    if (run("gh", ["release", "view", t]).status !== 0) {
+      tag = t;
+      break;
+    }
+  }
+  if (!/-v\d+$/.test(tag)) stop("redo: no free release tag");
+}
 let url = result.url;
 if (!url) {
   if (!existsSync(mp4)) stop(`MP4 not found at ${c.project}/renders/${fileName} (and no release yet); it must be rendered again`);
@@ -80,7 +91,7 @@ if (!url) {
   if (probe.status !== 0 || streams !== "audio,video") stop(`MP4 is not one video + one audio stream (ffprobe: ${streams || probe.stderr})`);
 
   const title = `${c.sheetName} ${episode}${test ? " (TEST)" : ""}`;
-  const notes = test ? "Test run. Not for upload." : `Queued for ${publishAt}.`;
+  const notes = test ? "Test run. Not for upload." : `Queued for ${publishAt}.${result.redo ? ` Redo: ${result.redoReason ?? "fixed version"}; replaces ${channel}-${episode}.` : ""}`;
   const exists = run("gh", ["release", "view", tag]).status === 0;
   const up = exists
     ? run("gh", ["release", "upload", tag, mp4, "--clobber"])
@@ -113,12 +124,12 @@ if (existsSync(mp4)) {
 }
 
 // ---------- 3. spreadsheet ----------
-const sheet = run("node", ["ci/sheet.mjs", "deliver", "--channel", channel, "--episode", episode, "--url", url, "--publish-at", publishAt, "--topic", result.topic ?? "", ...(test ? ["--test"] : [])]);
+const sheet = run("node", ["ci/sheet.mjs", "deliver", "--channel", channel, "--episode", episode, "--url", url, "--publish-at", publishAt, "--topic", result.topic ?? "", ...(test ? ["--test"] : []), ...(result.redo ? ["--replace", `owner: ${result.redoReason ?? "fixed version"}, new upload`.slice(0, 120)] : [])]);
 process.stdout.write(sheet.stdout ?? "");
 if (sheet.status !== 0) stop(`${sheet.status === 2 ? "queue or Uploads row" : "spreadsheet"}: ${(sheet.stderr ?? "").trim().slice(0, 300)}`);
 const rows = JSON.parse(sheet.stdout.trim().split("\n").pop());
 
 // ---------- 4. log ----------
-logLine(`- **${c.sheetName} ${episode} cloud delivery${test ? " (TEST, not for upload)" : ""} (${today}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; video ${url}`);
+logLine(`- **${c.sheetName} ${episode} cloud delivery${result.redo ? " (REDO, replaces the earlier version: its queue and Uploads rows are marked REMOVED)" : ""}${test ? " (TEST, not for upload)" : ""} (${today}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; video ${url}`);
 rmSync(PENDING, { force: true });
 summary(`**${c.sheetName} ${episode}** ${test ? "TEST delivered" : "queued"} for ${publishAt}\n\n- ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}\n- ${url}`);

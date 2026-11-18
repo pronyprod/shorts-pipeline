@@ -21,6 +21,14 @@ on:
         description: "Test mode: write to the 'Queue Test' tab, pre-release, test branch (nothing reaches Zapier or main)"
         type: boolean
         default: true
+      redo:
+        description: "Redo an episode that is already queued (e.g. Ep015): fix it, re-render, new release, old rows marked REMOVED. Empty = make the next episode."
+        type: string
+        default: ""
+      redo_note:
+        description: "Redo: what the owner wants fixed"
+        type: string
+        default: ""
 
 permissions:
   contents: write # commit state back, create releases
@@ -39,6 +47,8 @@ jobs:
       TZ: Asia/Jakarta
       CHANNEL: ${{ inputs.channel || (github.event.schedule == '20 12 * * *' && 'countryballs') || (github.event.schedule == '20 13 * * *' && 'whatif') || 'fakta' }}
       TEST: ${{ (github.event_name == 'workflow_dispatch' && inputs.test) && 'true' || 'false' }}
+      REDO: ${{ github.event_name == 'workflow_dispatch' && inputs.redo || '' }}
+      REDO_NOTE: ${{ github.event_name == 'workflow_dispatch' && inputs.redo_note || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -87,10 +97,20 @@ jobs:
           node ci/sheet.mjs check
           # A resumed episode keeps its state publishAt only while it is still ahead; a passed one is recomputed
           # with the normal rule (day after the latest queued date, or run start date + 1).
-          PUBLISH_AT="$(node ci/sheet.mjs publish-at --channel "$CHANNEL" --state "$PROJECT/.episode_state.json")"
+          if [ -n "$REDO" ]; then
+            [[ "$REDO" =~ ^Ep[0-9]{3}$ ]] || { echo "::error::redo must look like Ep015"; exit 1; }
+            [ -n "$REDO_NOTE" ] || { echo "::error::redo needs redo_note (what to fix)"; exit 1; }
+            [ ! -f "$PROJECT/.episode_state.json" ] || { echo "::error::an unfinished episode is in progress for $CHANNEL; finish it before a redo"; exit 1; }
+            PUBLISH_AT="$(node ci/sheet.mjs publish-at --channel "$CHANNEL" --redo "$REDO")"
+          else
+            PUBLISH_AT="$(node ci/sheet.mjs publish-at --channel "$CHANNEL" --state "$PROJECT/.episode_state.json")"
+          fi
           echo "PUBLISH_AT=$PUBLISH_AT" >> "$GITHUB_ENV"
           mkdir -p ci-out
           printf '{ "channel": "%s", "test": %s, "runStart": "%s", "publishAt": "%s" }\n' "$CHANNEL" "$TEST" "$RUN_START" "$PUBLISH_AT" > ci-out/context.json
+          if [ -n "$REDO" ]; then
+            node -e 'const fs=require("fs");const f="ci-out/context.json";const c=JSON.parse(fs.readFileSync(f,"utf8"));c.redo=process.argv[1];c.redoNote=process.argv[2];fs.writeFileSync(f,JSON.stringify(c,null,2))' "$REDO" "$REDO_NOTE"
+          fi
           cat ci-out/context.json
           if [ -f "$PROJECT/.episode_state.json" ]; then
             node -e 'const f=process.argv[1],fs=require("fs"),s=JSON.parse(fs.readFileSync(f,"utf8"));if(s.publishAt!==process.argv[2]){console.log(`state publishAt ${s.publishAt} -> ${process.argv[2]}`);s.publishAt=process.argv[2];fs.writeFileSync(f,JSON.stringify(s,null,2)+"\n")}' "$PROJECT/.episode_state.json" "$PUBLISH_AT"
@@ -163,9 +183,14 @@ jobs:
             Channel: ${{ env.CHANNEL }}
             Test run: ${{ env.TEST }}
 
+            Redo: ${{ env.REDO || 'no' }}
+
             Read ci/CLOUD_RULES.md first and follow it exactly. It tells you which files hold this channel's
-            instructions and what is different on this Linux runner. Make the next episode for this channel,
-            unattended, and always leave ci-out/result.json when you finish or stop.
+            instructions and what is different on this Linux runner.
+            ${{ env.REDO && 'This is a REDO of an episode that is already queued: follow the "Redo" section of CLOUD_RULES.md; the owner''s note is redoNote in ci-out/context.json.' || 'Make the next episode for this channel, unattended.' }}
+            Always leave ci-out/result.json when you finish or stop. Every mandatory check must be run by you in this
+            session and written into result.json with its numbers (CLOUD_RULES "Mandatory checks in the result file");
+            the workflow measures the file again and refuses to release anything that is missing.
           claude_args: |
             --permission-mode default
             --allowedTools Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch
@@ -226,13 +251,22 @@ jobs:
             Test run: ${{ env.TEST }}
             Part 2 of this run: the workflow has rendered the episode for you.
 
-            Read ci/CLOUD_RULES.md first and follow it exactly, especially "Render hand-off, part 2". Resume from the
-            state file, do the mandatory checks and everything after them that CLOUD_RULES.md gives you, and always
-            leave ci-out/result.json when you finish or stop.
+            Redo: ${{ env.REDO || 'no' }}
+
+            Read ci/CLOUD_RULES.md first and follow it exactly, especially "Render hand-off, part 2" and
+            "Mandatory checks in the result file". Resume from the state file and run EVERY mandatory check
+            yourself on the new MP4 (voice/whisper, loudness, true peak, length, silence, line joins, facts, file)
+            plus the visual sanity check on frames of every beat; write each into result.json with its numbers.
+            The workflow measures the file again and refuses to release anything missing. Always leave
+            ci-out/result.json when you finish or stop.
           claude_args: |
             --permission-mode default
             --allowedTools Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch
             --max-turns 300
+
+      - name: Verify the mandatory checks (Claude's numbers + the workflow's own measurements)
+        if: always() && steps.ctx.outcome == 'success'
+        run: node ci/verify.mjs
 
       - name: Deliver (release, public download check, spreadsheet rows, log line)
         if: always() && steps.ctx.outcome == 'success'

@@ -13,15 +13,12 @@ export const FACTS = {
   albaSlope: { value: 0.5, note: "Average slope of the northern flank about 0.5 degrees (over five times lower than other large Tharsis volcanoes).", source: "Carr (2006), p. 54; Boyce (2008), as summarised in Wikipedia 'Alba Mons' (accessed 17 Nov 2026)" },
   co2: { value: 95.1, note: "Mars's atmosphere is 95.1% carbon dioxide by volume; surface pressure about 6.36 mb (Earth about 1,013 mb).", source: "NASA NSSDC Mars Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html)" },
   winterC: { value: -120, note: "Mars winter temperatures can drop to about -120 degrees C; the authors suggest winter ice seals the fractures until it sublimates in early summer (a hypothesis).", source: "ScienceDaily / ESA, 7 Nov 2026" },
-  ramp: { value: 1, note: "ILLUSTRATIVE: the counter's in-between values are a story ramp; only 2,000 km, 0.5 degrees, 95 percent and minus 120 are spoken, and those come from the facts above.", source: "Our illustration of the facts above" },
+  boards: { value: 1, note: "Every board shows a sourced value only (no in-between ramp: owner, 18 Nov 2026, after a '34 km' frame appeared before the 2,000 km board). The length board shows 2,000 km from the first frame.", source: "The facts above" },
 } as const;
 
 const END_T = 8;
 export const CLIMAX_T = 4;
 export const TWIST_T = 6;
-// the length counter reaches 2,000 km about when it is said (line 1)
-export const LEN_AT = 1.65;
-export const lenAt = (t: number) => Math.exp(Math.log(10) + Math.min(1, t / LEN_AT) * (Math.log(FACTS.albaLengthKm.value) - Math.log(10)));
 
 const km = `${numberWords(FACTS.albaLengthKm.value / 1000)} thousand`;
 const co2 = numberWords(95);
@@ -36,7 +33,7 @@ export const ep015: Episode = {
   diameterAt: () => 1,
   clockText: (t) => (t < TWIST_T ? "YOU ARE ON MARS" : "REAL NEWS, NOV 2026"),
   counterAt: (t) => {
-    if (t < 2) return { text: { value: Math.round(lenAt(t)).toLocaleString("en-US"), unit: "km" } };
+    if (t < 2) return { text: { value: FACTS.albaLengthKm.value.toLocaleString("en-US"), unit: "km" } };
     if (t < 3) return { label: "Slope", text: { value: String(FACTS.albaSlope.value), unit: "°" } };
     if (t < 4) return { label: "Gas from the cracks", text: { value: "HCl", unit: "" } };
     if (t < 5) return { label: "Carbon dioxide in the air", text: { value: String(Math.round(FACTS.co2.value)), unit: "%" } };
@@ -76,16 +73,18 @@ if (typeof process !== "undefined" && process.argv?.[1]?.endsWith("ep015.ts")) {
   check(km === "two thousand", `spoken length: ${km}`);
   check(co2 === "ninety five" || co2 === "ninety-five", `spoken co2: ${co2}`);
   check(numberWords(120) === "one hundred twenty" || numberWords(120) === "one hundred and twenty", `spoken 120: ${numberWords(120)}`);
-  check(Math.round(lenAt(LEN_AT)) === 2000, "counter shows 2,000 km when it is said");
+  // boards: only sourced values, in story order, and the length board never shows anything but 2,000 km
+  const allowed = new Set(["2,000 km", "0.5 °", "HCl ", "95 %", "-120 °C", "Nov 2026"]);
+  const seen: string[] = [];
+  for (let t = 0; t <= END_T; t += 0.01) {
+    const c = ep015.counterAt!(t)!;
+    const shown = `${c.text!.value} ${c.text!.unit}`;
+    if (!allowed.has(shown)) check(false, `board shows an unsourced value at t=${t.toFixed(2)}: ${shown}`);
+    if (seen[seen.length - 1] !== shown) seen.push(shown);
+  }
+  check(seen.join(" | ") === [...allowed].join(" | "), `boards in story order: ${seen.join(" | ")}`);
   check(FACTS.co2.value > 95 && FACTS.co2.value < 96, "95.1% CO2: 'ninety five percent' is true");
   check(FACTS.albaSlope.value === 0.5, "0.5 degrees = half a degree");
-  let last = -Infinity;
-  let rising = true;
-  for (let t = 0; t <= 2; t += 0.01) {
-    if (lenAt(t) < last) rising = false;
-    last = lenAt(t);
-  }
-  check(rising, "length counter only climbs");
   for (const l of ep015.lines) for (const k of l.keys ?? []) check(l.text.includes(k), `key "${k}" is in its line`);
   for (const [name, f] of Object.entries(FACTS)) check(!!f.source, `${name} has a source`);
   const words = ep015.lines.map((l) => l.say).join(" ").split(/\s+/).length;

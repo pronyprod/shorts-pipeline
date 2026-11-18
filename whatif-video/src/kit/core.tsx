@@ -44,7 +44,7 @@ export const Disc: React.FC<{ r: number; p?: V3; color: string; segs?: number }>
 );
 
 // ---------- light presets ----------
-export type EnvName = "day" | "sunset" | "night" | "space" | "lab" | "body";
+export type EnvName = "day" | "sunset" | "night" | "space" | "lab" | "body" | "marsDay" | "marsDusk" | "marsNight";
 type Env = {
   skyTop: string; skyMid: string; horizon: string;
   key: string; keyI: number; keyDir: V3;
@@ -60,6 +60,11 @@ export const ENVS: Record<EnvName, Env> = {
   space: { skyTop: "#02030A", skyMid: "#050818", horizon: "#0A0F26", key: "#FFFFFF", keyI: 2.8, keyDir: [-0.7, 0.35, 0.6], hemiSky: "#4A5488", hemiGround: "#05060C", hemiI: 0.35, fogNear: 400, fogFar: 900, stars: 1, lamps: 0, windows: 0, sun: 0, clouds: 0, cloud: "#000000", rim: 0.9 },
   lab: { skyTop: "#1A1F2E", skyMid: "#1A1F2E", horizon: "#1A1F2E", key: "#FFE0B8", keyI: 1.4, keyDir: [0.2, 1, 0.5], hemiSky: "#FFF0DD", hemiGround: "#3A3040", hemiI: 0.85, fogNear: 30, fogFar: 90, stars: 0, lamps: 1, windows: 1, sun: 0, clouds: 0, cloud: "#000000", rim: 0.35 },
   body: { skyTop: "#1A0612", skyMid: "#2A0A1E", horizon: "#3A0C26", key: "#FFB0D2", keyI: 1.3, keyDir: [0.2, 1, 0.6], hemiSky: "#FF8FB8", hemiGround: "#3A0A20", hemiI: 0.95, fogNear: 9, fogFar: 34, stars: 0, lamps: 0.5, windows: 0, sun: 0, clouds: 0, cloud: "#000000", rim: 0.9 },
+  // Mars (owner, 18 Nov 2026): dusty butterscotch day sky, no Earth clouds; at dusk the sky near the sun turns blue
+  // (fine dust scatters blue light forward, as the rovers photographed); night has stars and no big moon.
+  marsDay: { skyTop: "#A8714C", skyMid: "#D3A174", horizon: "#E6BD90", key: "#FFE4C8", keyI: 2.2, keyDir: [0.45, 0.8, 0.35], hemiSky: "#E9B98F", hemiGround: "#6B3A24", hemiI: 1.05, fogNear: 18, fogFar: 55, stars: 0, lamps: 0, windows: 0, sun: 0.85, clouds: 0, cloud: "#E8C9A8", rim: 0.25 },
+  marsDusk: { skyTop: "#3A2C33", skyMid: "#8C6656", horizon: "#9DB9D8", key: "#D2DEFF", keyI: 1.5, keyDir: [0.85, 0.22, -0.45], hemiSky: "#C99E86", hemiGround: "#4A2A20", hemiI: 0.9, fogNear: 16, fogFar: 50, stars: 0.12, lamps: 0, windows: 0, sun: 0.9, clouds: 0, cloud: "#000000", rim: 0.55 },
+  marsNight: { skyTop: "#06060D", skyMid: "#121020", horizon: "#2A1C20", key: "#B8C2FF", keyI: 0.6, keyDir: [-0.5, 0.75, 0.3], hemiSky: "#5C5878", hemiGround: "#2A1712", hemiI: 0.85, fogNear: 14, fogFar: 46, stars: 1, lamps: 0, windows: 0, sun: 0, clouds: 0, cloud: "#000000", rim: 1.2 },
 };
 const mix = (a: Env, b: Env, k: number): Env => {
   const c = (x: string, y: string) => interpolateColors(k, [0, 1], [x, y]);

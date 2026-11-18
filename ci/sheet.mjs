@@ -4,7 +4,12 @@
 //   node ci/sheet.mjs publish-at --channel X [--state <.episode_state.json>]
 //                                                  prints the publish time for the next episode; a resumed
 //                                                  episode keeps its state publishAt only while it is still ahead
+//   node ci/sheet.mjs publish-at --channel X --redo EpNNN
+//                                                  a redo keeps the episode's queued Publish at while it is still ahead
 //   node ci/sheet.mjs deliver --channel X --episode EpNNN --url <mp4 url> --publish-at <iso> --topic "<text>" [--test]
+//                                                  [--replace "<reason>"]  (redo: the old queue + Uploads rows of this
+//                                                  episode are marked REMOVED with Publish at / Planned date cleared,
+//                                                  as the owner's earlier removals, then new rows are written)
 //
 // Environment: GOOGLE_SA_JSON (the service account key file's content), SHEET_ID (the spreadsheet ID),
 //              RUN_START (ISO time the workflow run started; defaults to now).
@@ -186,6 +191,18 @@ if (cmd === "check") {
   const runStart = new Date(process.env.RUN_START || Date.now());
   const col = await get(`'${c.queueTab}'!E:E`);
   const dates = col.slice(2).map((r) => String(r[0] ?? "").slice(0, 10));
+  const redo = opt("redo");
+  if (redo) {
+    const rows = await get(`'${c.queueTab}'!A:E`);
+    const live = rows.filter((r, i) => i >= 2 && r[0] === redo && /^\d{4}-\d{2}-\d{2}T/.test(r[4] ?? ""));
+    if (live.length !== 1) fail(`redo ${redo}: expected exactly one live row in "${c.queueTab}", found ${live.length}`);
+    const at = live[0][4];
+    const ahead = Date.parse(at) > runStart.getTime() + 3600 * 1000;
+    const r = ahead ? at : publishAtFor(dates, runStart, c.time);
+    console.error(`sheet: redo ${redo} ${ahead ? "keeps its queued" : "had a passed"} Publish at ${at}${ahead ? "" : `; recomputed ${r}`}`);
+    console.log(r);
+    process.exit(0);
+  }
   const statePath = opt("state");
   let statePublishAt;
   if (statePath && existsSync(statePath)) statePublishAt = JSON.parse(readFileSync(statePath, "utf8")).publishAt;
@@ -218,11 +235,45 @@ if (cmd === "check") {
     await ensureTestTab(TEST_UPLOADS, UPLOADS_HEADER, "Q");
   }
   const testName = test ? `${c.sheetName} ${episode}` : episode; // the test tab is shared by 3 channels
+
+  // Redo: mark the old rows REMOVED first (queue: Episode text + Publish at cleared, so Zapier and people skip it;
+  // Uploads: Status + Planned date cleared), each read back, then the new rows below.
+  const replace = opt("replace");
+  const qOldRow = (all) => all.filter((r, i) => i >= 2 && r[0] === testName && r[3] !== url).length;
+  if (replace) {
+    const qAll = await get(`'${queueTab}'!A:E`);
+    // the old row is the live one with a different video URL (on a delivery retry the new row is already there)
+    const qOld = qAll.map((r, i) => [r, i + 1]).filter(([r, i]) => i >= 3 && r[0] === testName && r[3] !== url);
+    if (qOld.length > 1) fail(`replace: ${qOld.length} old "${queueTab}" rows for ${testName}; fix by hand`, 2);
+  }
+  if (replace && qOldRow(await get(`'${queueTab}'!A:E`)) === 0) {
+    console.log(`sheet: no old "${queueTab}" row left for ${testName} (already replaced); old rows untouched`);
+  } else if (replace) {
+    const day = new Date(Date.now() + WIB_MS).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+    const qAll = await get(`'${queueTab}'!A:E`);
+    const qOld = qAll.map((r, i) => [r, i + 1]).filter(([r, i]) => i >= 3 && r[0] === testName && r[3] !== url);
+    const qRow = qOld[0][1];
+    const label = `${testName} (REMOVED ${day}, ${replace})`;
+    await put(`'${queueTab}'!A${qRow}:A${qRow}`, [label]);
+    await put(`'${queueTab}'!E${qRow}:E${qRow}`, [""]);
+    const qBack = (await get(`'${queueTab}'!A${qRow}:E${qRow}`))[0] ?? [];
+    if (qBack[0] !== label || (qBack[4] ?? "") !== "") fail(`replace: "${queueTab}" row ${qRow} read back wrong: ${JSON.stringify(qBack).slice(0, 200)}`, 2);
+    console.log(`sheet: "${queueTab}" row ${qRow} marked REMOVED, Publish at cleared`);
+    const uAll = await get(`'${uploadsTab}'!A:K`);
+    const uOld = uAll.map((r, i) => [r, i + 1]).filter(([r, i]) => i >= 2 && r[0] === c.sheetName && r[1] === episode && !/^Removed/i.test(r[9] ?? ""));
+    if (uOld.length !== 1) fail(`replace: expected one live "${uploadsTab}" row for ${c.sheetName} ${episode}, found ${uOld.length}`, 2);
+    const uRow = uOld[0][1];
+    const status = `Removed (${replace}, ${day})`;
+    await put(`'${uploadsTab}'!J${uRow}:K${uRow}`, [status, ""]);
+    const uBack = (await get(`'${uploadsTab}'!J${uRow}:K${uRow}`))[0] ?? [];
+    if (uBack[0] !== status || (uBack[1] ?? "") !== "") fail(`replace: "${uploadsTab}" row ${uRow} read back wrong: ${JSON.stringify(uBack)}`, 2);
+    console.log(`sheet: "${uploadsTab}" row ${uRow} marked ${status}, Planned date cleared`);
+  }
   const q = await writeRow(queueTab, [`'${testName}`, up.title, description, url, `'${publishAt}`, added], (row) => row[0] === testName);
   const u = await writeRow(
     uploadsTab,
     [c.sheetName, `'${episode}`, topic, `${c.project}/renders/${c.file(episode)}`, up.title, up.hook, up.music, up.tags, description, "Ready", `'${publishAt.slice(0, 10)}`, "", "", "", "", "", up.pinned],
-    (row) => row[0] === c.sheetName && row[1] === episode,
+    (row) => row[0] === c.sheetName && row[1] === episode && !/^Removed/i.test(row[9] ?? ""),
   );
   console.log(JSON.stringify({ queueTab, queueRow: q.row, uploadsTab, uploadsRow: u.row }));
 } else if (import.meta.url === `file://${process.argv[1]}` || cmd) {
