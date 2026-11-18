@@ -202,7 +202,9 @@ else if (cmd === "recent") {
   for (const key of wanted) {
     const vids = (await videosOf(key, 1)).slice(0, Number(opt("count") ?? 8));
     say(`${key}: ${vids.length} newest uploads`);
-    for (const v of vids) say(`  ${v.id}  ${v.privacy.padEnd(8)} ${v.publishedAt ? wib(new Date(v.publishedAt)).slice(0, 16).replace("T", " ") + " WIB" : "-"}  ${v.title}`);
+    const len = {};
+    if (vids.length) for (const v of (await yt(key, 1, "videos", { part: "contentDetails", id: vids.map((x) => x.id).join(",") })).items ?? []) len[v.id] = v.contentDetails.duration;
+    for (const v of vids) say(`  ${v.id}  ${v.privacy.padEnd(8)} ${v.publishedAt ? wib(new Date(v.publishedAt)).slice(0, 16).replace("T", " ") + " WIB" : "-"}  ${(len[v.id] ?? "").padEnd(8)} ${v.title}`);
   }
 }
 
