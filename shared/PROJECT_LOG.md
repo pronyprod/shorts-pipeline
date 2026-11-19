@@ -1,5 +1,5 @@
 # PROJECT LOG: AI Shorts Channel Business
-Last updated: 2026-11-18 (Wednesday), Fakta Ep015
+Last updated: 2026-11-19 (Thursday), Fakta Ep016
 Owner: the channel owner (UTC+7)
 
 > **For any future Claude session:** this is the master record. Read all of it before
@@ -378,6 +378,9 @@ python trend_finder_v2.py --combine            # merge all runs -> results\combi
 - **Fakta Ep015 (2026-11-18):** supermoon 24 Nov 2026 (Timely: detikINET 2 Nov 2026; not from the bank), science, 40.4 s, -14.02 LUFS, true peak -1.91 dBTP, 4 Gemini requests (1 HTTP 400 with no audio), ready for 2026-11-20 18:00 WIB. Checks run by Claude on the final MP4: whisper 10/10 lines, joins OK, no silence over 1 s, 0 decode errors, visual check of 10 beats clean.
   File: fakta-video/renders/Fakta_Ep015.mp4, uploads/Ep015.txt. Music: Sneaky Business.
   Uncertain: voice alone was 39.5 s, so the picture holds 1.2 s after the last word to reach 40 s; the spoken peak-time line was cut (wrong number in the take, request cap) and the time 21.55 WIB is on screen only; NASA perigee/apogee are typical values, not the distance of that night; nobody has listened to it.
+- **Fakta Ep016 (2026-11-19):** Kenapa kopi disebut "java"? (bank V8), food, 42.5 s, -14.03 LUFS, true peak -1.55 dBTP, 2 Gemini requests (1 SAFETY block on the first text, reworded), ready for 2026-11-21 18:00 WIB. Checks run by Claude on the final MP4: whisper 10/10 lines, joins OK, no silence over 1 s, 0 decode errors, visual check of 10 beats clean.
+  File: fakta-video/renders/Fakta_Ep016.mp4, uploads/Ep016.txt. Music: The Curious Kitten.
+  Uncertain: first-Europe-shipment year and the 1696 seedling origin differ by source (not stated); rank said only as "lima besar" (USDA: 4th in 2025); "java" may be heard as "jawa" in the voice; route Batavia-Amsterdam is a straight great-circle line; nobody has listened to it.
 
 ## 10b. Roadmap to launch (agreed plan, 2026-10-29 16:20)
 **Stage 1: lock templates (Thu–Fri).** At most 2 more fix rounds per format. A format is "ready to test" when it has: motion/hook in the first second; phone readability (checked on the owner's phone); the core idea visible, not just spoken; about -14 LUFS with clear voices; facts checked and no copyrighted material; **and a new episode needs only new content, not new code**. After locking, no template changes until the test data comes in.
@@ -658,3 +661,4 @@ CHECK NEEDED: What If cloud run ended without a result file (2026-11-18, https:/
 - **Fakta Unik Ep015 cloud delivery (2026-11-18):** queued for 2026-11-20T18:00:00+07:00; Queue Fakta row 17, Uploads row 48; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep015/Fakta_Ep015.mp4
 - **Countryballs Ep015 cloud delivery (2026-11-19):** queued for 2026-11-20T07:30:00+07:00; Queue Countryballs row 17, Uploads row 49; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep015/Ep015.mp4
 CHECK NEEDED: Ep017 visual: Everest tag hidden behind depth counter (beat 7), fixed in k017.tsx, needs a new render
+- **Fakta Unik Ep016 cloud delivery (2026-11-19):** queued for 2026-11-21T18:00:00+07:00; Queue Fakta row 18, Uploads row 50; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep016/Fakta_Ep016.mp4

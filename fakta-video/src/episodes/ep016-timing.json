@@ -1,0 +1,62 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 2.826,
+    "words": 7
+  },
+  {
+    "id": "plant",
+    "start": 3.126,
+    "end": 8.451,
+    "words": 13
+  },
+  {
+    "id": "flood",
+    "start": 8.751,
+    "end": 11.766,
+    "words": 7
+  },
+  {
+    "id": "second",
+    "start": 12.066,
+    "end": 17.786,
+    "words": 14
+  },
+  {
+    "id": "tebak",
+    "start": 18.086,
+    "end": 21.928,
+    "words": 13
+  },
+  {
+    "id": "reveal",
+    "start": 22.228,
+    "end": 24.455,
+    "words": 6
+  },
+  {
+    "id": "europe",
+    "start": 24.755,
+    "end": 31.309,
+    "words": 15
+  },
+  {
+    "id": "code",
+    "start": 31.609,
+    "end": 35.428,
+    "words": 8
+  },
+  {
+    "id": "rank",
+    "start": 35.728,
+    "end": 39.548,
+    "words": 8
+  },
+  {
+    "id": "question",
+    "start": 39.848,
+    "end": 42.137,
+    "words": 6
+  }
+]
