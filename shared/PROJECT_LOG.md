@@ -495,6 +495,9 @@ FIXED 15 Nov 00:50 (by/buy + lied/lie added to HOMOPHONES; resumes next run) - w
 
 CHECK NEEDED: Ep014 voice lines punch1 ("I centred myself." heard as "scented", 67%) and punch3 ("I added eight stars." heard as "8 stars", 75%) still fail check-voices after 2 retries each; state file kept, ep014 files and registrations are in place. Suggest rewording punch1 (e.g. "I moved to the middle.") and re-running voices.
 - **CHECK NEEDED: Ep015** (countryballs, cloud run 2026-11-18) voice check cannot run: whisper.cpp `main.exe` on the runner crashes with "Illegal instruction" (exit 132, CPU mismatch), so `check-voices.mjs` hears nothing on every clip. Ep015 (size duel, timely: Mexico Revolution Day) is written, voices generated with Kokoro, tsc not yet re-run; state kept at step 2. Needs a whisper binary built for this runner's CPU.
+- **Countryballs Ep015 (size duel, timely slot, 19 Nov, cloud run):** NZ vs UK, MX vs ID, BO vs EG, HU vs PT; music Sand Castle. Timely: Mexico (Revolution Day, 20 Nov), source in Ep015.md. On-screen "United Kingdom" shortened to "UK" (labels touched).
+  countryballs-video/renders/Ep015.mp4, 19.8 s, -14.4 LUFS, true peak -1.49 dBTP (render came out at -0.51 dBTP; audio gain lowered 0.9 dB + limiter with ffmpeg, video copied), no silence over 1 s, no decode errors; voices 11/11 (whisper works again on the runner).
+  Nothing uncertain; ready for 2026-11-20 07:30 WIB.
 
 ## 11. Open questions
 - Countryballs: English or Indonesian? (or both later)
@@ -653,3 +656,4 @@ CHECK NEEDED: What If cloud run ended without a result file (2026-11-18, https:/
   Uncertain: Sullivan's first strike year is per Guinness only (see caveat in FACTS); ready for 2026-11-20T07:30:00+07:00.
 - **What If Ep016 cloud delivery (2026-11-18):** queued for 2026-11-20T07:30:00+07:00; Queue What If row 19, Uploads row 47; video https://github.com/pronyprod/shorts-pipeline/releases/download/whatif-Ep016/WhatIf_Ep016.mp4
 - **Fakta Unik Ep015 cloud delivery (2026-11-18):** queued for 2026-11-20T18:00:00+07:00; Queue Fakta row 17, Uploads row 48; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep015/Fakta_Ep015.mp4
+- **Countryballs Ep015 cloud delivery (2026-11-19):** queued for 2026-11-20T07:30:00+07:00; Queue Countryballs row 17, Uploads row 49; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep015/Ep015.mp4

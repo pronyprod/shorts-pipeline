@@ -10,7 +10,7 @@ export const ep015: FormatEpisodeData = {
     {
       format: "size",
       a: { flag: "nz", name: "New Zealand", km2: 268838 },
-      b: { flag: "gb", name: "United Kingdom", km2: 244376 },
+      b: { flag: "gb", name: "UK", km2: 244376 },
       intro: "New Zealand or United Kingdom?",
       punchline: "I beat you quietly.",
       color: "#cc142b",

@@ -115,10 +115,10 @@ Ball area is proportional to country area. The winner says the line.
 | Ep011 | Algeria 2,381,741 vs Greenland 2,166,086 | Algeria | "Maps lied to you." | confused | proud | **(DONE: Ep011)**
 | Ep011 | Japan 377,915 vs Germany 357,581 | Japan | "Long countries count too." | disappointed | innocent | **(DONE: Ep011)**
 | Ep011 | Brazil 8,510,346 vs Australia 7,741,220 | Brazil | "Sorry, mate. I'm bigger." | crying | laughing | **(DONE: Ep011)**
-| Ep015 | New Zealand 268,838 vs United Kingdom 244,376 | New Zealand | "I beat you quietly." | shocked | innocent |
-| Ep015 | Mexico 1,964,375 vs Indonesia 1,904,569 | Mexico | "I win. Just." | disappointed | smug |
-| Ep015 | Bolivia 1,098,581 vs Egypt 1,001,450 | Bolivia | "Landlocked and still bigger." | confused | proud |
-| Ep015 | Hungary 93,025 vs Portugal 92,090 | Hungary | "Nobody saw that coming." | crying | laughing |
+| Ep015 | New Zealand 268,838 vs United Kingdom 244,376 | New Zealand | "I beat you quietly." | shocked | innocent **(DONE: Ep015)** |
+| Ep015 | Mexico 1,964,375 vs Indonesia 1,904,569 | Mexico | "I win. Just." | disappointed | smug **(DONE: Ep015)** |
+| Ep015 | Bolivia 1,098,581 vs Egypt 1,001,450 | Bolivia | "Landlocked and still bigger." | confused | proud **(DONE: Ep015)** |
+| Ep015 | Hungary 93,025 vs Portugal 92,090 | Hungary | "Nobody saw that coming." | crying | laughing **(DONE: Ep015)** |
 | Ep019 | Argentina 2,780,400 vs Kazakhstan 2,724,910 | Argentina | "Close, but it's mine." | disappointed | proud |
 | Ep019 | Cuba 109,884 vs Iceland 103,000 | Cuba | "Warmer and bigger." | shocked | smug |
 | Ep019 | Turkey 783,562 vs Chile 756,102 | Turkey | "You're just very long." | confused | innocent |
