@@ -34,6 +34,8 @@ import { ep015 } from "./ep015";
 import ep015Voices from "./ep015.voices.json";
 import { ep016 } from "./ep016";
 import ep016Voices from "./ep016.voices.json";
+import { ep017 } from "./ep017";
+import ep017Voices from "./ep017.voices.json";
 
 export const EPISODES = {
   ep001: { episode: ep001, voices: ep001Voices },
@@ -54,4 +56,5 @@ export const EPISODES = {
   ep014: { episode: ep014, voices: ep014Voices },
   ep015: { episode: ep015, voices: ep015Voices },
   ep016: { episode: ep016, voices: ep016Voices },
+  ep017: { episode: ep017, voices: ep017Voices },
 };

@@ -93,6 +93,11 @@
       "gemini-3.8-flash-tts": {
         "used": 2
       }
+    },
+    "2026-11-19": {
+      "gemini-3.8-flash-tts": {
+        "used": 4
+      }
     }
   },
   "note": "Requests per model per Pacific-time day. Written by scripts/tts/quota.mjs."

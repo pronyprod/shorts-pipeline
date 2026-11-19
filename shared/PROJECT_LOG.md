@@ -657,3 +657,4 @@ CHECK NEEDED: What If cloud run ended without a result file (2026-11-18, https:/
 - **What If Ep016 cloud delivery (2026-11-18):** queued for 2026-11-20T07:30:00+07:00; Queue What If row 19, Uploads row 47; video https://github.com/pronyprod/shorts-pipeline/releases/download/whatif-Ep016/WhatIf_Ep016.mp4
 - **Fakta Unik Ep015 cloud delivery (2026-11-18):** queued for 2026-11-20T18:00:00+07:00; Queue Fakta row 17, Uploads row 48; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep015/Fakta_Ep015.mp4
 - **Countryballs Ep015 cloud delivery (2026-11-19):** queued for 2026-11-20T07:30:00+07:00; Queue Countryballs row 17, Uploads row 49; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep015/Ep015.mp4
+CHECK NEEDED: Ep017 visual: Everest tag hidden behind depth counter (beat 7), fixed in k017.tsx, needs a new render

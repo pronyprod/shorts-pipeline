@@ -1,0 +1,18 @@
+{
+  "episode": "ep017",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep017.ts lines: only CAPITALS added; words identical to say. Owner rule 12 Nov: clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is slowly sinking into the deep ocean. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a hushed shock", "tagged": "You just slipped off a boat above the MARIANA Trench. You're SINKING." },
+    { "n": 2, "style": "calm and steady", "tagged": "Forty metres. That's the DEEPEST recreational divers go." },
+    { "n": 3, "style": "steady, a little awed", "tagged": "Three thousand eight hundred metres. You're level with the TITANIC." },
+    { "n": 4, "style": "hushed and tense, each sentence landing", "tagged": "Pitch BLACK, and the water SQUEEZES you harder every second." },
+    { "n": 5, "style": "the key line: big, clear punch, then a heavy pause", "tagged": "Ten thousand nine hundred thirty five metres. The BOTTOM." },
+    { "n": 6, "style": "clear and amazed", "tagged": "That's ABOUT eleven hundred times the air pressure you breathe." },
+    { "n": 7, "style": "steady and impressed", "tagged": "Mount EVEREST would fit down here, with over two kilometres to spare." },
+    { "n": 8, "style": "leaning in, amazed, sharing a true story", "tagged": "But in twenty twenty two, a SNAILFISH was filmed alive at eight thousand three hundred thirty six metres." },
+    { "n": 9, "style": "warm and amused, a little grin", "tagged": "A chemical in fish cells should FAIL near eight thousand two hundred metres. This one SWAM past it." },
+    { "n": 10, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}
