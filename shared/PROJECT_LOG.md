@@ -502,6 +502,8 @@ CHECK NEEDED: Ep014 voice lines punch1 ("I centred myself." heard as "scented", 
   countryballs-video/renders/Ep015.mp4, 19.8 s, -14.4 LUFS, true peak -1.49 dBTP (render came out at -0.51 dBTP; audio gain lowered 0.9 dB + limiter with ffmpeg, video copied), no silence over 1 s, no decode errors; voices 11/11 (whisper works again on the runner).
   Nothing uncertain; ready for 2026-11-20 07:30 WIB.
 
+CHECK NEEDED: Ep016 voice line punch1 ("An apple from the ground." heard as "and Apple from the ground." after 2 retries)
+
 ## 11. Open questions
 - Countryballs: English or Indonesian? (or both later)
 - Formats #2 and #3: pending the ID scan.

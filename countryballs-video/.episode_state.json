@@ -1,0 +1,15 @@
+{
+  "episode": "Ep016",
+  "step": 3,
+  "voiceAttempts": {
+    "punch1": 2,
+    "intro3": 1
+  },
+  "note": "punch1 failed whisper after 2 retries; consider rewording punchline 1 (e.g. drop the leading An), then regenerate",
+  "cloudStop": {
+    "fixMark": "fe0efbd4f940f577238b7f1bee29a60cbca8e5d2",
+    "retried": false,
+    "date": "2026-11-21",
+    "reason": "voice line punch1 failed whisper check after 2 retries"
+  }
+}
