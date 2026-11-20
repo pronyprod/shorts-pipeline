@@ -74,6 +74,11 @@
       "gemini-3.1-flash-tts-preview": {
         "used": 2
       }
+    },
+    "2026-11-20": {
+      "gemini-3.1-flash-tts-preview": {
+        "used": 3
+      }
     }
   },
   "note": "Fakta's Gemini TTS requests per model per Pacific-time day (the other channels keep their own files)."

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 3.781,
+    "words": 8
+  },
+  {
+    "id": "find",
+    "start": 4.081,
+    "end": 10.16,
+    "words": 13
+  },
+  {
+    "id": "twist",
+    "start": 10.46,
+    "end": 17.321,
+    "words": 12
+  },
+  {
+    "id": "vine",
+    "start": 17.621,
+    "end": 19.583,
+    "words": 6
+  },
+  {
+    "id": "tebak",
+    "start": 19.883,
+    "end": 22.643,
+    "words": 6
+  },
+  {
+    "id": "reveal",
+    "start": 22.943,
+    "end": 25.166,
+    "words": 3
+  },
+  {
+    "id": "smell",
+    "start": 25.466,
+    "end": 27.398,
+    "words": 5
+  },
+  {
+    "id": "short",
+    "start": 27.698,
+    "end": 33.068,
+    "words": 8
+  },
+  {
+    "id": "status",
+    "start": 33.368,
+    "end": 37.704,
+    "words": 11
+  },
+  {
+    "id": "question",
+    "start": 38.004,
+    "end": 40.399,
+    "words": 7
+  }
+]

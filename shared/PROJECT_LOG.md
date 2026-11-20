@@ -1,5 +1,5 @@
 # PROJECT LOG: AI Shorts Channel Business
-Last updated: 2026-11-19 (Thursday), Fakta Ep016
+Last updated: 2026-11-21 (Saturday), Fakta Ep017
 Owner: the channel owner (UTC+7)
 
 > **For any future Claude session:** this is the master record. Read all of it before
@@ -381,6 +381,9 @@ python trend_finder_v2.py --combine            # merge all runs -> results\combi
 - **Fakta Ep016 (2026-11-19):** Kenapa kopi disebut "java"? (bank V8), food, 42.5 s, -14.03 LUFS, true peak -1.55 dBTP, 2 Gemini requests (1 SAFETY block on the first text, reworded), ready for 2026-11-21 18:00 WIB. Checks run by Claude on the final MP4: whisper 10/10 lines, joins OK, no silence over 1 s, 0 decode errors, visual check of 10 beats clean.
   File: fakta-video/renders/Fakta_Ep016.mp4, uploads/Ep016.txt. Music: The Curious Kitten.
   Uncertain: first-Europe-shipment year and the 1696 seedling origin differ by source (not stated); rank said only as "lima besar" (USDA: 4th in 2025); "java" may be heard as "jawa" in the voice; route Batavia-Amsterdam is a straight great-circle line; nobody has listened to it.
+- **Fakta Ep017 (2026-11-21):** Rafflesia, bunga terbesar di dunia (bank V9), records, 40.7 s, -13.9 LUFS, true peak -1.8 dBTP, 3 Gemini requests, ready for 2026-11-22 18:00 WIB. Checks run by Claude on the final MP4: whisper 10/10 lines, joins OK, no silence over 1 s, 0 decode errors, visual check of 10 beats clean.
+  File: fakta-video/renders/Fakta_Ep017.mp4, uploads/Ep017.txt. Music: Brain Trust.
+  Uncertain: stray words at clip edges were trimmed locally (spoken "selebar apa?" and "puspa langka" end without "bunganya"/"Indonesia", both on screen); 1993 puspa langka decree has one source (Wikipedia); weight and exact record size dropped (sources differ); voice 40.7 s only just over the 40 s minimum (tempo x1.0); nobody has listened to it.
 
 ## 10b. Roadmap to launch (agreed plan, 2026-10-29 16:20)
 **Stage 1: lock templates (Thu–Fri).** At most 2 more fix rounds per format. A format is "ready to test" when it has: motion/hook in the first second; phone readability (checked on the owner's phone); the core idea visible, not just spoken; about -14 LUFS with clear voices; facts checked and no copyrighted material; **and a new episode needs only new content, not new code**. After locking, no template changes until the test data comes in.
@@ -667,3 +670,4 @@ CHECK NEEDED: Ep017 visual: Everest tag hidden behind depth counter (beat 7), fi
 - **What If Ep017 (2026-11-21):** "What if you sank to the Mariana Trench floor?" (Round 3 #27, Deadly place, style B: a falling-depth ladder in a dark underwater place).
   File: whatif-video/renders/WhatIf_Ep017.mp4 (workflow render, swangle); all mandatory checks run by Claude on the final MP4: whisper 10/10 lines, joins OK (10 lines, tempo 1), 51.6 s, -14.3 LUFS, true peak -1.37 dBTP, no silence over 1 s, 0 decode errors, facts self-test OK (7 sources), visual check of 10 beats clean (Everest tag now visible, fixed in k017.tsx); 2 Gemini requests; ready for 2026-11-21T07:30:00+07:00.
 - **What If Ep017 cloud delivery (2026-11-21):** queued for 2026-11-21T07:30:00+07:00; Queue What If row 20, Uploads row 51; video https://github.com/pronyprod/shorts-pipeline/releases/download/whatif-Ep017/WhatIf_Ep017.mp4
+- **Fakta Unik Ep017 cloud delivery (2026-11-21):** queued for 2026-11-22T18:00:00+07:00; Queue Fakta row 19, Uploads row 52; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep017/Fakta_Ep017.mp4
