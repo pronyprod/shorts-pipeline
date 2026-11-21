@@ -72,7 +72,7 @@ export const addedTimes = (queues) => Object.fromEntries(Object.entries(queues).
 // 21:20 WIB) + 1 h, or within the hour if that time has passed. Channels with tomorrow covered are not counted:
 // their own nightly delivery passes this same check. `own` = the channel whose nightly episode this row IS.
 const CRON_WIB = { countryballs: 19 + 20 / 60, whatif: 20 + 20 / 60, fakta: 21 + 20 / 60 };
-export const windowCheck = ({ queues, now = Date.now(), own = null, cap = maxUploads() }) => {
+export const windowCheck = ({ queues, now = Date.now(), own = null, cap = maxUploads(), count = 1 }) => {
   const times = addedTimes(queues);
   const events = Object.values(times).flat().filter((t) => t > now - 48 * H && t <= now);
   const D = wibDate(new Date(now));
@@ -84,7 +84,7 @@ export const windowCheck = ({ queues, now = Date.now(), own = null, cap = maxUpl
     if (t <= now) t = now + 1 * H;
     if (t < now + 24 * H) predicted.push(t);
   }
-  const all = [...events, now, ...predicted].sort((a, b) => a - b);
+  const all = [...events, ...Array.from({ length: count }, (_, i) => now + i), ...predicted].sort((a, b) => a - b);
   let worst = 0;
   let worstStart = now;
   for (const s of all.filter((t) => t > now - 24 * H && t <= now)) {
@@ -185,44 +185,72 @@ if (cmd === "plan") {
   const queues = await loadQueues();
   const now = new Date();
   const D = wibDate(now);
+  const lines2 = [];
   let held = readHeld().filter((h) => !!h.test === test);
   if (only) held = held.filter((h) => h.channel === only);
   if (!held.length) {
     summary("Held stock: none to queue.");
     process.exit(0);
   }
+  // per channel, only its OLDEST held episode may go next (strict order); a series Part 1 goes together with its
+  // Part 2, and not before that Part 2 is held too
+  const firsts = Object.keys(CHANNELS).map((k) => held.filter((x) => x.channel === k)[0]).filter(Boolean);
   // priority: a channel with nothing for tomorrow, then Country Flux, then the channel with the fewest days
   const rank = (h) => [aheadOf(queues, h.channel, D) < 1 ? 0 : 1, h.channel === "countryballs" ? 0 : 1, aheadOf(queues, h.channel, D), h.made ?? ""];
-  held.sort((a, b) => {
+  firsts.sort((a, b) => {
     const x = rank(a);
     const y = rank(b);
     for (let i = 0; i < x.length; i++) if (x[i] !== y[i]) return x[i] < y[i] ? -1 : 1;
     return 0;
   });
-  const h = held[0];
-  const needed = aheadOf(queues, h.channel, D) < 1;
-  if (ifNeeded && !needed) {
-    summary(`Held stock: ${CHANNELS[h.channel].sheetName} ${h.episode} stays held (tomorrow is covered).`);
-    process.exit(0);
+  let h;
+  let batch;
+  let needed;
+  let w;
+  for (const cand of firsts) {
+    const n = aheadOf(queues, cand.channel, D) < 1;
+    let group = [cand];
+    if (cand.series?.part === 1) {
+      const p2 = held.filter((x) => x.channel === cand.channel)[1];
+      if (p2?.series?.part === 2) group = [cand, p2];
+      else if (!n) {
+        lines2.push(`${CHANNELS[cand.channel].sheetName} ${cand.episode} is a series Part 1: waits for its Part 2`);
+        continue;
+      }
+    }
+    if (ifNeeded && !n) {
+      lines2.push(`${CHANNELS[cand.channel].sheetName} ${cand.episode} stays held (tomorrow is covered)`);
+      continue;
+    }
+    const check = windowCheck({ queues, now: now.getTime(), count: group.length });
+    if (!n && !check.ok && !test) {
+      lines2.push(`${CHANNELS[cand.channel].sheetName} ${cand.episode} waits: ${check.detail}`);
+      continue;
+    }
+    [h, batch, needed, w] = [cand, group, n, check];
+    break;
   }
-  const w = windowCheck({ queues, now: now.getTime() });
-  if (!needed && !w.ok && !test) {
-    summary(`Held stock: ${CHANNELS[h.channel].sheetName} ${h.episode} waits: ${w.detail}.`);
+  if (!h) {
+    summary(`Held stock: nothing queued now.\n${lines2.map((l) => `- ${l}`).join("\n")}`);
     process.exit(0);
   }
   const c = CHANNELS[h.channel];
-  const publishAt = publishAtFor(liveDates(queues[h.channel]), now, c.time);
-  const r = spawnSync("node", ["ci/sheet.mjs", "deliver", "--channel", h.channel, "--episode", h.episode, "--url", h.url, "--publish-at", publishAt, "--topic", h.topic ?? "", ...(test ? ["--test"] : [])], { cwd: repo, encoding: "utf8" });
-  process.stdout.write(r.stdout ?? "");
-  if (r.status !== 0) {
-    logLine(`CHECK NEEDED: ${c.sheetName} ${h.episode} held stock could not be queued: ${(r.stderr ?? "").trim().slice(0, 300)} (${D})`);
-    summary(`**CHECK NEEDED** queueing held ${c.sheetName} ${h.episode}: ${(r.stderr ?? "").trim().slice(0, 300)}`);
-    process.exit(1);
+  let dates = liveDates(queues[h.channel]);
+  for (const item of batch) {
+    const publishAt = publishAtFor(dates, now, c.time);
+    const r = spawnSync("node", ["ci/sheet.mjs", "deliver", "--channel", item.channel, "--episode", item.episode, "--url", item.url, "--publish-at", publishAt, "--topic", item.topic ?? "", ...(test ? ["--test"] : [])], { cwd: repo, encoding: "utf8" });
+    process.stdout.write(r.stdout ?? "");
+    if (r.status !== 0) {
+      logLine(`CHECK NEEDED: ${c.sheetName} ${item.episode} held stock could not be queued: ${(r.stderr ?? "").trim().slice(0, 300)} (${D})`);
+      summary(`**CHECK NEEDED** queueing held ${c.sheetName} ${item.episode}: ${(r.stderr ?? "").trim().slice(0, 300)}`);
+      process.exit(1);
+    }
+    const rows = JSON.parse(r.stdout.trim().split("\n").pop());
+    dates = [...dates, publishAt.slice(0, 10)];
+    writeHeld(readHeld().filter((x) => !(x.channel === item.channel && x.episode === item.episode && !!x.test === test)));
+    logLine(`- **${c.sheetName} ${item.episode} queued from held stock${item.series ? ` (series Part ${item.series.part})` : ""}${test ? " (TEST, not for upload)" : ""} (${D}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; ${needed ? "nothing was queued for tomorrow" : w.detail}; video ${item.url}`);
+    summary(`**${c.sheetName} ${item.episode}** queued from held stock for ${publishAt} (${rows.queueTab} row ${rows.queueRow}).`);
   }
-  const rows = JSON.parse(r.stdout.trim().split("\n").pop());
-  writeHeld(readHeld().filter((x) => !(x.channel === h.channel && x.episode === h.episode && !!x.test === test)));
-  logLine(`- **${c.sheetName} ${h.episode} queued from held stock${test ? " (TEST, not for upload)" : ""} (${D}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; ${needed ? "nothing was queued for tomorrow" : w.detail}; video ${h.url}`);
-  summary(`**${c.sheetName} ${h.episode}** queued from held stock for ${publishAt} (${rows.queueTab} row ${rows.queueRow}).`);
 } else if (cmd === "window") {
   const queues = await loadQueues();
   console.log(windowCheck({ queues, own: arg("own") ?? null }));

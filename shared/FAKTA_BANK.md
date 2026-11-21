@@ -83,3 +83,9 @@ The owner records the voice for each script (VOICEOVER_SCRIPT format); Gemini TT
 | V8 | Food | "Kenapa kopi disebut 'Java'?" **(DONE: Ep016)** | Coffee route Yemen → India → Java → Amsterdam → world | Dutch brought seedlings ~1696/1699; "a cup of java"; Indonesia's rank today | Guess Indonesia's world rank · "Kopi daerahmu apa?" | First seedlings date; origin of the slang; production rank (FAO/ICO, check year) |
 | V9 | Records | "Bunga terbesar di dunia tumbuh di Indonesia?" **(DONE: Ep017)** | Sumatra/Bengkulu map; size infographic vs a person | Rafflesia ~1 m, ~10 kg; no leaves or roots of its own; smells of rotting meat | Guess the weight · "Pernah lihat langsung?" | *Rafflesia arnoldii* size record; national "puspa langka"; don't confuse with titan arum |
 | V10 | Kenapa | "Kenapa bendera kita hampir sama dengan Monako?" | Flags overlaid at true ratios; Monaco vs Indonesia at true scale on the map | Monaco's dates from 1881; ours from Majapahit colours; 2:3 vs 4:5; flipped = Poland | Guess which is older · "Kamu pilih yang mana?" | Flag adoption dates and ratios; any Monaco protest story needs a real source or gets cut |
+
+## Series (2-part stories) — owner, 22 Nov 2026
+About 1 in 5 episodes: Part 1 on episode numbers ending in 7, Part 2 on the next one (rules in `ci/CLOUD_RULES.md`,
+"Series (2-part)"). Pick a topic that honestly has two halves (a story with a turn, a question with a surprising second
+answer, a contest with a final). Part 1 ends on a real cliffhanger and "Part 2 tomorrow."; Part 2 opens with a one-line
+recap. Titles end in "(Part 1)" / "(Part 2)". Mark used series here: `Series: EpNN7+EpNN8 <story>`.

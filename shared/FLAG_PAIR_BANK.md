@@ -146,3 +146,9 @@ Left out on purpose: Italian guanto and patata, and Spanish mariquita, because o
 - "Flag Family" variants: grandparents, twins (TD/RO), "my evil twin", "my cousin".
 - Spin-off formats from the same characters: countries' size or population duels, "if countries were...",
   guess-the-flag with countryballs (combine with the trend data before committing).
+
+## Series (2-part stories) — owner, 22 Nov 2026
+About 1 in 5 episodes: Part 1 on episode numbers ending in 7, Part 2 on the next one (rules in `ci/CLOUD_RULES.md`,
+"Series (2-part)"). Pick a topic that honestly has two halves (a story with a turn, a question with a surprising second
+answer, a contest with a final). Part 1 ends on a real cliffhanger and "Part 2 tomorrow."; Part 2 opens with a one-line
+recap. Titles end in "(Part 1)" / "(Part 2)". Mark used series here: `Series: EpNN7+EpNN8 <story>`.

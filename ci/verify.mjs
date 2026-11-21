@@ -113,6 +113,11 @@ if (channel === "whatif") {
   if (existsSync(path.join(proj, "public", "voices", ep))) script("line joins (voice-clean check)", ["scripts/voice-clean.mjs", "check", `public/voices/${ep}`]);
   else bad(`line joins: public/voices/${ep} is missing, cannot re-check`);
   script("facts self-test", ["--no-warnings", `src/whatif/episodes/${ep}.ts`], /OK/);
+  // owner, 22 Nov 2026: never the phrase "You see" in a PomProds episode
+  const epFile = path.join(proj, "src", "whatif", "episodes", `${ep}.ts`);
+  const spoken = existsSync(epFile) ? [...readFileSync(epFile, "utf8").matchAll(/(?:say|text): *[`"]([^`"]*)[`"]/g)].map((m) => m[1]).join(" ") : "";
+  if (/\byou see\b/i.test(spoken)) bad('script uses the banned phrase "You see"');
+  else ok('no "You see" in the script');
 }
 if (channel === "countryballs") script("voice check (whisper)", ["--no-warnings", "scripts/check-voices.mjs", ep], /All \d+ lines match/);
 

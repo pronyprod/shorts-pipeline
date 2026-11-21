@@ -154,6 +154,20 @@ hands off again).
 means the render already exists in `renders/` (What If: do NOT hand off again while the MP4 is there): run all the
 checks, fix only what fails, then write the full result.
 
+**Series (2-part), all channels (owner, 22 Nov 2026).** About 1 in 5 episodes is part of a 2-part story: Part 1 on
+episode numbers ending in 7, Part 2 on the next number (ending in 8). Rules:
+- Part 1 tells a complete, satisfying first half and ends on a REAL cliffhanger (an open question the facts answer in
+  Part 2, never a fake one), then says "Part 2 tomorrow." instead of the channel's usual last line. Part 2 opens with
+  a one-line recap ("Yesterday: ...") and then pays it off; it ends with the channel's usual last line.
+- Titles: `<title> (Part 1)` and `<title> (Part 2)`, within the channel's title length. The pinned comment of Part 1
+  asks for a guess about Part 2.
+- Plan both parts when you make Part 1: write the Part 2 outline (facts, sources, the payoff) into the episode's fact
+  file and into the state file as `"series": { "part": 1, "next": "<outline>" }` notes, so the next run continues it.
+- `result.json` gets `"series": { "part": 1 | 2, "of": 2, "story": "<short name>" }`.
+- The workflow keeps the two parts on consecutive days: episodes of a channel are queued strictly in order, and a
+  Part 1 is held until its Part 2 is released (unless the channel would otherwise have nothing for tomorrow).
+- If the bank has no story that honestly needs two parts, make a normal episode and write "no series story" in the log.
+
 **Stock episodes (owner, 21 Nov 2026).** A run may have a second round (`Round 2` in the workflow summary) that makes
 one more episode for the 3-day stock. For you it is a normal episode: take `publishAt` from `ci-out/context.json`
 as always. The workflow may release it but hold it back from the queue (upload limit); then it is queued later with

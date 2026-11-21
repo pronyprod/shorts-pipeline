@@ -113,3 +113,37 @@ a week is handled when an episode is made (whatif-video `.claude/commands/next-e
 
 **Order:** #21, #22, #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35 (no category repeats next to each other).
 **Used in Round 3:** #21 (Ep008, Deadly place), #22 (Ep009, Absurd scale), ~~Timely (Ep010, riding a falling satellite)~~ PULLED 12 Nov, premise back as #35 (unused), #23 (Ep011, Food/drink, style P), #24 (Ep012, Real survivor, style D), #25 (Ep013, Absurd scale, style B), #26 (Ep014, Body limit, style P), Timely (Ep015, Mars volcano Alba Mons, style B, Science Advances Nov 2026), #28 (Ep016, Real survivor, style D; #27 skipped because Ep015 was also Deadly place), #27 (Ep017, Deadly place, style B: Mariana Trench, a falling-depth ladder in a dark underwater place; D is over the 7-day target after Ep012 and Ep016)
+
+## Series (2-part stories) — owner, 22 Nov 2026
+About 1 in 5 episodes: Part 1 on episode numbers ending in 7, Part 2 on the next one (rules in `ci/CLOUD_RULES.md`,
+"Series (2-part)"). Pick a topic that honestly has two halves (a story with a turn, a question with a surprising second
+answer, a contest with a final). Part 1 ends on a real cliffhanger and "Part 2 tomorrow."; Part 2 opens with a one-line
+recap. Titles end in "(Part 1)" / "(Part 2)". Mark used series here: `Series: EpNN7+EpNN8 <story>`.
+
+## PomProds Stories (true stories, style D) — owner, 22 Nov 2026
+A regular format, about **2 a week** (rule in `whatif-video/.claude/commands/next-episode.md`, step 2). Real people,
+real events, every fact sourced (FACTS block, as always). Style D (paper cut-out, one continuous camera), **50-60 s**,
+told in exactly six beats:
+1. **Paradox hook**: the impossible-sounding fact in one line ("A 17-year-old fell 3 km out of a plane, and walked out of the jungle.").
+2. **Who and what's at stake**: the person, where, when, what they could lose.
+3. **Setback**: it gets worse.
+4. **The choice**: the clever or desperate thing they did.
+5. **Plain explanation** with an everyday comparison (why it worked: "like ... at home").
+6. **Ironic payoff**: the real twist that makes people comment.
+Rules: third person is fine for the story, but the hook may speak to "you". **Never the phrase "You see".** Monetisation
+guardrails above still apply (no gore, no graphic injuries or deaths shown or described; no war, weapons, politics).
+Ending: the channel's usual question line. Title: a short hook, not "What if" (e.g. "She fell 3 km and walked home").
+**Used Stories:** (none yet)
+
+| # | Story | The six beats in short | Anchors / sources to verify |
+|---|---|---|---|
+| S1 | Juliane Koepcke, 17, fell about 3 km into the Amazon still strapped to her seat (24 Dec 1971) and survived 11 days alone | Fall → alone, a broken collarbone, one sandal, no glasses → insects, no food → follows water downhill, as her biologist father taught her → streams lead to rivers, rivers to people (like following a drain to the street) → she became a biologist and later ran the research station in that same forest | Wikipedia "Juliane Koepcke"; her memoir "When I Fell From the Sky" (2011); Panguana research station |
+| S2 | Apollo 13: a square filter in a round hole, fixed with duct tape, socks of cardboard and a plastic bag (April 1970) | "They saved 3 astronauts with duct tape" → oxygen tank explodes, they move into the lunar module → CO2 climbs, the module's round filters can't take the command module's square ones → Houston builds the "mailbox" from what's on board → CO2 is like stale air in a closed car; the filter is a sponge for it → the mission NASA calls a "successful failure" | NASA history office (Apollo 13 mission report, 1970); NASA "Apollo 13 CO2 scrubber" |
+| S3 | Shackleton's Endurance: crushed by ice in 1915; all 28 men survived | Ship stuck, then crushed → months on drifting ice → lifeboats to Elephant Island → 1,300 km in a 7 m open boat to South Georgia, then a walk over unmapped mountains → navigation by sun sights, like finding your way by the clock and one street sign → the wreck was found in 2022, 3 km down, still upright, name readable | Wikipedia "Endurance (1912 ship)"; Falklands Maritime Heritage Trust, Endurance22 (March 2022) |
+| S4 | The glue that didn't stick became the Post-it Note (3M, 1968-1980) | A "failed" glue made billions → Spencer Silver's weak adhesive, nobody wanted it → years with no use → Art Fry's bookmarks kept falling out of his choir hymnal → a glue that grips lightly, like a gecko foot or static on a balloon → the "mistake" is now one of the best-selling office products | 3M company history "History of Post-it Notes"; Wikipedia "Post-it Note" |
+| S5 | Alexander Fleming's messy lab and the mould that made penicillin (1928) | Untidiness saved millions → Fleming leaves dishes out over a holiday → mould ruins one → he looks closer: the bacteria around it are gone → mould makes a chemical that stops bacteria, like weedkiller on a lawn → it took others 12 more years to make it a medicine | Nobel Prize 1945 (nobelprize.org); Wikipedia "History of penicillin" |
+| S6 | The 33 Chilean miners and the note on the drill bit (San José mine, 2010) | 33 men, 700 m down, and the world heard from them on day 17 → collapse, one way out sealed → 17 days, food for 2 days rationed → a hand-written note taped to a drill bit: "We are fine in the shelter, the 33" → the drill is a straw 700 m long, the note the only message → all 33 came up after 69 days, in a capsule called Fénix | Wikipedia "2010 Copiapó mining accident"; BBC (Oct 2010) |
+| S7 | Percy Spencer, a melted chocolate bar and the microwave oven (1945) | A chocolate bar in a pocket invented the microwave → radar engineer near a magnetron → the bar melts, nothing feels hot → he tries popcorn, then an egg → microwaves shake water molecules, like rubbing hands to warm them → the first microwave oven was taller than a person and weighed about 340 kg | Smithsonian Magazine "The microwave"; Wikipedia "Percy Spencer"; Raytheon "Radarange" |
+| S8 | Steven Callahan: 76 days adrift in an inflatable raft (1982) | A sailor drifted 76 days and came home → his small boat sinks in the Atlantic → a raft, little water → he makes drinking water with solar stills and catches fish → a solar still is a lid on a pot catching steam → he later worked as a consultant on the film "Life of Pi" | Callahan, "Adrift" (1986); Wikipedia "Steven Callahan" |
+| S9 | Ann Hodges, the only person known to be hit by a meteorite (Alabama, 1954) | A rock from space hit a woman on her couch → afternoon nap, roof hole, a bruise on her hip → the sudden fame, crowds, a legal fight over the rock → her landlord claimed it; she won → meteorites are mostly slowed by the air, like a ball thrown from a car → the rock is in a museum now; a piece of it sold for thousands | Smithsonian / NASA "Sylacauga meteorite"; Alabama Museum of Natural History; Wikipedia "Hodges meteorite" |
+| S10 | Apollo 12 was hit by lightning twice at launch, and one obscure switch saved it (1969) | "Try SCE to AUX" → lightning twice in the first minute → every warning light on, data turns to garbage → flight controller John Aaron remembers a test months before: one switch nobody knew → like restarting a router instead of throwing out the computer → the crew still landed on the Moon, and "SCE to AUX" became a NASA legend | NASA history "Apollo 12 lightning"; NASA oral history (John Aaron) |

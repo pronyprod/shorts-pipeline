@@ -70,6 +70,13 @@ re-take. Voice direction: clear, unhurried, with punch on the key line (`tts-epi
   news with a source from the last 30 days, nothing political or tragic, Round 3 style and guardrails. If nothing passes,
   take the next normal premise and write "no timely topic found" in the log line and the report.
 - A timely premise has no bank row: choose its style the same way (what fits it best), with the one-line reason.
+- **Series slot (owner, 22 Nov 2026):** if NNN ends in 7, this episode is **Part 1** of a 2-part story; if NNN ends in 8
+  and EpNNN-1 was a Part 1, this episode is its **Part 2** (it must continue that story; nothing else). Follow
+  `ci/CLOUD_RULES.md` "Series (2-part)" and the bank's "Series" rules. A timely slot never falls on these numbers.
+- **PomProds Stories (owner, 22 Nov 2026):** if neither slot above applies and fewer than 2 of the last 7 episodes
+  were Stories (see the bank's "Used" lines), make a **Story** from the bank's "PomProds Stories" section: a real,
+  sourced true story in style D, 50-60 s, in its six beats. A 2-part series may also be a Story. Never use the phrase
+  "You see" in any episode (the self-test and the workflow check it).
 - **Done elsewhere:** follow the bank's "Done elsewhere" rule. If a big channel has done this premise, note it in the bank
   row and use a different angle, twist and wording. Never copy their script, visuals, jokes or title.
 

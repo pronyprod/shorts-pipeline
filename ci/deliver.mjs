@@ -132,10 +132,16 @@ if (!result.redo) {
   const D = wibDate(new Date(env.RUN_START || Date.now()));
   const needed = aheadOf(queues, channel, D) < 1;
   const w = windowCheck({ queues, own: env.KIND === "stock" ? null : channel });
-  const hold = test ? env.KIND === "stock" : !needed && !w.ok;
+  // a channel's episodes are queued strictly in order (an older held one goes first), and a series Part 1 waits
+  // until its Part 2 is released, so the two parts land on consecutive days (owner, 22 Nov 2026)
+  const olderHeld = readHeld().filter((h) => h.channel === channel && !!h.test === test).length;
+  const part1 = result.series?.part === 1;
+  const hold = test ? env.KIND === "stock" || part1 : !needed && (!w.ok || olderHeld > 0 || part1);
+  if (!needed && olderHeld) console.log(`deliver: ${olderHeld} older ${c.sheetName} episode(s) are held: this one waits behind them`);
+  if (part1) console.log("deliver: series Part 1: held until its Part 2 is released");
   console.log(`deliver: ${needed ? "nothing queued for tomorrow" : w.detail} -> ${hold ? "HOLD" : "queue now"}`);
   if (hold) {
-    writeHeld([...readHeld(), { channel, episode, url, topic: result.topic ?? "", made: today, run: env.GITHUB_RUN_ID, ...(test ? { test: true } : {}) }]);
+    writeHeld([...readHeld(), { channel, episode, url, topic: result.topic ?? "", made: today, run: env.GITHUB_RUN_ID, ...(result.series ? { series: result.series } : {}), ...(test ? { test: true } : {}) }]);
     logLine(`- **${c.sheetName} ${episode} held as stock${test ? " (TEST)" : ""} (${today}):** made, checked and released, not queued yet (${w.detail}); the morning job queues it when the upload window allows; video ${url}`);
     rmSync(PENDING, { force: true });
     summary(`**${c.sheetName} ${episode}** released and HELD as stock (not queued): ${w.detail}`);

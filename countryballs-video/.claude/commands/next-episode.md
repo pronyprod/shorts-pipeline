@@ -20,6 +20,9 @@ Bank: `C:\Users\<user>\claude video\FLAG_PAIR_BANK.md`.
 - Use that number's row in "Suggested episodes", or its rows in "Next 12 episodes" (Ep009-Ep020). If it has neither, build 4 rounds from unused pairs (start with the "Spare" row, then auto-added `ready` items).
 - Twins are normal episodes. Reverse quiz, size duel and words use `src/countryballs/formats/` (data types in `formats/types.ts`, example in `episodes/formattest.ts`): the episode's data has `format` on every round, it's registered in `formats/index.ts`, and its `<Composition>` uses `FormatEpisode` with `calculateFormatMetadata`. Size duel intro = `A or B?`. Words intro = `The word is <word>.`; foreign words go on screen only, never in the voice.
 - **Timely slot:** if NNN is divisible by 5, follow the bank's "Timely slot" rule: at least one round about a country or flag in the news or a current date, with a source from the last 30 days, nothing political or tragic. If nothing passes, make a normal episode and write "no timely topic found" in the log line and the report.
+- **Series slot (owner, 22 Nov 2026):** if NNN ends in 7, this episode is **Part 1** of a 2-part story; if NNN ends in 8
+  and EpNNN-1 was a Part 1, this episode is its **Part 2** (it must continue that story; nothing else). Follow
+  `ci/CLOUD_RULES.md` "Series (2-part)" and the bank's "Series" rules. A timely slot never falls on these numbers.
 - Skip any pair that is politically disputed or fails step 2, and swap in an unused spare.
 - Reorder rounds until all of these hold:
   - no parent or child reaction repeats in consecutive rounds

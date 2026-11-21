@@ -38,6 +38,10 @@ For each of the three banks:
 - Add 3-6 NEW ideas per channel in the same direction, in the bank's own table format, marked
   `(added by weekly review YYYY-MM-DD)`. Every idea needs its anchors to verify; facts are checked again when the
   episode is made. Nothing political, tragic, graphic or unsafe; nothing another channel's characters or catchphrases.
+- Never change a table's shape: every row keeps its number of cells; put markers like `(deprioritised ...)` INSIDE an
+  existing cell (the premise/title cell), never as a new cell.
+- Respect the standing slot rules when you write an order: timely slot (episode numbers divisible by 5), series slot
+  (Part 1 on numbers ending in 7, Part 2 on the next), PomProds Stories (about 2 a week).
 - Keep everything the owner wrote. If the evidence is too thin (fewer than 5 episodes with numbers for a channel),
   change nothing in that bank's order, add only 2 ideas, and say so.
 
