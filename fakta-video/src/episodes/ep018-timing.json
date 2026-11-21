@@ -1,0 +1,50 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 3.894,
+    "words": 8
+  },
+  {
+    "id": "same",
+    "start": 4.194,
+    "end": 11.098,
+    "words": 16
+  },
+  {
+    "id": "tebak",
+    "start": 11.398,
+    "end": 14.266,
+    "words": 9
+  },
+  {
+    "id": "reveal",
+    "start": 14.566,
+    "end": 18.758,
+    "words": 11
+  },
+  {
+    "id": "ours",
+    "start": 19.058,
+    "end": 25.732,
+    "words": 17
+  },
+  {
+    "id": "twist",
+    "start": 26.032,
+    "end": 32.904,
+    "words": 13
+  },
+  {
+    "id": "poland",
+    "start": 33.204,
+    "end": 39.05,
+    "words": 13
+  },
+  {
+    "id": "question",
+    "start": 39.35,
+    "end": 41.274,
+    "words": 7
+  }
+]

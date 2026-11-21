@@ -77,6 +77,8 @@
     "voice:ep014": "node scripts/gemini-voice.mts --ep=ep014 --max-requests=4 && node scripts/make-voice.mts --ep=ep014 --own --tts --from=data/tts/ep014/lines && node scripts/make-captions.mts --ep=ep014",
     "voice:ep016": "node scripts/gemini-voice.mts --ep=ep016 --max-requests=4 && node scripts/make-voice.mts --ep=ep016 --own --tts --from=data/tts/ep016/lines && node scripts/make-captions.mts --ep=ep016",
     "render:ep016": "remotion render Fakta-Ep016 renders/_Fakta_Ep016_raw.mp4 --codec=h264 --crf=14 --audio-codec=aac --audio-bitrate=320k && node scripts/finalize.mjs renders/_Fakta_Ep016_raw.mp4 renders/Fakta_Ep016.mp4 --target-mb=26",
+    "voice:ep018": "node scripts/gemini-voice.mts --ep=ep018 --max-requests=4 && node scripts/make-voice.mts --ep=ep018 --own --tts --from=data/tts/ep018/lines && node scripts/make-captions.mts --ep=ep018",
+    "render:ep018": "remotion render Fakta-Ep018 renders/_Fakta_Ep018_raw.mp4 --codec=h264 --crf=14 --audio-codec=aac --audio-bitrate=320k && node scripts/finalize.mjs renders/_Fakta_Ep018_raw.mp4 renders/Fakta_Ep018.mp4 --target-mb=26",
     "voice:ep017": "node scripts/gemini-voice.mts --ep=ep017 --max-requests=4 && node scripts/make-voice.mts --ep=ep017 --own --tts --from=data/tts/ep017/lines && node scripts/make-captions.mts --ep=ep017",
     "render:ep017": "remotion render Fakta-Ep017 renders/_Fakta_Ep017_raw.mp4 --codec=h264 --crf=14 --audio-codec=aac --audio-bitrate=320k && node scripts/finalize.mjs renders/_Fakta_Ep017_raw.mp4 renders/Fakta_Ep017.mp4 --target-mb=26",
     "voice:ep015": "node scripts/gemini-voice.mts --ep=ep015 --max-requests=4 && node scripts/make-voice.mts --ep=ep015 --own --tts --from=data/tts/ep015/lines && node scripts/make-captions.mts --ep=ep015",

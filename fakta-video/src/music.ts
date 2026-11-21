@@ -54,6 +54,7 @@ export const USED: Record<number, string> = {
   15: "sneaky-business", // Ep015 supermoon (40.4 s): least recently used (Ep007)
   16: "the-curious-kitten", // Ep016 kopi java (42.4 s): least recently used (Ep008)
   17: "brain-trust", // Ep017 rafflesia (43.8 s): least recently used (Ep009)
+  18: "cooper-ave", // Ep018 bendera Monako (41.6 s): least recently used (Ep010)
 };
 
 // Rotation: an episode that already has a track keeps it. A new episode takes the eligible track that was

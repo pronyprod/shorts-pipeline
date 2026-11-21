@@ -1,5 +1,5 @@
 # PROJECT LOG: AI Shorts Channel Business
-Last updated: 2026-11-21 (Saturday), Fakta Ep017
+Last updated: 2026-11-22 (Sunday), Fakta Ep018
 Owner: the channel owner (UTC+7)
 
 > **For any future Claude session:** this is the master record. Read all of it before
@@ -384,6 +384,9 @@ python trend_finder_v2.py --combine            # merge all runs -> results\combi
 - **Fakta Ep017 (2026-11-21):** Rafflesia, bunga terbesar di dunia (bank V9), records, 40.7 s, -13.9 LUFS, true peak -1.8 dBTP, 3 Gemini requests, ready for 2026-11-22 18:00 WIB. Checks run by Claude on the final MP4: whisper 10/10 lines, joins OK, no silence over 1 s, 0 decode errors, visual check of 10 beats clean.
   File: fakta-video/renders/Fakta_Ep017.mp4, uploads/Ep017.txt. Music: Brain Trust.
   Uncertain: stray words at clip edges were trimmed locally (spoken "selebar apa?" and "puspa langka" end without "bunganya"/"Indonesia", both on screen); 1993 puspa langka decree has one source (Wikipedia); weight and exact record size dropped (sources differ); voice 40.7 s only just over the 40 s minimum (tempo x1.0); nobody has listened to it.
+- **Fakta Ep018 (2026-11-22):** Bendera Indonesia vs Monako (bank V10), Kenapa, 41.6 s, -14.0 LUFS, true peak -1.9 dBTP, 3 Gemini requests (2 for Ep018 + 1 spent by mistake on an Ep017 re-take, no effect on Ep017), ready for 2026-11-23 18:00 WIB. no series story (newFormats off). Checks run by Claude on the final MP4: whisper 8/8 lines, joins OK, no silence over 1 s, 0 decode errors, visual check of 8 beats clean.
+  File: fakta-video/renders/Fakta_Ep018.mp4, uploads/Ep018.txt. Music: Cooper Ave.
+  Uncertain: first take was 35 s so lines with sourced facts (64-year gap, abad ke-13, "tiga negara") were added; Monaco complaint story cut (no source); question clip alone is heard without its last 3 words by whisper unless padded, full in the MP4.
 
 ## 10b. Roadmap to launch (agreed plan, 2026-10-29 16:20)
 **Stage 1: lock templates (Thu–Fri).** At most 2 more fix rounds per format. A format is "ready to test" when it has: motion/hook in the first second; phone readability (checked on the owner's phone); the core idea visible, not just spoken; about -14 LUFS with clear voices; facts checked and no copyrighted material; **and a new episode needs only new content, not new code**. After locking, no template changes until the test data comes in.
@@ -712,3 +715,4 @@ CHECK NEEDED: Ep017 visual: Everest tag hidden behind depth counter (beat 7), fi
 - **Countryballs Ep017 cloud delivery (2026-11-22):** queued for 2026-11-23T07:30:00+07:00; Queue Countryballs row 19, Uploads row 55; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep017/Ep017.mp4
 - **Countryballs Ep018 held as stock (2026-11-22):** made, checked and released, not queued yet (busiest 24 h window from 11-21 04:19 WIB would hold 6 uploads (limit 5; 5 in the last 24 h, 2 nightly episode(s) that must still come)); the morning job queues it when the upload window allows; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep018/Ep018.mp4
 - **FaktaMantra Page added to Reels (22 Nov 2026, ~00:45 WIB):** META_FB_CHANNELS = "countryballs whatif fakta". whoami 44930098752: the token sees all three Pages with their Instagram accounts (@countryflux, @pomprods, @faktamantra; 0/100 posts used each). TEST 44930131724 (Fakta Ep016): Instagram direct upload refused again (ProcessingFailedError), the video-link fallback worked (FINISHED); Facebook draft ready then deleted. Reels now run for all 3 channels on Instagram and Facebook from the 08:10 WIB run.
+- **Fakta Unik Ep018 cloud delivery (2026-11-22):** queued for 2026-11-23T18:00:00+07:00; Queue Fakta row 20, Uploads row 56; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep018/Fakta_Ep018.mp4
