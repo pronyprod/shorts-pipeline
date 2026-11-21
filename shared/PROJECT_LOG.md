@@ -510,6 +510,7 @@ CHECK NEEDED: Ep016 voice line punch1 ("An apple from the ground." heard as "and
   countryballs-video/renders/Ep016.mp4, 18.8 s, -13.6 LUFS, true peak -1.42 dBTP, no silence over 1 s, no decode errors; voices 11/11.
   Nothing uncertain (meanings checked on Wiktionary, URLs in Ep016.md); ready for 2026-11-22 07:30 WIB.
 AUTO-REWORD: Countryballs Ep016 punch1: "An apple from the ground." -> "France: earth apple." (maintainer's rewording of 21 Nov, not an automatic one; whisper heard "France Earth Apple."; passed on first Kokoro retake)
+CHECK NEEDED: Ep017 whisper.cpp binary (countryballs-video/whisper.cpp/main.exe) crashes with 'Illegal instruction' (exit 132) on this runner, so check-voices.mjs hears nothing for every clip; voices were made (11 clips), script/episode registered (series Part 1, size duel Peru/Colombia/Tanzania/Angola), nothing rendered. Needs a whisper build for this CPU. (TEST RUN, cloud)
 
 ## 11. Open questions
 - Countryballs: English or Indonesian? (or both later)

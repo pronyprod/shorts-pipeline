@@ -1,0 +1,15 @@
+{
+  "episode": "Ep017",
+  "step": 3,
+  "publishAt": "2026-11-23T07:30:00+07:00",
+  "series": {
+    "part": 1,
+    "next": "Ep018 Part 2: recap; SF Peru vs Angola, SF Colombia vs Tanzania, Final, bonus Peru vs Chad (1,284,000, by 0.1%). Winners of Part 1: Peru, Colombia, Tanzania, Angola"
+  },
+  "cloudStop": {
+    "fixMark": "f07ac865ac304c4b07d986c4cf639b9f7786af39",
+    "retried": false,
+    "date": "2026-11-21",
+    "reason": "whisper.cpp main.exe crashes with Illegal instruction (exit 132) on this runner; mandatory voice check cannot run. Ep017 (series Part 1, size duel) files and voices made, state kept at step 1, not rendered."
+  }
+}
