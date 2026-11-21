@@ -1,0 +1,16 @@
+[
+  {
+    "channel": "countryballs",
+    "episode": "Ep017",
+    "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/test-countryballs-Ep017-r44903871688/Ep017.mp4",
+    "topic": "Size duel tournament Part 1: Peru vs CO, Chad vs ET, Niger vs ZA, Angola vs ML",
+    "made": "2026-11-21",
+    "run": "44903871688",
+    "series": {
+      "part": 1,
+      "of": 2,
+      "story": "Size duel tournament"
+    },
+    "test": true
+  }
+]
