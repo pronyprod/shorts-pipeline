@@ -2,7 +2,7 @@
 **Exception, owner decision 2026-11-11: new episodes use the style kit (B, D, flat A or pixel P, whichever fits the topic; see
 "Visual style" below and `src/kit/`). Published episodes keep rendering exactly as released (their 2D template code is untouched).**
 
-# Channel: What If (English)
+# Channel: PomProds (English)
 Style guide for this project. Derived from `C:\Users\<user>\claude video\breakdowns2.txt`, Format A
 (A1 OutwardAnimates, A2 "What would happen?", A3 OddVibe = winners; A4 "What if for 5" = average).
 This project is separate from `../my-video` (countryballs). Never edit files there.

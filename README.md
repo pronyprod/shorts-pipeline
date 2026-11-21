@@ -1,6 +1,6 @@
 # shorts-pipeline
 
-Daily Shorts for three channels (countryballs, What If, Fakta), made by Claude Code on GitHub Actions so the
+Daily Shorts for three channels (countryballs, PomProds, Fakta), made by Claude Code on GitHub Actions so the
 laptop can be off. One run = one episode for one channel: Claude writes, voices, renders and checks it; the
 workflow then publishes the MP4 as a GitHub Release, puts its download link in the spreadsheet queue (Zapier
 uploads from there) and commits the state back here.
@@ -27,7 +27,7 @@ uploads from there) and commits the state back here.
 | Name | What | Where it comes from |
 |---|---|---|
 | `CLAUDE_CODE_OAUTH_TOKEN` | Lets the run use the Claude Pro subscription | `claude setup-token` in a terminal on the laptop |
-| `GEMINI_API_KEY` | Voices for What If and Fakta | The same key the laptop uses (Google AI Studio > API keys) |
+| `GEMINI_API_KEY` | Voices for PomProds and Fakta | The same key the laptop uses (Google AI Studio > API keys) |
 | `GOOGLE_SA_JSON` | Lets the run write the spreadsheet | The service account key file (whole content) |
 | `SHEET_ID` | Which spreadsheet | The long code in the sheet's address, between `/d/` and `/edit` |
 | `ASSETS_KEY` | Unlocks the music | The one line in `shorts-pipeline-secrets/ASSETS_KEY.txt` on the laptop |
@@ -43,7 +43,7 @@ Never put any of these in a file in this repo or in a chat.
   as a pre-release and pushes its changes to a `test/...` branch. `main` and the real queue are untouched.
 - **Real, by hand:** the same button with "Test mode" unticked.
 - **Daily schedule:** off until the repository variable `CLOUD_SCHEDULE` is `on`
-  (Settings > Secrets and variables > Actions > Variables). Times: countryballs 19:20, What If 20:20, Fakta 21:20 WIB.
+  (Settings > Secrets and variables > Actions > Variables). Times: countryballs 19:20, PomProds 20:20, Fakta 21:20 WIB.
   Turn it on only when the laptop's scheduled tasks are turned off, or both will make the same episode.
 
 ## YouTube comment and tracking (`youtube.yml`, no Claude)

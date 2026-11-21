@@ -9,7 +9,7 @@ Make the NEXT fakta episode from start to finish, unattended. Do not ask the own
 | Project | Drive folder on G: | Drive folder ID | Queue tab | Time (WIB) | Channel name in sheet |
 |---|---|---|---|---|---|
 | countryballs-video | G:\My Drive\Country Balls | [drive-id] | Queue Countryballs | 07:30 | Countryballs |
-| whatif-video | G:\My Drive\What If | [drive-id] | Queue What If | 07:30 | What If |
+| whatif-video | G:\My Drive\What If | [drive-id] | Queue PomProds | 07:30 | PomProds |
 | fakta-video | G:\My Drive\Fakta | [drive-id] | Queue Fakta | 18:00 | Fakta Unik |
 
 This project is `fakta-video`: use only its row. Spreadsheet: `[SHEET_ID secret]`.

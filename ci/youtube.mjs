@@ -25,7 +25,7 @@ import { createSign } from "node:crypto";
 
 const CHANNELS = {
   countryballs: { sheetName: "Countryballs", yt: "Country Flux", time: "07:30", env: "YT_REFRESH_COUNTRYBALLS" },
-  whatif: { sheetName: "What If", yt: "PomProds", time: "07:30", env: "YT_REFRESH_WHATIF" },
+  whatif: { sheetName: "PomProds", yt: "PomProds", time: "07:30", env: "YT_REFRESH_WHATIF" },
   fakta: { sheetName: "Fakta Unik", yt: "FaktaMantra", time: "18:00", env: "YT_REFRESH_FAKTA" },
 };
 const COMMENT_HEADER = "Auto comment";

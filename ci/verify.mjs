@@ -5,7 +5,7 @@
 //      and its numbers (see ci/CLOUD_RULES.md, "Mandatory checks in the result file").
 //   2. The workflow measures the MP4 itself (ffprobe, decode, length, loudness, true peak, silence) and compares
 //      with Claude's numbers.
-//   3. It re-runs the channel's own deterministic checks where a script exists (What If: line joins and the
+//   3. It re-runs the channel's own deterministic checks where a script exists (PomProds: line joins and the
 //      episode self-test; Countryballs: whisper voice check).
 // Any failure: CHECK NEEDED line in the log, result.json becomes "check-needed", and the state file is written
 // back (the render stays in the work-in-progress cache), so nothing is released and the next run resumes at the checks.

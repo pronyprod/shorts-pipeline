@@ -1,5 +1,5 @@
 ---
-description: Make the next What If episode end to end and queue it, unattended, with no questions to the owner
+description: Make the next PomProds episode end to end and queue it, unattended, with no questions to the owner
 ---
 
 Make the NEXT episode end to end and queue it. This runs unattended: do not ask the owner anything. Follow `CLAUDE.md`
@@ -10,7 +10,7 @@ This channel:
 | Project | Drive folder on G: | Drive folder ID | Queue tab | Time (WIB) | Channel name in sheet |
 |---|---|---|---|---|---|
 | countryballs-video | G:\My Drive\Country Balls | [drive-id] | Queue Countryballs | 07:30 | Countryballs |
-| whatif-video | G:\My Drive\What If | [drive-id] | Queue What If | 07:30 | What If |
+| whatif-video | G:\My Drive\What If | [drive-id] | Queue PomProds | 07:30 | PomProds |
 | fakta-video | G:\My Drive\Fakta | [drive-id] | Queue Fakta | 19:00 | Fakta Unik |
 
 Use the row for this project (whatif-video). Spreadsheet: `[SHEET_ID secret]`.
@@ -31,7 +31,7 @@ style that fits it best: start from the bank's "Best style (2nd)" column, then j
 | **D** (paper cut-out Pom, one continuous camera) | stories, real survivors, journeys through several places | `style: "D"` |
 | **A** (flat) | big numbers and side-by-side comparisons | `style: "B", look: "flat"` |
 | **P** (pixel) | inside your body, tech, games | `style: "D", look: "pixel"`, a `trail` on every beat |
-Soft target only: about 1 D and about 1 A-or-P per 7 days. Check the styles of the last 7 What If episodes in the log; if
+Soft target only: about 1 D and about 1 A-or-P per 7 days. Check the styles of the last 7 PomProds episodes in the log (older entries say "What If"); if
 that kind is already over the target AND the premise's second choice also fits well, use the second choice. Fit always wins
 over the target. Write ONE line in the log entry: `Style: <X> because <why it fits this premise>`. Save the style
 (`"A"`, `"B"`, `"D"` or `"P"`) in the state file. Pom is the same character in every style; A and P keep the narrator
