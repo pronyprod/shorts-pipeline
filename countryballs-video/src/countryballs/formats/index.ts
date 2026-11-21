@@ -14,6 +14,8 @@ import { ep016 } from "../episodes/ep016";
 import ep016Voices from "../episodes/ep016.voices.json";
 import { ep017 } from "../episodes/ep017";
 import ep017Voices from "../episodes/ep017.voices.json";
+import { ep019 } from "../episodes/ep019";
+import ep019Voices from "../episodes/ep019.voices.json";
 import type { FormatEpisodeData, FormatVoices } from "./types";
 
 // Register episodes that use the optional formats here (twins are normal episodes).
@@ -26,4 +28,5 @@ export const FORMAT_EPISODES: Record<string, { episode: FormatEpisodeData; voice
   ep015: { episode: ep015, voices: ep015Voices },
   ep016: { episode: ep016, voices: ep016Voices },
   ep017: { episode: ep017, voices: ep017Voices },
+  ep019: { episode: ep019, voices: ep019Voices },
 };

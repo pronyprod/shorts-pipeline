@@ -119,10 +119,10 @@ Ball area is proportional to country area. The winner says the line.
 | Ep015 | Mexico 1,964,375 vs Indonesia 1,904,569 | Mexico | "I win. Just." | disappointed | smug **(DONE: Ep015)** |
 | Ep015 | Bolivia 1,098,581 vs Egypt 1,001,450 | Bolivia | "Landlocked and still bigger." | confused | proud **(DONE: Ep015)** |
 | Ep015 | Hungary 93,025 vs Portugal 92,090 | Hungary | "Nobody saw that coming." | crying | laughing **(DONE: Ep015)** |
-| Ep019 | Argentina 2,780,400 vs Kazakhstan 2,724,910 | Argentina | "Close, but it's mine." | disappointed | proud |
-| Ep019 | Cuba 109,884 vs Iceland 103,000 | Cuba | "Warmer and bigger." | shocked | smug |
-| Ep019 | Turkey 783,562 vs Chile 756,102 | Turkey | "You're just very long." | confused | innocent |
-| Ep019 | Madagascar 587,041 vs Kenya 580,367 | Madagascar | "An island beat you." | crying | laughing |
+| Ep019 | Argentina 2,780,400 vs Kazakhstan 2,724,910 | Argentina | "Close, but it's mine." | disappointed | proud **(DONE: Ep019)** |
+| Ep019 | Cuba 109,884 vs Iceland 103,000 | Cuba | "Warmer and bigger." | shocked | smug **(DONE: Ep019)** |
+| Ep019 | Turkey 783,562 vs Chile 756,102 | Turkey | "You're just very long." | confused | innocent **(DONE: Ep019)** |
+| Ep019 | Madagascar 587,041 vs Kenya 580,367 | Madagascar | "An island beat you." | crying | laughing **(DONE: Ep019)** |
 
 ### Words in different languages
 | Episode | English word | Four balls say | Verified meaning | Punchline |
