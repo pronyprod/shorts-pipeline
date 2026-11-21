@@ -13,7 +13,7 @@ import { createHash } from "node:crypto";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { CHANNELS } from "./sheet.mjs";
-import { aheadOf, loadQueues, readHeld, wibDate, windowCheck, writeHeld } from "./stock.mjs";
+import { aheadOf, urgency, loadQueues, readHeld, wibDate, windowCheck, writeHeld } from "./stock.mjs";
 
 const repo = path.resolve(import.meta.dirname, "..");
 const env = process.env;
@@ -130,7 +130,12 @@ if (existsSync(mp4)) {
 if (!result.redo) {
   const queues = await loadQueues();
   const D = wibDate(new Date(env.RUN_START || Date.now()));
-  const needed = aheadOf(queues, channel, D) < 1;
+  // A run that starts after midnight (00:00-05:59 WIB: a scheduled run hours late, or a manual catch-up) belongs to
+  // the night before. Its episode is urgent only when nothing is queued for TODAY; one for tomorrow can wait for the
+  // morning job, so catch-up runs never push the upload window over the cap (owner, 22 Nov 2026: six rows in 24 h
+  // after the late runs of 21/22 Nov and YouTube throttled the sixth).
+  const { needed, lateNight } = urgency(queues, channel, env.RUN_START || new Date().toISOString());
+  if (lateNight) console.log(`deliver: late run (started ${String(env.RUN_START ?? "").slice(11, 16)} UTC, after midnight WIB): urgent only if nothing is queued for ${D}`);
   const w = windowCheck({ queues, own: ["stock", "second-daily"].includes(env.KIND) ? null : channel });
   // a channel's episodes are queued strictly in order (an older held one goes first), and a series Part 1 waits
   // until its Part 2 is released, so the two parts land on consecutive days (owner, 22 Nov 2026)
@@ -139,7 +144,7 @@ if (!result.redo) {
   const hold = test ? ["stock", "second-daily"].includes(env.KIND) || part1 : !needed && (!w.ok || olderHeld > 0 || part1);
   if (!needed && olderHeld) console.log(`deliver: ${olderHeld} older ${c.sheetName} episode(s) are held: this one waits behind them`);
   if (part1) console.log("deliver: series Part 1: held until its Part 2 is released");
-  console.log(`deliver: ${needed ? "nothing queued for tomorrow" : w.detail} -> ${hold ? "HOLD" : "queue now"}`);
+  console.log(`deliver: ${needed ? `nothing queued for ${lateNight ? "today" : "tomorrow"}` : w.detail} -> ${hold ? "HOLD" : "queue now"}`);
   if (hold) {
     writeHeld([...readHeld(), { channel, episode, url, topic: result.topic ?? "", made: today, run: env.GITHUB_RUN_ID, ...(result.series ? { series: result.series } : {}), ...(test ? { test: true } : {}) }]);
     logLine(`- **${c.sheetName} ${episode} held as stock${test ? " (TEST)" : ""} (${today}):** made, checked and released, not queued yet (${w.detail}); the morning job queues it when the upload window allows; video ${url}`);

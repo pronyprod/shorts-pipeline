@@ -58,6 +58,16 @@ export const aheadOf = (queues, key, D) => {
   const l = latestOf(queues, key);
   return l ? Math.round((Date.parse(l) - Date.parse(D)) / 86400000) : -99;
 };
+// Must this episode be queued now, whatever the upload window? Only when nothing is queued for the next day of its
+// night. A run that starts 00:00-05:59 WIB (a scheduled run hours late, or a manual catch-up) belongs to the night
+// before, so it is urgent only when nothing is queued for TODAY (owner, 22 Nov 2026).
+export const urgency = (queues, key, runStartIso) => {
+  const t = Date.parse(runStartIso);
+  const D = wibDate(new Date(t));
+  const lateNight = new Date(t + WIB).getUTCHours() < 6;
+  const needDay = lateNight ? wibDate(new Date(t - 86400000)) : D;
+  return { needed: aheadOf(queues, key, needDay) < 1, lateNight, D };
+};
 // "2026-11-21 04:19 (Claude)" (WIB) -> ms
 const addedAt = (cell) => {
   const m = /^(\d{4}-\d{2}-\d{2}) (\d{2}):(\d{2})/.exec(String(cell ?? ""));
