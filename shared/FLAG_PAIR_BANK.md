@@ -52,6 +52,11 @@ Created 2026-10-29. Every pair below was checked visually against the flag-icons
 | 30 | HU Hungary | BG Bulgaria | Red-white-green → white-green-red (shuffled) | "I shuffled my stripes." | confused | innocent |
 | 31 | CM Cameroon | SN Senegal | Stripes reordered, yellow star → green star | "My star turned green." | squint | proud |
 | 32 | TD Chad | AD Andorra | Same tricolour + shield | "I got a shield too." (use only if #17 isn't used) | proud | smug |
+| 33 | FI Finland | SE Sweden | White with blue cross → blue with yellow cross (added by weekly review 2026-11-21; verify by eye against the flag-icons SVG before use) | "I got a tan." | squint | proud |
+| 34 | DK Denmark | NO Norway | Red with white cross → same red, a blue cross inside a white one (added by weekly review 2026-11-21; verify by eye against the flag-icons SVG before use) | "I wore a blue jacket." | confused | smug |
+| 35 | TR Turkey | DZ Algeria | Red with white crescent and star → green and white halves, red crescent and star (added by weekly review 2026-11-21; verify by eye against the flag-icons SVG before use) | "I went green." | shocked | defiant |
+| 36 | AT Austria | PE Peru | Red-white-red horizontal → red-white-red vertical (added by weekly review 2026-11-21; verify by eye against the flag-icons SVG before use) | "I turned my head." | confused | innocent |
+| 37 | GH Ghana | ET Ethiopia | Red-gold-green with black star → green-yellow-red with a blue disc and star (added by weekly review 2026-11-21; verify by eye against the flag-icons SVG before use) | "My star got a blue badge." | squint | proud |
 
 ## Suggested episodes (4 rounds each, varied colours and reactions)
 | Episode | Rounds |
@@ -119,10 +124,10 @@ Ball area is proportional to country area. The winner says the line.
 | Ep015 | Mexico 1,964,375 vs Indonesia 1,904,569 | Mexico | "I win. Just." | disappointed | smug **(DONE: Ep015)** |
 | Ep015 | Bolivia 1,098,581 vs Egypt 1,001,450 | Bolivia | "Landlocked and still bigger." | confused | proud **(DONE: Ep015)** |
 | Ep015 | Hungary 93,025 vs Portugal 92,090 | Hungary | "Nobody saw that coming." | crying | laughing **(DONE: Ep015)** |
-| Ep019 | Argentina 2,780,400 vs Kazakhstan 2,724,910 | Argentina | "Close, but it's mine." | disappointed | proud |
-| Ep019 | Cuba 109,884 vs Iceland 103,000 | Cuba | "Warmer and bigger." | shocked | smug |
-| Ep019 | Turkey 783,562 vs Chile 756,102 | Turkey | "You're just very long." | confused | innocent |
-| Ep019 | Madagascar 587,041 vs Kenya 580,367 | Madagascar | "An island beat you." | crying | laughing |
+| Ep019 | Argentina 2,780,400 vs Kazakhstan 2,724,910 | Argentina | "Close, but it's mine." | disappointed | proud | (deprioritised 2026-11-21: size duel Ep011 got 7,298 views at 48 h, the lowest of the new formats; one episode, early sign)
+| Ep019 | Cuba 109,884 vs Iceland 103,000 | Cuba | "Warmer and bigger." | shocked | smug | (deprioritised 2026-11-21: size duel Ep011 got 7,298 views at 48 h, the lowest of the new formats; one episode, early sign)
+| Ep019 | Turkey 783,562 vs Chile 756,102 | Turkey | "You're just very long." | confused | innocent | (deprioritised 2026-11-21: size duel Ep011 got 7,298 views at 48 h, the lowest of the new formats; one episode, early sign)
+| Ep019 | Madagascar 587,041 vs Kenya 580,367 | Madagascar | "An island beat you." | crying | laughing | (deprioritised 2026-11-21: size duel Ep011 got 7,298 views at 48 h, the lowest of the new formats; one episode, early sign)
 
 ### Words in different languages
 | Episode | English word | Four balls say | Verified meaning | Punchline |
@@ -141,6 +146,15 @@ Ball area is proportional to country area. The winner says the line.
 | Ep020 | Pineapple | DE Ananas · FR ananas · ES piña · PT abacaxi | Spanish piña also means pinecone | "Spain also sees a pinecone." |
 
 Left out on purpose: Italian guanto and patata, and Spanish mariquita, because of their slang meanings.
+
+## Order for the next episodes (weekly review 2026-11-21)
+Flag Family is the best performer (Ep002-008 median 19,513 views at 48 h; Ep008 31,214, Ep002 26,952), twins Ep010 21,672, reverse quiz Ep009 14,658, size duel Ep011 7,298. Row labels in the tables above are NOT renumbered; items are named by their row label. Ep017 (reverse quiz) and Ep018 (twins) stay as planned (already made or queued).
+- **Ep019:** Flag Family, 4 rounds: #9 NL→PY, #17 RO→AD, #31 CM→SN, #33 FI→SE (do not use #32 together with #17). Check reactions and background colours alternate.
+- **Ep020:** timely slot (researched at the time); fallback: the words row labelled Ep020.
+- **Ep021:** Flag Family, 4 rounds: #34 DK→NO, #35 TR→DZ, #36 AT→PE, #37 GH→ET.
+- **Ep022:** the size-duel row labelled Ep019 (moved last, deprioritised). Give its hook a stake and a CAPS title word.
+- **Ep023 on:** the bank holds no more unused rows. At the next weekly review add a twins batch (if Ep018 holds up) and more Flag Family pairs. Until then, repeat the formats in order: Flag Family, twins, reverse quiz, words, keeping the rotation rule (no two consecutive episodes in the same format) and the timely slot every fifth episode.
+
 
 ## Next ideas once pairs run out
 - "Flag Family" variants: grandparents, twins (TD/RO), "my evil twin", "my cousin".
