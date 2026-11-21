@@ -113,6 +113,8 @@ jobs:
           SHEET_ID: ${{ secrets.SHEET_ID }}
           GH_TOKEN: ${{ github.token }}
         run: |
+          # a held stock episode of this channel is queued first when nothing is queued for tomorrow
+          if [ "$ROUND" = 1 ] && [ -z "$REDO" ]; then node ci/stock.mjs queue-held --channel "$CHANNEL" --only-if-needed; fi
           node ci/stock.mjs plan
           if grep -q '^make=true' "$GITHUB_OUTPUT"; then echo "GO=true" >> "$GITHUB_ENV"; else echo "GO=false" >> "$GITHUB_ENV"; fi
           echo "KIND=$(sed -n 's/^kind=//p' "$GITHUB_OUTPUT" | tail -1)" >> "$GITHUB_ENV"
@@ -320,7 +322,7 @@ jobs:
         run: node ci/stop-retry.mjs end
 
       - name: Commit state, log and bank changes
-        if: always() && env.GO == 'true' && steps.ctx.outcome == 'success'
+        if: always() && steps.plan.outcome == 'success' && (env.GO != 'true' || steps.ctx.outcome == 'success')
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

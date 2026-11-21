@@ -1,0 +1,83 @@
+name: Queue held stock
+
+# Owner, 21 Nov 2026: 3-day stock. Episodes made for the stock at night are released but held (ci/stock/held.json)
+# when one more queue row would put more than MAX_UPLOADS_24H uploads (default 4) into some rolling 24 h. This small
+# job (no Claude, about a minute) queues ONE held episode when the window allows: Country Flux first, then the channel
+# with the fewest days. It runs hourly in the morning, far from the nightly runs, and only when STOCK is "on".
+on:
+  schedule:
+    - cron: "20 23 * * *" # 06:20 WIB
+    - cron: "20 1-7 * * *" # 08:20 .. 14:20 WIB, hourly
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "Test mode: queue a TEST held episode into 'Queue Test' (nothing reaches Zapier)"
+        type: boolean
+        default: true
+      ref:
+        description: "Branch to read held.json from (test: the round-2 test branch, e.g. test/countryballs-123-r2)"
+        type: string
+        default: main
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: stock-queue
+  cancel-in-progress: false
+
+jobs:
+  queue:
+    if: github.event_name == 'workflow_dispatch' || (vars.STOCK == 'on' && vars.CLOUD_SCHEDULE == 'on')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TZ: Asia/Jakarta
+      TEST: ${{ (github.event_name == 'workflow_dispatch' && inputs.test) && 'true' || 'false' }}
+      MAX_UPLOADS_24H: ${{ vars.MAX_UPLOADS_24H || '4' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || 'main' }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Wait while an episode run is delivering (they write the same sheet tabs)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in $(seq 1 6); do
+            n=$(curl -s -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/episode.yml/runs?status=in_progress&per_page=5" | node -e 'let d="";process.stdin.on("data",c=>d+=c).on("end",()=>console.log(JSON.parse(d).total_count??0))')
+            [ "$n" = 0 ] && exit 0
+            echo "an episode run is in progress; waiting"; sleep 60
+          done
+          echo "SKIP=true" >> "$GITHUB_ENV"; echo "An episode run is still in progress: try next hour." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Queue one held episode if the upload window allows
+        if: env.SKIP != 'true'
+        env:
+          GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+        run: node ci/stock.mjs queue-held
+
+      - name: Commit held.json and the log
+        if: always() && env.SKIP != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          die() { echo "::error title=Commit step::$1"; exit 1; }
+          git add -A
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+          git commit -q -m "stock: queue held episode (run $GITHUB_RUN_ID)" || die "git commit failed"
+          for i in 1 2 3; do
+            git pull -q --rebase "$REMOTE" "$BRANCH" && git push -q "$REMOTE" "HEAD:refs/heads/$BRANCH" && exit 0
+            sleep 20
+          done
+          die "git push failed"

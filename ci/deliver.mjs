@@ -13,6 +13,7 @@ import { createHash } from "node:crypto";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { CHANNELS } from "./sheet.mjs";
+import { aheadOf, loadQueues, readHeld, wibDate, windowCheck, writeHeld } from "./stock.mjs";
 
 const repo = path.resolve(import.meta.dirname, "..");
 const env = process.env;
@@ -121,6 +122,25 @@ if (existsSync(mp4)) {
   }
   if (!ok) stop(`the release URL does not download the file without login (${why})`);
   console.log(`deliver: ${url} downloads without login, identical to the render`);
+}
+
+// ---------- 2b. queue now, or hold as stock? (owner, 21 Nov 2026: at most MAX_UPLOADS_24H queue rows in 24 h) ----------
+// Nothing queued for tomorrow, or a redo: queue now. Otherwise queue only when the upload window allows; else the
+// episode (already released) waits in ci/stock/held.json and the morning job queues it (ci/stock.mjs queue-held).
+if (!result.redo) {
+  const queues = await loadQueues();
+  const D = wibDate(new Date(env.RUN_START || Date.now()));
+  const needed = aheadOf(queues, channel, D) < 1;
+  const w = windowCheck({ queues, own: env.KIND === "stock" ? null : channel });
+  const hold = test ? env.KIND === "stock" : !needed && !w.ok;
+  console.log(`deliver: ${needed ? "nothing queued for tomorrow" : w.detail} -> ${hold ? "HOLD" : "queue now"}`);
+  if (hold) {
+    writeHeld([...readHeld(), { channel, episode, url, topic: result.topic ?? "", made: today, run: env.GITHUB_RUN_ID, ...(test ? { test: true } : {}) }]);
+    logLine(`- **${c.sheetName} ${episode} held as stock${test ? " (TEST)" : ""} (${today}):** made, checked and released, not queued yet (${w.detail}); the morning job queues it when the upload window allows; video ${url}`);
+    rmSync(PENDING, { force: true });
+    summary(`**${c.sheetName} ${episode}** released and HELD as stock (not queued): ${w.detail}`);
+    process.exit(0);
+  }
 }
 
 // ---------- 3. spreadsheet ----------

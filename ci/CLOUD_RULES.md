@@ -154,6 +154,11 @@ hands off again).
 means the render already exists in `renders/` (What If: do NOT hand off again while the MP4 is there): run all the
 checks, fix only what fails, then write the full result.
 
+**Stock episodes (owner, 21 Nov 2026).** A run may have a second round (`Round 2` in the workflow summary) that makes
+one more episode for the 3-day stock. For you it is a normal episode: take `publishAt` from `ci-out/context.json`
+as always. The workflow may release it but hold it back from the queue (upload limit); then it is queued later with
+a new publish date. So in the log entry write "ready for <publishAt> (may be held as stock)" when `Round: 2`.
+
 ## 2b. Redo of an episode that is already queued (owner request)
 
 `ci-out/context.json` has `"redo": "EpNNN"` and `"redoNote"` (what the owner wants fixed). The episode was already

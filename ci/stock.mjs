@@ -1,117 +1,102 @@
-// Does this run (round 1 or 2) make an episode? Owner, 21 Nov 2026: build a 3-day stock per channel, within limits.
-// The workflow runs this before anything expensive; Claude never runs it.
+// 3-day stock (owner, 21 Nov 2026): each channel's queue should reach 3 days ahead, within the limits.
+// The workflow runs this; Claude never does.
 //
-//   node ci/stock.mjs plan          (writes make=true|false, kind=... to GITHUB_OUTPUT and the step summary)
+//   node ci/stock.mjs plan                         round 1/2 of an episode run: make an episode now?  (GITHUB_OUTPUT)
+//   node ci/stock.mjs queue-held [--channel X] [--only-if-needed]
+//                                                  queue a held stock episode when the upload window allows
+//                                                  (morning job), or, with --only-if-needed, only when channel X has
+//                                                  nothing queued for tomorrow (start of X's nightly run)
+//   node ci/stock.mjs window [--own X]             print the upload window check (for testing)
 //
-// Rules (D = the run's start date in WIB; "latest" = the latest Publish at of the channel's live queue rows):
-//   - round 1, latest < D+1 (nothing queued for tomorrow): MANDATORY, always make one (as before).
-//   - round 1 with an unfinished episode (state file), a delivery to retry or a redo: always go on.
-//   - anything else is STOCK and must pass every gate:
-//       target     latest < D+3 (the queue reaches 3 days ahead); with STOCK off, round 1 keeps the old
-//                  one-episode-per-run behaviour (no target) and round 2 never runs
-//       uploads    queue rows Added in the last 24 h, all channels (REMOVED rows too: they were uploaded),
-//                  plus this one, at most MAX_UPLOADS_24H (repository variable, default 4; Zapier/YouTube limit)
-//       order      Country Flux first while building stock: a SECOND What If / Fakta episode only when Country
-//                  Flux is already at target
-//       Gemini     What If / Fakta: today's (Pacific day) requests for the channel's model, counted in both
-//                  .tts-quota.json files, plus this episode's typical need, leave at least 3 spare of the daily limit
-//       time       round 2 only: the minutes since the workflow run started plus this channel's typical
-//                  episode time stay within 200 min
-// Environment: CHANNEL, ROUND (1|2), TEST, STOCK (on|off), STOCK_FORCE (true = test: skip the target/order gates),
-//              MAX_UPLOADS_24H, RUN_START, REDO, GOOGLE_SA_JSON, SHEET_ID, GH_TOKEN, GITHUB_REPOSITORY, GITHUB_RUN_ID,
-//              GITHUB_OUTPUT, GITHUB_STEP_SUMMARY.
-import { appendFileSync, existsSync, readFileSync } from "node:fs";
+// Making and queueing are separate, because the upload limit binds: 3 episodes a day are needed and at most
+// MAX_UPLOADS_24H (default 4) queue rows may be added in any rolling 24 h (each new row = one Zapier upload; the
+// Added column is the clock). GitHub starts the nightly runs up to hours late, so an extra row added at night often
+// has no room; held episodes are queued by a small morning job instead, far from the nightly runs.
+//
+// Rules (D = the run's start date in WIB; "ahead" = latest live Publish at date minus D, in days; "held" = episodes
+// made and released but not yet queued, in ci/stock/held.json):
+//   plan, round 1: redo, unfinished episode, delivery retry, or nothing queued for tomorrow: always make.
+//                  otherwise: STOCK on: make while ahead + held < 3; STOCK off: one per run as before.
+//   plan, round 2: STOCK on (or a forced test), round 1 delivered, ahead + held < 3, Country Flux first (a second
+//                  What If / Fakta episode only when Country Flux has ahead + held >= 3), Gemini quota (today's
+//                  requests for the channel's model + this episode's need + 3 spare <= daily limit), and time
+//                  (minutes since the run started + the channel's typical episode time <= 200).
+//   queueing (deliver.mjs, queue-held): nothing queued for tomorrow -> queue now; otherwise only when the upload
+//                  window allows (windowCheck), else hold.
+import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { CHANNELS, sheetGet } from "./sheet.mjs";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import { CHANNELS, publishAtFor, sheetGet } from "./sheet.mjs";
 
 const repo = path.resolve(import.meta.dirname, "..");
 const env = process.env;
-const channel = env.CHANNEL;
-const c = CHANNELS[channel];
-if (!c) throw new Error("CHANNEL not set");
-const round = Number(env.ROUND || 1);
-const stockOn = env.STOCK === "on";
-const force = env.STOCK_FORCE === "true";
-const maxUploads = Number(env.MAX_UPLOADS_24H || 4);
-const TARGET_DAYS = 3;
+export const TARGET_DAYS = 3;
 const SPARE = 3;
 const NEED = { whatif: { model: "gemini-3.8-flash-tts", requests: 3, minutes: 90 }, fakta: { model: "gemini-3.1-flash-tts-preview", requests: 4, minutes: 50 }, countryballs: { minutes: 35 } };
-
-const WIB = 7 * 3600 * 1000;
-const runStart = new Date(env.RUN_START || Date.now());
-const ymd = (d) => new Date(d.getTime() + WIB).toISOString().slice(0, 10);
+const H = 3600 * 1000;
+const WIB = 7 * H;
+export const wibDate = (d) => new Date(d.getTime() + WIB).toISOString().slice(0, 10);
 const addDays = (s, n) => new Date(Date.parse(`${s}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);
-const D = ymd(runStart);
-
-const out = (k, v) => env.GITHUB_OUTPUT && appendFileSync(env.GITHUB_OUTPUT, `${k}=${v}\n`);
-const lines = [];
-const decide = (make, kind, reason) => {
-  out("make", make ? "true" : "false");
-  out("kind", kind);
-  const text = `**Round ${round} plan (${c.sheetName}): ${make ? "MAKE" : "SKIP"}, ${kind}.** ${reason}\n${lines.map((l) => `- ${l}`).join("\n")}`;
-  console.log(text);
-  if (env.GITHUB_STEP_SUMMARY) appendFileSync(env.GITHUB_STEP_SUMMARY, `${text}\n\n`);
-  process.exit(0);
+export const maxUploads = () => Number(env.MAX_UPLOADS_24H || 4);
+export const HELD = path.join(repo, "ci", "stock", "held.json");
+export const readHeld = () => (existsSync(HELD) ? JSON.parse(readFileSync(HELD, "utf8")) : []);
+export const writeHeld = (list) => {
+  mkdirSync(path.dirname(HELD), { recursive: true });
+  writeFileSync(HELD, `${JSON.stringify(list, null, 2)}\n`);
 };
 
-// ---------- what the queues say ----------
-const queues = {};
-for (const [key, ch] of Object.entries(CHANNELS)) queues[key] = await sheetGet(`'${ch.queueTab}'!A:F`);
-const latestOf = (key) =>
-  queues[key]
-    .slice(2)
-    .map((r) => String(r[4] ?? "").slice(0, 10))
-    .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
-    .sort()
-    .pop() ?? "";
-const ahead = (key) => {
-  const l = latestOf(key);
+// ---------- the queues ----------
+export const loadQueues = async () => {
+  const q = {};
+  for (const [key, ch] of Object.entries(CHANNELS)) q[key] = (await sheetGet(`'${ch.queueTab}'!A:F`)).slice(2);
+  return q;
+};
+const liveDates = (rows) => rows.map((r) => String(r[4] ?? "").slice(0, 10)).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d));
+export const latestOf = (queues, key) => liveDates(queues[key]).sort().pop() ?? "";
+export const aheadOf = (queues, key, D) => {
+  const l = latestOf(queues, key);
   return l ? Math.round((Date.parse(l) - Date.parse(D)) / 86400000) : -99;
 };
-for (const key of Object.keys(CHANNELS)) lines.push(`${CHANNELS[key].sheetName}: latest queued ${latestOf(key) || "none"} = ${ahead(key)} day(s) ahead of ${D} (target ${TARGET_DAYS})`);
-
-// queue rows Added in the last 24 h ("2026-11-21 04:19 (Claude)", WIB)
+// "2026-11-21 04:19 (Claude)" (WIB) -> ms
 const addedAt = (cell) => {
   const m = /^(\d{4}-\d{2}-\d{2}) (\d{2}):(\d{2})/.exec(String(cell ?? ""));
   return m ? Date.parse(`${m[1]}T${m[2]}:${m[3]}:00+07:00`) : NaN;
 };
-const now = Date.now();
-const recent = Object.values(queues).flatMap((rows) => rows.slice(2).map((r) => addedAt(r[5]))).filter((t) => t > now - 24 * 3600 * 1000 && t <= now + 60000);
-lines.push(`uploads queued in the last 24 h (all channels): ${recent.length}; limit ${maxUploads}`);
+// every queue row ever added (REMOVED rows too: they were uploaded), per channel
+export const addedTimes = (queues) => Object.fromEntries(Object.entries(queues).map(([k, rows]) => [k, rows.map((r) => addedAt(r[5])).filter((t) => !Number.isNaN(t)).sort((a, b) => a - b)]));
 
-const state = path.join(repo, c.project, ".episode_state.json");
-const pending = path.join(repo, "ci", "pending", `${channel}.json`);
-
-// ---------- round 1: always-go cases ----------
-if (round === 1) {
-  if (env.REDO) decide(true, "redo", `Redo of ${env.REDO}.`);
-  if (existsSync(state)) decide(true, "resume", "An unfinished episode is in the state file: it is finished first.");
-  if (existsSync(pending) && env.TEST !== "true") decide(true, "delivery-retry", "A delivery from an earlier run is retried.");
-  if (ahead(channel) < 1) {
-    if (recent.length + 1 > maxUploads) lines.push(`warning: this makes ${recent.length + 1} uploads in 24 h, over ${maxUploads}; made anyway because nothing is queued for tomorrow`);
-    decide(true, "mandatory", `Nothing queued for ${addDays(D, 1)} yet.`);
+// Would one more queue row now keep every rolling 24 h window at or under the limit?
+// Counts the rows already added, this one, and the nightly episodes that will HAVE to be queued in the next 24 h:
+// a channel must make one on the night its queue runs out (ahead < 1). Expected at its cron time (19:20, 20:20,
+// 21:20 WIB) + 1 h, or within the hour if that time has passed. Channels with tomorrow covered are not counted:
+// their own nightly delivery passes this same check. `own` = the channel whose nightly episode this row IS.
+const CRON_WIB = { countryballs: 19 + 20 / 60, whatif: 20 + 20 / 60, fakta: 21 + 20 / 60 };
+export const windowCheck = ({ queues, now = Date.now(), own = null, cap = maxUploads() }) => {
+  const times = addedTimes(queues);
+  const events = Object.values(times).flat().filter((t) => t > now - 48 * H && t <= now);
+  const D = wibDate(new Date(now));
+  const predicted = [];
+  for (const key of Object.keys(times)) {
+    if (key === own) continue;
+    const ahead = Math.max(0, aheadOf(queues, key, D));
+    let t = Date.parse(`${addDays(D, ahead)}T00:00:00+07:00`) + (CRON_WIB[key] + 1) * H;
+    if (t <= now) t = now + 1 * H;
+    if (t < now + 24 * H) predicted.push(t);
   }
-  if (!stockOn && !force) {
-    // old behaviour: one episode per run, but never past the upload limit when tomorrow is already covered
-    if (recent.length + 1 > maxUploads) decide(false, "upload-limit", `Tomorrow is covered and ${recent.length} uploads are already queued in 24 h.`);
-    decide(true, "daily", "Stock is off: the usual one episode per run.");
+  const all = [...events, now, ...predicted].sort((a, b) => a - b);
+  let worst = 0;
+  let worstStart = now;
+  for (const s of all.filter((t) => t > now - 24 * H && t <= now)) {
+    const n = all.filter((t) => t >= s && t < s + 24 * H).length;
+    if (n > worst) [worst, worstStart] = [n, s];
   }
-} else {
-  if (!stockOn && !force) decide(false, "stock-off", "Stock building is off (repository variable STOCK).");
-  if (env.REDO) decide(false, "redo", "No second episode after a redo.");
-  if (existsSync(state)) decide(false, "unfinished", "The first episode of this run did not finish (state file).");
-  if (existsSync(pending)) decide(false, "pending", "The first episode's delivery did not finish.");
-  if (ahead(channel) < 1) decide(false, "first-failed", "Tomorrow is still not covered: the first episode did not deliver.");
-}
+  const fmt = (t) => new Date(t + WIB).toISOString().slice(5, 16).replace("T", " ");
+  return { ok: worst <= cap, worst, cap, detail: `busiest 24 h window from ${fmt(worstStart)} WIB would hold ${worst} uploads (limit ${cap}; ${events.filter((t) => t > now - 24 * H).length} in the last 24 h, ${predicted.length} nightly episode(s) that must still come)` };
+};
 
-// ---------- stock gates ----------
-if (!force && ahead(channel) >= TARGET_DAYS) decide(false, "at-target", `${c.sheetName} already reaches ${TARGET_DAYS} days ahead.`);
-// (only for a SECOND episode: a channel's own daily episode keeps its level and is not held back)
-if (!force && round === 2 && channel !== "countryballs" && ahead("countryballs") < TARGET_DAYS)
-  decide(false, "countryballs-first", `Country Flux first while building stock (it is ${ahead("countryballs")} day(s) ahead).`);
-if (env.TEST !== "true" && recent.length + 1 > maxUploads)
-  decide(false, "upload-limit", `${recent.length} uploads already queued in the last 24 h; one more would pass ${maxUploads}.`);
-if (NEED[channel].model) {
+const geminiOk = (channel, lines) => {
+  if (!NEED[channel].model) return true;
   const pacific = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Los_Angeles" }).format(new Date());
   let used = 0;
   let limit = 10;
@@ -123,16 +108,128 @@ if (NEED[channel].model) {
     limit = q.limits?.[NEED[channel].model]?.perDay ?? limit;
   }
   lines.push(`Gemini ${NEED[channel].model}: ${used} of ${limit} used on Pacific day ${pacific}; this episode needs about ${NEED[channel].requests}, keep ${SPARE} spare`);
-  if (used + NEED[channel].requests + SPARE > limit) decide(false, "gemini-quota", "Not enough Gemini quota left with 3 spare.");
-}
-if (round === 2) {
+  return used + NEED[channel].requests + SPARE <= limit;
+};
+
+const summary = (text) => {
+  console.log(text);
+  if (env.GITHUB_STEP_SUMMARY) appendFileSync(env.GITHUB_STEP_SUMMARY, `${text}\n\n`);
+};
+const logLine = (line) => {
+  const LOG = path.join(repo, "shared", "PROJECT_LOG.md");
+  const text = readFileSync(LOG, "utf8");
+  writeFileSync(LOG, `${text.replace(/\s*$/, "")}\n${line}\n`);
+};
+
+// ---------- commands ----------
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+const cmd = isMain ? process.argv[2] : null;
+const arg = (name) => {
+  const i = process.argv.indexOf(`--${name}`);
+  return i > 0 ? process.argv[i + 1] : undefined;
+};
+
+if (cmd === "plan") {
+  const channel = env.CHANNEL;
+  const c = CHANNELS[channel];
+  if (!c) throw new Error("CHANNEL not set");
+  const round = Number(env.ROUND || 1);
+  const stockOn = env.STOCK === "on";
+  const force = env.STOCK_FORCE === "true";
+  const runStart = new Date(env.RUN_START || Date.now());
+  const D = wibDate(runStart);
+  const queues = await loadQueues();
+  const held = readHeld().filter((h) => !h.test);
+  const heldOf = (k) => held.filter((h) => h.channel === k).length;
+  const level = (k) => aheadOf(queues, k, D) + heldOf(k);
+  const lines = Object.keys(CHANNELS).map((k) => `${CHANNELS[k].sheetName}: latest queued ${latestOf(queues, k) || "none"} = ${aheadOf(queues, k, D)} day(s) ahead of ${D}, ${heldOf(k)} held (target ${TARGET_DAYS})`);
+  const decide = (make, kind, reason) => {
+    if (env.GITHUB_OUTPUT) appendFileSync(env.GITHUB_OUTPUT, `make=${make}\nkind=${kind}\n`);
+    summary(`**Round ${round} plan (${c.sheetName}): ${make ? "MAKE" : "SKIP"}, ${kind}.** ${reason}\n${lines.map((l) => `- ${l}`).join("\n")}`);
+    process.exit(0);
+  };
+  const state = path.join(repo, c.project, ".episode_state.json");
+  const pending = path.join(repo, "ci", "pending", `${channel}.json`);
+  const ahead = aheadOf(queues, channel, D);
+  if (round === 1) {
+    if (env.REDO) decide(true, "redo", `Redo of ${env.REDO}.`);
+    if (existsSync(state)) decide(true, "resume", "An unfinished episode is in the state file: it is finished first.");
+    if (existsSync(pending) && env.TEST !== "true") decide(true, "delivery-retry", "A delivery from an earlier run is retried.");
+    if (ahead < 1) decide(true, "mandatory", `Nothing queued for ${addDays(D, 1)} yet.`);
+    if (!stockOn && !force) decide(true, "daily", "Stock is off: the usual one episode per run (queued if the upload window allows, else held).");
+    if (level(channel) >= TARGET_DAYS) decide(false, "at-target", `${c.sheetName} already has ${level(channel)} days (queued + held).`);
+    decide(true, "daily", `Below the ${TARGET_DAYS}-day target (${level(channel)} queued + held): the usual episode.`);
+  }
+  if (!stockOn && !force) decide(false, "stock-off", "Stock building is off (repository variable STOCK).");
+  if (env.REDO) decide(false, "redo", "No second episode after a redo.");
+  if (existsSync(state)) decide(false, "unfinished", "The first episode of this run did not finish (state file).");
+  if (existsSync(pending)) decide(false, "pending", "The first episode's delivery did not finish.");
+  if (ahead < 1 && env.TEST !== "true") decide(false, "first-failed", "Tomorrow is still not covered: the first episode did not deliver.");
+  if (!force && level(channel) >= TARGET_DAYS) decide(false, "at-target", `${c.sheetName} already has ${level(channel)} days (queued + held).`);
+  if (!force && channel !== "countryballs" && level("countryballs") < TARGET_DAYS)
+    decide(false, "countryballs-first", `Country Flux first while building stock (it has ${level("countryballs")} days queued + held).`);
+  if (!geminiOk(channel, lines)) decide(false, "gemini-quota", "Not enough Gemini quota left with 3 spare.");
   let startedMs = runStart.getTime();
   try {
     const r = await fetch(`https://api.github.com/repos/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}`, { headers: { authorization: `Bearer ${env.GH_TOKEN}` } });
     if (r.ok) startedMs = Date.parse((await r.json()).run_started_at) || startedMs;
   } catch {}
-  const used = Math.round((now - startedMs) / 60000);
+  const used = Math.round((Date.now() - startedMs) / 60000);
   lines.push(`time: ${used} min since this run started; a ${c.sheetName} episode takes about ${NEED[channel].minutes} min; limit 200`);
   if (used + NEED[channel].minutes > 200) decide(false, "time", "Not enough time left in this run.");
+  decide(true, "stock", `Second episode for the stock (${level(channel)} days queued + held, target ${TARGET_DAYS}); queued if the upload window allows, else held for the morning job.`);
+} else if (cmd === "queue-held") {
+  const test = env.TEST === "true";
+  const only = arg("channel");
+  const ifNeeded = process.argv.includes("--only-if-needed");
+  const queues = await loadQueues();
+  const now = new Date();
+  const D = wibDate(now);
+  let held = readHeld().filter((h) => !!h.test === test);
+  if (only) held = held.filter((h) => h.channel === only);
+  if (!held.length) {
+    summary("Held stock: none to queue.");
+    process.exit(0);
+  }
+  // priority: a channel with nothing for tomorrow, then Country Flux, then the channel with the fewest days
+  const rank = (h) => [aheadOf(queues, h.channel, D) < 1 ? 0 : 1, h.channel === "countryballs" ? 0 : 1, aheadOf(queues, h.channel, D), h.made ?? ""];
+  held.sort((a, b) => {
+    const x = rank(a);
+    const y = rank(b);
+    for (let i = 0; i < x.length; i++) if (x[i] !== y[i]) return x[i] < y[i] ? -1 : 1;
+    return 0;
+  });
+  const h = held[0];
+  const needed = aheadOf(queues, h.channel, D) < 1;
+  if (ifNeeded && !needed) {
+    summary(`Held stock: ${CHANNELS[h.channel].sheetName} ${h.episode} stays held (tomorrow is covered).`);
+    process.exit(0);
+  }
+  const w = windowCheck({ queues, now: now.getTime() });
+  if (!needed && !w.ok && !test) {
+    summary(`Held stock: ${CHANNELS[h.channel].sheetName} ${h.episode} waits: ${w.detail}.`);
+    process.exit(0);
+  }
+  const c = CHANNELS[h.channel];
+  const publishAt = publishAtFor(liveDates(queues[h.channel]), now, c.time);
+  const r = spawnSync("node", ["ci/sheet.mjs", "deliver", "--channel", h.channel, "--episode", h.episode, "--url", h.url, "--publish-at", publishAt, "--topic", h.topic ?? "", ...(test ? ["--test"] : [])], { cwd: repo, encoding: "utf8" });
+  process.stdout.write(r.stdout ?? "");
+  if (r.status !== 0) {
+    logLine(`CHECK NEEDED: ${c.sheetName} ${h.episode} held stock could not be queued: ${(r.stderr ?? "").trim().slice(0, 300)} (${D})`);
+    summary(`**CHECK NEEDED** queueing held ${c.sheetName} ${h.episode}: ${(r.stderr ?? "").trim().slice(0, 300)}`);
+    process.exit(1);
+  }
+  const rows = JSON.parse(r.stdout.trim().split("\n").pop());
+  writeHeld(readHeld().filter((x) => !(x.channel === h.channel && x.episode === h.episode && !!x.test === test)));
+  logLine(`- **${c.sheetName} ${h.episode} queued from held stock${test ? " (TEST, not for upload)" : ""} (${D}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; ${needed ? "nothing was queued for tomorrow" : w.detail}; video ${h.url}`);
+  summary(`**${c.sheetName} ${h.episode}** queued from held stock for ${publishAt} (${rows.queueTab} row ${rows.queueRow}).`);
+} else if (cmd === "window") {
+  const queues = await loadQueues();
+  console.log(windowCheck({ queues, own: arg("own") ?? null }));
+  const D = wibDate(new Date());
+  for (const k of Object.keys(CHANNELS)) console.log(k, "latest", latestOf(queues, k), "ahead", aheadOf(queues, k, D));
+  console.log("held", readHeld());
+} else if (cmd) {
+  console.error("usage: stock.mjs plan | queue-held [--channel X] [--only-if-needed] | window");
+  process.exit(1);
 }
-decide(true, "stock", `Below the ${TARGET_DAYS}-day target (${ahead(channel)} day(s) ahead): stock episode for ${addDays(latestOf(channel) || D, 1)}.`);
