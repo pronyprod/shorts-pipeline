@@ -1,0 +1,89 @@
+name: Instagram and Facebook Reels
+
+# No Claude here: ci/meta.mjs posts each channel's videos as Reels after they went public on YouTube.
+# Instagram for every channel whose account the token can see; Facebook only for channels in the repository variable
+# META_FB_CHANNELS (now "countryballs"). Drip-feed: max MAX_REELS_PER_DAY (2) per channel and platform per day, at
+# least MIN_GAP_HOURS (4) apart, one per run; fresh videos first, then the old backlog oldest first.
+# Runs hourly 08:10 .. 23:10 WIB, only when the repository variable META_POSTING is "on".
+on:
+  schedule:
+    - cron: "10 1-16 * * *"
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "What to run"
+        type: choice
+        options: [whoami, post]
+        default: whoami
+      test:
+        description: "Test: upload and process, but publish nothing (Facebook: draft, then deleted), write nothing"
+        type: boolean
+        default: true
+      channel:
+        description: "Only this channel (countryballs, whatif, fakta); empty = all"
+        type: string
+        default: ""
+      episode:
+        description: "Test only: this episode (EpNNN) instead of the next one"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: meta-post
+  cancel-in-progress: false
+
+jobs:
+  reels:
+    if: github.event_name == 'workflow_dispatch' || vars.META_POSTING == 'on'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      TZ: Asia/Jakarta
+      META_TOKEN: ${{ secrets.META_TOKEN }}
+      GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+      SHEET_ID: ${{ secrets.SHEET_ID }}
+      META_FB_CHANNELS: ${{ vars.META_FB_CHANNELS || 'countryballs' }}
+      MAX_REELS_PER_DAY: ${{ vars.MAX_REELS_PER_DAY || '2' }}
+      MIN_GAP_HOURS: ${{ vars.MIN_GAP_HOURS || '4' }}
+      META_ACCOUNTS: ${{ vars.META_ACCOUNTS || '' }}
+      JOB: ${{ inputs.job || 'post' }}
+      TEST: ${{ (github.event_name == 'workflow_dispatch' && inputs.test) && 'true' || 'false' }}
+      CH: ${{ inputs.channel || '' }}
+      EP: ${{ inputs.episode || '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Secrets present?
+        run: |
+          miss=""
+          for n in META_TOKEN GOOGLE_SA_JSON SHEET_ID; do [ -n "${!n}" ] || miss="$miss $n"; done
+          if [ -n "$miss" ]; then echo "::error::Missing repository secrets:$miss"; exit 1; fi
+      - name: Run
+        run: |
+          if [ "$JOB" = whoami ]; then node ci/meta.mjs whoami; exit; fi
+          set -- post
+          [ "$TEST" = true ] && set -- "$@" --test
+          [ -n "$CH" ] && set -- "$@" --channel "$CH"
+          [ -n "$EP" ] && [ "$TEST" = true ] && set -- "$@" --episode "$EP"
+          node ci/meta.mjs "$@"
+      - name: Commit posted.json
+        if: always() && env.TEST != 'true' && env.JOB == 'post'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git add ci/meta/posted.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git commit -q -m "reels: posted (run $GITHUB_RUN_ID)"
+          for i in 1 2 3; do
+            git pull -q --rebase "$REMOTE" main && git push -q "$REMOTE" HEAD:refs/heads/main && exit 0
+            sleep 20
+          done
+          echo "::error::git push failed"; exit 1
