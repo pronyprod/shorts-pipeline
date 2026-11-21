@@ -154,7 +154,8 @@ hands off again).
 means the render already exists in `renders/` (What If: do NOT hand off again while the MP4 is there): run all the
 checks, fix only what fails, then write the full result.
 
-**Series (2-part), all channels (owner, 22 Nov 2026).** About 1 in 5 episodes is part of a 2-part story: Part 1 on
+**Series (2-part), all channels (owner, 22 Nov 2026; only when `"newFormats": true` in `ci-out/context.json`, set by the
+workflow from the repository variable NEW_FORMATS, always on in TEST runs).** About 1 in 5 episodes is part of a 2-part story: Part 1 on
 episode numbers ending in 7, Part 2 on the next number (ending in 8). Rules:
 - Part 1 tells a complete, satisfying first half and ends on a REAL cliffhanger (an open question the facts answer in
   Part 2, never a fake one), then says "Part 2 tomorrow." instead of the channel's usual last line. Part 2 opens with

@@ -65,6 +65,7 @@ jobs:
       STOCK: ${{ vars.STOCK || 'off' }}
       STOCK_FORCE: ${{ (github.event_name == 'workflow_dispatch' && inputs.test && inputs.stock_test) && 'true' || 'false' }}
       MAX_UPLOADS_24H: ${{ vars.MAX_UPLOADS_24H || '4' }}
+      NEW_FORMATS: ${{ vars.NEW_FORMATS || 'off' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -139,7 +140,9 @@ jobs:
           fi
           echo "PUBLISH_AT=$PUBLISH_AT" >> "$GITHUB_ENV"
           mkdir -p ci-out
-          printf '{ "channel": "%s", "test": %s, "runStart": "%s", "publishAt": "%s" }\n' "$CHANNEL" "$TEST" "$RUN_START" "$PUBLISH_AT" > ci-out/context.json
+          # new formats (series, PomProds Stories): on in TEST runs, else only when the repository variable NEW_FORMATS is "on"
+          NEWF=$( { [ "$TEST" = true ] || [ "$NEW_FORMATS" = on ]; } && echo true || echo false)
+          printf '{ "channel": "%s", "test": %s, "runStart": "%s", "publishAt": "%s", "newFormats": %s }\n' "$CHANNEL" "$TEST" "$RUN_START" "$PUBLISH_AT" "$NEWF" > ci-out/context.json
           if [ -n "$REDO" ]; then
             node -e 'const fs=require("fs");const f="ci-out/context.json";const c=JSON.parse(fs.readFileSync(f,"utf8"));c.redo=process.argv[1];c.redoNote=process.argv[2];fs.writeFileSync(f,JSON.stringify(c,null,2))' "$REDO" "$REDO_NOTE"
           fi

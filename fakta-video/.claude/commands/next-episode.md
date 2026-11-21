@@ -32,7 +32,7 @@ Take the first unused item that passes:
 - Skip anything marked ⚠ or disputed, and anything that repeats an earlier episode.
 - "Kenapa…?" items are written as surprising facts with a payoff, not how-it-works lessons.
 - **Timely slot:** if NNN is divisible by 5, follow the bank's "Timely slot" rule instead: a topic tied to news or a current date, with a source from the last 30 days, nothing political or tragic, and the category rotation still kept. If nothing passes, take the normal next item and write "no timely topic found" in the log line and the report.
-- **Series slot (owner, 22 Nov 2026):** if NNN ends in 7, this episode is **Part 1** of a 2-part story; if NNN ends in 8
+- **Series slot (owner, 22 Nov 2026; only when `"newFormats": true` in `ci-out/context.json`):** if NNN ends in 7, this episode is **Part 1** of a 2-part story; if NNN ends in 8
   and EpNNN-1 was a Part 1, this episode is its **Part 2** (it must continue that story; nothing else). Follow
   `ci/CLOUD_RULES.md` "Series (2-part)" and the bank's "Series" rules. A timely slot never falls on these numbers.
 
