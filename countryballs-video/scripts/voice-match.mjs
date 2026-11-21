@@ -38,6 +38,7 @@ const HOMOPHONES = [
   ["knight", "night"],
   ["by", "buy", "bye"],
   ["lied", "lie"],
+  ["an", "and"], // unstressed "an" before a vowel is heard as "and" (Ep016, 21 Nov 2026)
 ];
 const HOMOPHONE_SETS = HOMOPHONES.map((set) => set.map((w) => numbers([w])[0])); // "eight" is stored as "8"
 const homophones = (a, b) => HOMOPHONE_SETS.some((set) => set.includes(a) && set.includes(b));

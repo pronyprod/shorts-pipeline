@@ -52,7 +52,7 @@ If voice generation fails, **stop** (reason: voices).
 Check the voices now, so a retry never needs a new render: `node --no-warnings scripts/check-voices.mjs epNNN`. It ignores case and punctuation, allows small differences in proper nouns (country names), treats known homophones as matches (list in `scripts/voice-match.mjs`), and passes a line when at least 90% of its words match.
 - For each line in its `Failed:` list, redo only that line with Kokoro: `node --no-warnings scripts/generate-voices.mjs epNNN --line <clip> --attempt 1`, then check again. If it still fails, do the same with `--attempt 2`.
 - That's 2 retries per line at most. Keep the count in the state file as `voiceAttempts`, so a resume doesn't start over.
-- If a line still fails after that, **stop** (reason: voice line `<clip>`).
+- If a line still fails after that, reword it once and re-take it (`ci/CLOUD_RULES.md`, "Automatic rewording of a voice line": same joke, clearer words, facts kept, `AUTO-REWORD:` log line). Only if the reworded line also fails, **stop** (reason: voice line `<clip>`, both wordings).
 If `CLAUDE.md` ever gains a quota rule, it replaces this step: only its model and maximum requests, at least 20 s between calls, key from the environment only, never printed or saved. If that quota is out, stop cleanly and say when it resets.
 
 ## 4. Render and check

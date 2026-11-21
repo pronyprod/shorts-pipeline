@@ -130,6 +130,6 @@ if (sheet.status !== 0) stop(`${sheet.status === 2 ? "queue or Uploads row" : "s
 const rows = JSON.parse(sheet.stdout.trim().split("\n").pop());
 
 // ---------- 4. log ----------
-logLine(`- **${c.sheetName} ${episode} cloud delivery${result.redo ? " (REDO, replaces the earlier version: its queue and Uploads rows are marked REMOVED)" : ""}${test ? " (TEST, not for upload)" : ""} (${today}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; video ${url}`);
+logLine(`- **${c.sheetName} ${episode} cloud delivery${env.KIND === "stock" ? " (STOCK: extra episode for the 3-day target)" : ""}${result.redo ? " (REDO, replaces the earlier version: its queue and Uploads rows are marked REMOVED)" : ""}${test ? " (TEST, not for upload)" : ""} (${today}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; video ${url}`);
 rmSync(PENDING, { force: true });
 summary(`**${c.sheetName} ${episode}** ${test ? "TEST delivered" : "queued"} for ${publishAt}\n\n- ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}\n- ${url}`);

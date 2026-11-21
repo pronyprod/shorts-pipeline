@@ -26,6 +26,7 @@
 import { createSign } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 export const CHANNELS = {
   countryballs: { project: "countryballs-video", queueTab: "Queue Countryballs", sheetName: "Countryballs", time: "07:30", file: (ep) => `${ep}.mp4` },
@@ -180,7 +181,12 @@ const channelOf = () => {
   return c;
 };
 
-if (cmd === "check") {
+// Only run a command when this file is the program (ci/stock.mjs imports the helpers below).
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+export { get as sheetGet };
+if (!isMain) {
+  // imported
+} else if (cmd === "check") {
   const titles = await tabTitles();
   const need = ["Uploads", "Hashtags", ...Object.values(CHANNELS).map((c) => c.queueTab)];
   const missing = need.filter((t) => !titles.includes(t));
@@ -276,6 +282,6 @@ if (cmd === "check") {
     (row) => row[0] === c.sheetName && row[1] === episode && !/^Removed/i.test(row[9] ?? ""),
   );
   console.log(JSON.stringify({ queueTab, queueRow: q.row, uploadsTab, uploadsRow: u.row }));
-} else if (import.meta.url === `file://${process.argv[1]}` || cmd) {
+} else {
   fail("usage: sheet.mjs check | publish-at --channel X | deliver --channel X --episode EpNNN --url U --publish-at T --topic S [--test]");
 }

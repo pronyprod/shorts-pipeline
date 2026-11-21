@@ -177,6 +177,25 @@ delivered; its old video may be scheduled on YouTube. Then:
 - A state file with `"redo": true` (a redo that stopped) is resumed the same way, also in a scheduled run, and its
   result must still say `"redo": true`.
 
+**Automatic rewording of a voice line (owner, 21 Nov 2026; all three channels).** When a voice line still fails the
+whisper check after the retries the channel's instructions allow (Countryballs: 2 Kokoro retries; What If / Fakta: the
+single-line re-take and the whole-block re-take), do NOT stop yet. Reword that line ONCE, automatically:
+- Same meaning, same joke or point, same facts. Use simpler, clearer words that whisper cannot mishear: avoid a leading
+  "an"/"a"/"the", homophones (scented/centred, son/sun), numbers that may come back as digits or another word, rare
+  words and names that are not in the picture. Keep the length about the same (the line must still fit its beat;
+  What If / Fakta: the episode length rule still applies).
+- Keep the fact checks: the new wording must still be true as checked in the episode's fact file (`EpNNN.md`, FACTS);
+  if it adds or changes a claim, check that claim the normal way and add its source.
+- Change the line everywhere it lives: the episode data (spoken text and caption text), the bank row if the line came
+  from a bank, the voice direction file, and anything that quotes it (uploads text, title).
+- Re-take only that line (Gemini channels: within the per-run request limit and the quota; if there is no quota left,
+  stop as `waiting-quota`, not CHECK NEEDED), then run the whisper check and the join check again.
+- Log it, always, on its own line in `shared/PROJECT_LOG.md` (right under the episode's entry, or at the end if the run
+  stops): `AUTO-REWORD: <Channel> EpNNN <line id>: "<old>" -> "<new>" (whisper heard "<what it heard>"; <passed | failed>)`,
+  keep `"rewords": [{ "line", "old", "new", "heard" }]` in the state file, and add the same list to `result.json`.
+- Only if the reworded line ALSO fails: CHECK NEEDED with both wordings and what whisper heard each time.
+One rewording per line per episode; never reword a line that passed, and never change a line just to make it shorter.
+
 ## 3. When you must stop
 
 Follow the instructions' own stop rules (CHECK NEEDED line in `shared/PROJECT_LOG.md`, keep the state file). Then also write:

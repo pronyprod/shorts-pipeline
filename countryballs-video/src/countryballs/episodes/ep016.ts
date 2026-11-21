@@ -16,7 +16,7 @@ export const ep016: FormatEpisodeData = {
         { flag: "de", word: "Kartoffel" },
         { flag: "es", word: "patata" },
       ],
-      punchline: "An apple from the ground.",
+      punchline: "France: earth apple.",
       color: "#0055a4",
     },
     {

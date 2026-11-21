@@ -131,7 +131,7 @@ Ball area is proportional to country area. The winner says the line.
 | Ep012 | Turkey (the bird) | PT peru · TR hindi · FR dinde · ES pavo | peru from Peru; dinde from "d'Inde" (of India); Turkish hindi is the bird | "Turkey blames India." | **(DONE: Ep012)**
 | Ep012 | Glove | DE Handschuh · NL handschoen · FR gant · ES guante | German and Dutch both literally "hand shoe" | "Germany wears hand shoes." | **(DONE: Ep012)**
 | Ep012 | Jellyfish | DE Qualle · ES medusa · FR méduse · IT medusa | medusa and méduse both mean jellyfish | "Don't look at it." | **(DONE: Ep012)**
-| Ep016 | Potato | FR pomme de terre · NL aardappel · DE Kartoffel · ES patata | French and Dutch literally "earth apple" | "An apple from the ground." |
+| Ep016 | Potato | FR pomme de terre · NL aardappel · DE Kartoffel · ES patata | French and Dutch literally "earth apple" | "France: earth apple." |
 | Ep016 | Raccoon | DE Waschbär · FR raton laveur · ES mapache · IT procione | German "wash bear" | "Germany calls it wash bear." |
 | Ep016 | Bat | DE Fledermaus · FR chauve-souris · ES murciélago · IT pipistrello | French chauve (bald) + souris (mouse) | "France calls it a bald mouse." |
 | Ep016 | Penguin | DE Pinguin · ES pingüino · IT pinguino · FR manchot | French is the odd one out | "France had to be different." |

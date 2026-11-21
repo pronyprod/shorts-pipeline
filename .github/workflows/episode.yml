@@ -1,6 +1,9 @@
 name: Daily episode
 
-# One episode for one channel per run. Jobs never overlap (concurrency group).
+# One channel per run, in two rounds (owner, 21 Nov 2026: 3-day stock). Round 1 makes the channel's episode
+# (always when nothing is queued for tomorrow); round 2 makes a second one only when ci/stock.mjs says the channel is
+# below the 3-day target and every limit allows it (uploads in 24 h, Gemini quota with 3 spare, time, Country Flux
+# first). Stock building is on when the repository variable STOCK is "on". Jobs never overlap (concurrency group).
 # Schedule (WIB = UTC+7): countryballs 19:20, What If 20:20, Fakta 21:20.
 # The schedule only does work when the repository variable CLOUD_SCHEDULE is set to "on"
 # (Settings > Secrets and variables > Actions > Variables). Until then the laptop stays in charge
@@ -29,6 +32,10 @@ on:
         description: "Redo: what the owner wants fixed"
         type: string
         default: ""
+      stock_test:
+        description: "Test mode only: force the second (stock) episode, ignoring the target and order gates"
+        type: boolean
+        default: false
 
 permissions:
   contents: write # commit state back, create releases
@@ -43,15 +50,26 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || vars.CLOUD_SCHEDULE == 'on'
     runs-on: ubuntu-latest
     timeout-minutes: 220
+    strategy:
+      max-parallel: 1 # round 2 starts after round 1 has delivered and committed
+      fail-fast: false
+      matrix:
+        round: [1, 2]
     env:
       TZ: Asia/Jakarta
       CHANNEL: ${{ inputs.channel || (github.event.schedule == '20 12 * * *' && 'countryballs') || (github.event.schedule == '20 13 * * *' && 'whatif') || 'fakta' }}
       TEST: ${{ (github.event_name == 'workflow_dispatch' && inputs.test) && 'true' || 'false' }}
       REDO: ${{ github.event_name == 'workflow_dispatch' && inputs.redo || '' }}
       REDO_NOTE: ${{ github.event_name == 'workflow_dispatch' && inputs.redo_note || '' }}
+      ROUND: ${{ matrix.round }}
+      STOCK: ${{ vars.STOCK || 'off' }}
+      STOCK_FORCE: ${{ (github.event_name == 'workflow_dispatch' && inputs.test && inputs.stock_test) && 'true' || 'false' }}
+      MAX_UPLOADS_24H: ${{ vars.MAX_UPLOADS_24H || '4' }}
     steps:
       - uses: actions/checkout@v4
         with:
+          # round 2 builds on round 1's commit: main, or round 1's test branch in a test run
+          ref: ${{ matrix.round == 2 && (env.TEST == 'true' && format('test/{0}-{1}-r1', env.CHANNEL, github.run_id) || 'main') || '' }}
           fetch-depth: 0 # full history (without file contents) so ci/stop-retry.mjs can see whether a fix landed
           filter: blob:none
 
@@ -64,7 +82,7 @@ jobs:
             fakta) echo "PROJECT=fakta-video" >> "$GITHUB_ENV" ;;
           esac
           echo "WIP_PREFIX=wip-$([ "$TEST" = true ] && echo test-)$CHANNEL-" >> "$GITHUB_ENV"
-          echo "Channel: $CHANNEL, test: $TEST" >> "$GITHUB_STEP_SUMMARY"
+          echo "Channel: $CHANNEL, test: $TEST, round: $ROUND" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Secrets present?
         env:
@@ -88,8 +106,20 @@ jobs:
           cache: npm
           cache-dependency-path: ${{ env.PROJECT }}/package-lock.json
 
+      - name: Make an episode in this round? (3-day stock plan and limits)
+        id: plan
+        env:
+          GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node ci/stock.mjs plan
+          if grep -q '^make=true' "$GITHUB_OUTPUT"; then echo "GO=true" >> "$GITHUB_ENV"; else echo "GO=false" >> "$GITHUB_ENV"; fi
+          echo "KIND=$(sed -n 's/^kind=//p' "$GITHUB_OUTPUT" | tail -1)" >> "$GITHUB_ENV"
+
       - name: Spreadsheet access and publish time (decided at the START of the run)
         id: ctx
+        if: env.GO == 'true'
         env:
           GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
           SHEET_ID: ${{ secrets.SHEET_ID }}
@@ -118,6 +148,7 @@ jobs:
           echo "Publish time: $PUBLISH_AT" >> "$GITHUB_STEP_SUMMARY"
 
       - name: npm ci
+        if: env.GO == 'true'
         working-directory: ${{ env.PROJECT }}
         env:
           # onnxruntime-node (Kokoro) tries to download a CUDA build we never use; on 18 Nov that download gave 404
@@ -127,12 +158,14 @@ jobs:
         run: npm ci --no-audit --no-fund
 
       - name: Cache whisper.cpp and its model
+        if: env.GO == 'true'
         uses: actions/cache@v4
         with:
           path: .cache/whisper
           key: whisper-1.5.5-${{ env.CHANNEL == 'countryballs' && 'base.en' || 'small' }}-v1
 
       - name: Cache Chrome for Remotion and the Kokoro voice model
+        if: env.GO == 'true'
         uses: actions/cache@v4
         with:
           path: |
@@ -141,6 +174,7 @@ jobs:
           key: nm-extras-${{ env.PROJECT }}-${{ hashFiles(format('{0}/package-lock.json', env.PROJECT)) }}-v1
 
       - name: Restore work in progress (voice takes, renders of an unfinished episode)
+        if: env.GO == 'true'
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -149,16 +183,18 @@ jobs:
             ${{ env.PROJECT }}/public/voices
             ${{ env.PROJECT }}/tts-out
             ${{ env.PROJECT }}/data/tts
-          key: ${{ env.WIP_PREFIX }}${{ github.run_id }}
+          key: ${{ env.WIP_PREFIX }}${{ github.run_id }}-r${{ matrix.round }}
           restore-keys: ${{ env.WIP_PREFIX }}
 
       - name: Set up the Linux tools (ffmpeg, whisper, Chrome, fonts, music)
+        if: env.GO == 'true'
         env:
           ASSETS_KEY: ${{ secrets.ASSETS_KEY }}
         run: bash ci/setup.sh "$CHANNEL"
 
       - name: A delivery left over from an earlier run?
         id: pending
+        if: env.GO == 'true'
         run: |
           if [ "$TEST" != true ] && [ -f "ci/pending/$CHANNEL.json" ]; then
             cp "ci/pending/$CHANNEL.json" ci-out/result.json
@@ -168,12 +204,12 @@ jobs:
 
       - name: Retry an episode that stopped earlier, or keep waiting for a fix?
         id: retry
-        if: steps.pending.outputs.skip != 'true'
+        if: env.GO == 'true' && steps.pending.outputs.skip != 'true'
         run: node ci/stop-retry.mjs start
 
       - name: Claude makes the episode
         id: claude1
-        if: steps.pending.outputs.skip != 'true' && steps.retry.outputs.skip != 'true'
+        if: env.GO == 'true' && steps.pending.outputs.skip != 'true' && steps.retry.outputs.skip != 'true'
         uses: anthropics/claude-code-action@v1
         env:
           GEMINI_API_KEY: ${{ env.CHANNEL != 'countryballs' && secrets.GEMINI_API_KEY || '' }}
@@ -200,7 +236,7 @@ jobs:
       # when the Claude session ends (run 44103438051, 17 Nov). The render runs here with no session to outlive.
       - name: Render handed over by Claude
         id: render
-        if: steps.claude1.outcome == 'success'
+        if: env.GO == 'true' && steps.claude1.outcome == 'success'
         run: |
           ROOT="$GITHUB_WORKSPACE"
           STATUS="$(node -p 'try{require("./ci-out/result.json").status}catch{""}')"
@@ -240,7 +276,7 @@ jobs:
           fail "remotion render failed twice: $(grep -m1 -iE 'error' "$ROOT/ci-out/render-1.log" | cut -c1-150 | tr -d '"\')"
 
       - name: Claude finishes the episode (checks after the workflow's render)
-        if: steps.render.outputs.rendered == 'true'
+        if: env.GO == 'true' && steps.render.outputs.rendered == 'true'
         uses: anthropics/claude-code-action@v1
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -265,11 +301,11 @@ jobs:
             --max-turns 300
 
       - name: Verify the mandatory checks (Claude's numbers + the workflow's own measurements)
-        if: always() && steps.ctx.outcome == 'success'
+        if: always() && env.GO == 'true' && steps.ctx.outcome == 'success'
         run: node ci/verify.mjs
 
       - name: Deliver (release, public download check, spreadsheet rows, log line)
-        if: always() && steps.ctx.outcome == 'success'
+        if: always() && env.GO == 'true' && steps.ctx.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
           GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
@@ -277,14 +313,14 @@ jobs:
         run: node ci/deliver.mjs
 
       - name: Remember a CHECK NEEDED stop (the next run retries once; after that it waits for a fix)
-        if: always() && steps.ctx.outcome == 'success'
+        if: always() && env.GO == 'true' && steps.ctx.outcome == 'success'
         env:
           FIX_MARK: ${{ steps.retry.outputs.fix_mark }}
           RETRY: ${{ steps.retry.outputs.retry }}
         run: node ci/stop-retry.mjs end
 
       - name: Commit state, log and bank changes
-        if: always() && steps.ctx.outcome == 'success'
+        if: always() && env.GO == 'true' && steps.ctx.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -303,22 +339,22 @@ jobs:
             die "secrets scan failed on: $(grep -oE '^[^:]+:[0-9]+' "$RUNNER_TEMP/scan.txt" | head -5 | tr '\n' ' ')"
           fi
           if [ "$TEST" = true ]; then
-            BRANCH="test/$CHANNEL-$GITHUB_RUN_ID"
+            BRANCH="test/$CHANNEL-$GITHUB_RUN_ID-r$ROUND"
             git checkout -q -b "$BRANCH" || die "could not create branch $BRANCH"
-            git commit -q -m "TEST $CHANNEL run $GITHUB_RUN_ID" || die "git commit failed"
+            git commit -q -m "TEST $CHANNEL run $GITHUB_RUN_ID round $ROUND ($KIND)" || die "git commit failed"
             $GIT push -q "$REMOTE" "HEAD:refs/heads/$BRANCH" 2> "$RUNNER_TEMP/push.txt" || die "git push failed: $(tail -1 "$RUNNER_TEMP/push.txt" | cut -c1-160)"
             echo "Test changes are on branch \`$BRANCH\` (main is untouched)." >> "$GITHUB_STEP_SUMMARY"
           else
-            git commit -q -m "$CHANNEL: daily run $GITHUB_RUN_ID" || die "git commit failed"
+            git commit -q -m "$CHANNEL: daily run $GITHUB_RUN_ID round $ROUND ($KIND)" || die "git commit failed"
             $GIT pull -q --rebase "$REMOTE" main 2> "$RUNNER_TEMP/pull.txt" || die "git pull --rebase failed: $(tail -1 "$RUNNER_TEMP/pull.txt" | cut -c1-160)"
             $GIT push -q "$REMOTE" HEAD:refs/heads/main 2> "$RUNNER_TEMP/push.txt" || die "git push failed: $(tail -1 "$RUNNER_TEMP/push.txt" | cut -c1-160)"
           fi
 
       - name: Keep the MP4 as a download on this run (14 days)
-        if: always()
+        if: always() && env.GO == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.CHANNEL }}-renders-${{ github.run_id }}
+          name: ${{ env.CHANNEL }}-renders-${{ github.run_id }}-r${{ matrix.round }}
           path: |
             ${{ env.PROJECT }}/renders/*.mp4
             ci-out/render-*.log
@@ -327,12 +363,12 @@ jobs:
 
       - name: Unfinished work to keep for the next run?
         id: wip
-        if: always()
+        if: always() && env.GO == 'true'
         run: |
           if [ -f "$PROJECT/.episode_state.json" ] || [ -f "ci/pending/$CHANNEL.json" ]; then echo "save=true" >> "$GITHUB_OUTPUT"; fi
 
       - name: Save work in progress
-        if: always() && steps.wip.outputs.save == 'true'
+        if: always() && env.GO == 'true' && steps.wip.outputs.save == 'true'
         uses: actions/cache/save@v4
         with:
           path: |
@@ -341,4 +377,4 @@ jobs:
             ${{ env.PROJECT }}/public/voices
             ${{ env.PROJECT }}/tts-out
             ${{ env.PROJECT }}/data/tts
-          key: ${{ env.WIP_PREFIX }}${{ github.run_id }}
+          key: ${{ env.WIP_PREFIX }}${{ github.run_id }}-r${{ matrix.round }}
