@@ -86,11 +86,10 @@ Every flag below was compared by eye against the flag-icons 4x3 SVGs in `public/
 | Ep013 | HU → TJ | Same colours, gold crown and stars added | "I got a crown." | shocked | proud | **(DONE: Ep013)**
 | Ep013 | IT → HU | Green-white-red rotated to horizontal | "I rolled over." | confused | innocent | **(DONE: Ep013)**
 | Ep013 | AU → FJ | Union Jack kept, stars gone, shield added | "I swapped stars for a shield." | disappointed | defiant | **(DONE: Ep013)**
-| Ep017 | BO → ET | Green-yellow-red + blue disc with star | "I got a blue badge." | shocked | proud |
-| Ep017 | ML → CM | Green-red-yellow + gold star in the middle | "I found a star." | proud | innocent |
-| Ep017 | EC → VE | Yellow-blue-red, condor arms → arc of eight stars | "I swapped birds for stars." | confused | smug |
-| Ep017 | SE → AX | Blue with yellow cross + red cross inside it | "Red joined my cross." | squint | defiant |
-
+| Ep017 | BO → ET | Green-yellow-red + blue disc with star | "I got a blue badge." | shocked | proud | **(DONE: Ep017)**
+| Ep017 | ML → CM | Green-red-yellow + gold star in the middle | "I found a star." | proud | innocent | **(DONE: Ep017)**
+| Ep017 | EC → VE | Yellow-blue-red, condor arms → arc of eight stars | "I swapped birds for stars." | confused | smug | **(DONE: Ep017)**
+| Ep017 | SE → AX | Blue with yellow cross + red cross inside it | "Red joined my cross." | squint | defiant | **(DONE: Ep017)**
 ### Twins: spot the difference
 | Episode | Parents → twin | What changed (verified) | Punchline | Parents | Twin |
 |---|---|---|---|---|---|
