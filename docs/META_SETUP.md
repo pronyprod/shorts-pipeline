@@ -7,24 +7,17 @@ out, so there is nothing to renew every 60 days.
 
 The steps marked **(owner)** need your Facebook login. Claude does the rest.
 
-## 1. The Meta app (Claude, in the browser, once you are logged in)
+## 1. The Meta app: DONE (21 Nov 2026, Claude in the browser)
 
-developers.facebook.com → My Apps → Create app
+**Prony Shorts Poster**, app ID `1012084897929515`.
 
-- Name: **Prony Shorts Poster**. Contact email: the business email.
-- Use case: **Other** → app type **Business**.
-- Business portfolio: **Prony Production**.
-- Meta asks for your Facebook password to confirm **(owner)**.
-
-Then, in the app:
-
-- App settings → Basic:
-  - Privacy policy URL: `https://github.com/pronyprod/shorts-pipeline/blob/main/docs/privacy.md`
-  - Category: Business and pages
-  - Save.
-- Add the products **Instagram** (API setup with Facebook login) and **Facebook Login for Business**. No App Review is
-  needed: the app only posts to accounts of its own business portfolio (Standard access).
-- Switch the app mode at the top from Development to **Live**, so the posts are public.
+- Type: Business. Business portfolio: Prony Production (`1477700050972330`).
+- Contact email: the business email.
+- Privacy policy and data-deletion URL: `docs/privacy.md` on GitHub.
+- Category: Business and Pages.
+- Product **Instagram** added.
+- Mode **Live** (Aktif).
+- No App Review is needed: the app only posts to accounts of its own portfolio (Standard access).
 
 ## 2. Link each Instagram account to its Facebook Page (owner)
 
