@@ -170,8 +170,17 @@ const download = async (url) => {
 
 const postInstagram = async (acct, e, buf) => {
   const token = acct.page?.access_token ?? need("META_TOKEN");
-  const c = await graph("POST", `${acct.ig.id}/media`, { media_type: "REELS", upload_type: "resumable", caption: caption(e), share_to_feed: "true", is_ai_generated: "true" }, token);
-  await rupload(`${RUPLOAD_IG}/${c.id}`, token, buf);
+  const fields = { media_type: "REELS", caption: caption(e), share_to_feed: "true", is_ai_generated: "true" };
+  let c = await graph("POST", `${acct.ig.id}/media`, { ...fields, upload_type: "resumable" }, token);
+  try {
+    await rupload(`${RUPLOAD_IG}/${c.id}`, token, buf);
+  } catch (err) {
+    // PomProds Ep017 (22 Nov 2026): the binary upload was refused ("ProcessingFailedError") every time while other
+    // files worked. Second way: Meta fetches the public file itself (a new container with video_url).
+    console.log(`${e.ep}: direct upload refused (${err.message.slice(0, 120)}); trying again with the video link`);
+    const r = await fetch(e.url, { method: "HEAD", redirect: "follow" });
+    c = await graph("POST", `${acct.ig.id}/media`, { ...fields, video_url: r.url || e.url }, token);
+  }
   let status = "";
   for (let i = 0; i < 40; i++) {
     await sleep(15000);
