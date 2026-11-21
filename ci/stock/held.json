@@ -12,5 +12,19 @@
       "story": "Size duel tournament"
     },
     "test": true
+  },
+  {
+    "channel": "countryballs",
+    "episode": "Ep018",
+    "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/test-countryballs-Ep018-r44903871688/Ep018.mp4",
+    "topic": "Size duel tournament final: Chad vs Niger, Angola vs Peru, Niger vs Angola, Chad vs Peru",
+    "made": "2026-11-21",
+    "run": "44903871688",
+    "series": {
+      "part": 2,
+      "of": 2,
+      "story": "Size duel tournament"
+    },
+    "test": true
   }
 ]

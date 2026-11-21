@@ -152,8 +152,8 @@ About 1 in 5 episodes: Part 1 on episode numbers ending in 7, Part 2 on the next
 "Series (2-part)"). Pick a topic that honestly has two halves (a story with a turn, a question with a surprising second
 answer, a contest with a final). Part 1 ends on a real cliffhanger and "Part 2 tomorrow."; Part 2 opens with a one-line
 recap. Titles end in "(Part 1)" / "(Part 2)". Mark used series here: `Series: EpNN7+EpNN8 <story>`.
-Series: Ep017+Ep018 Size duel tournament (Part 1 done: Ep017; the Ep017 reverse-quiz rows above were not used, they move to a later number).
+Series: Ep017+Ep018 Size duel tournament (DONE: Ep017 + Ep018; Part 1 done: Ep017; the Ep017 reverse-quiz rows above were not used, they move to a later number).
 Series ideas (owner, 22 Nov 2026; each part is a normal 4-round episode):
 - **"The family reunion"**: Part 1 = 3 Flag Family rounds, then round 4 shows a mystery kid's silhouette and colours only: "Whose kid is this? Part 2 tomorrow." Part 2 = "Yesterday: a mystery kid…", reveal it in round 1 (e.g. Liechtenstein → Haiti), then 3 more rounds. Every pair from the verified pair list or checked as usual.
-- **(USED: Ep017 Part 1, Ep018 Part 2 planned: Peru, Chad, Niger, Angola) "Size duel tournament"**: Part 1 = 4 duels, the 4 winners announced; ends "The final is tomorrow." Part 2 = recap, semi-finals and the final between the two biggest; true areas from the same source.
+- **(USED: Ep017 Part 1, Ep018 Part 2 DONE: Peru, Chad, Niger, Angola) "Size duel tournament"**: Part 1 = 4 duels, the 4 winners announced; ends "The final is tomorrow." Part 2 = recap, semi-finals and the final between the two biggest; true areas from the same source.
 - **"Twins: can you tell them apart?"**: Part 1 = 3 twin pairs plus a 4th where the difference is NOT shown ("Spot it before tomorrow"). Part 2 = reveal it, then 3 new twin pairs.
