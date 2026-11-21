@@ -89,3 +89,7 @@ About 1 in 5 episodes: Part 1 on episode numbers ending in 7, Part 2 on the next
 "Series (2-part)"). Pick a topic that honestly has two halves (a story with a turn, a question with a surprising second
 answer, a contest with a final). Part 1 ends on a real cliffhanger and "Part 2 tomorrow."; Part 2 opens with a one-line
 recap. Titles end in "(Part 1)" / "(Part 2)". Mark used series here: `Series: EpNN7+EpNN8 <story>`.
+Series ideas (owner, 22 Nov 2026):
+- **Rempah: dari Maluku ke dunia (2 bagian)**: Bagian 1 = cengkih dan pala, harganya di Eropa vs di Banda, kapal-kapal datang; ends "Kenapa Belanda rela menukar Manhattan? Besok." Bagian 2 = Run vs Manhattan (Breda 1667) dan apa yang terjadi pada harga rempah. (Do not repeat Ep004's angle word for word: new numbers, new map route.)
+- **Krakatau 1883 vs Tambora 1815 (2 bagian)**: Bagian 1 = Krakatau's sound and pressure wave; ends "Tapi ada letusan yang jauh lebih besar. Besok." Bagian 2 = Tambora, the "year without a summer" in Europe 1816. (Non-tragic framing: science and size, no victim counts.)
+- **Garis Wallace (2 bagian)**: Bagian 1 = two islands 35 km apart with different animals; ends on the question why. Bagian 2 = the ice-age sea levels and the deep strait.
