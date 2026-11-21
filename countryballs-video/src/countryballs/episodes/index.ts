@@ -23,6 +23,8 @@ import { ep010 } from "./ep010";
 import ep010Voices from "./ep010.voices.json";
 import { ep014 } from "./ep014";
 import ep014Voices from "./ep014.voices.json";
+import { ep018 } from "./ep018";
+import ep018Voices from "./ep018.voices.json";
 import { templatetest } from "./templatetest";
 import templatetestVoices from "./templatetest.voices.json";
 
@@ -40,5 +42,6 @@ export const EPISODES: Record<string, { episode: Episode; voices: VoiceManifest 
   ep008: { episode: ep008, voices: ep008Voices },
   ep010: { episode: ep010, voices: ep010Voices },
   ep014: { episode: ep014, voices: ep014Voices },
+  ep018: { episode: ep018, voices: ep018Voices },
   templatetest: { episode: templatetest, voices: templatetestVoices },
 };

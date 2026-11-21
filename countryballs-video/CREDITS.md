@@ -17,6 +17,7 @@
 | Ep012 | Claudio The Worm | The Green Orbs | YouTube Audio Library, attribution not required |
 | Ep013 | Bubble Bath | The Green Orbs | YouTube Audio Library, attribution not required |
 | Ep014 | Ukulele Beach | Doug Maxwell | YouTube Audio Library, attribution not required |
+| Ep018 | Claudio The Worm | The Green Orbs | YouTube Audio Library, attribution not required |
 | Ep015 | Sand Castle | Quincas Moreira | YouTube Audio Library, attribution not required |
 | Ep016 | At The Fair | The Green Orbs | YouTube Audio Library, attribution not required |
 | Ep017 | Rainy Day Games | The Green Orbs | YouTube Audio Library, attribution not required |
@@ -36,6 +37,7 @@ Credit line for descriptions (copy exactly; one per episode):
 - Ep012: `Music: "Claudio The Worm" by The Green Orbs (YouTube Audio Library, attribution not required)`
 - Ep013: `Music: "Bubble Bath" by The Green Orbs (YouTube Audio Library, attribution not required)`
 - Ep014: `Music: "Ukulele Beach" by Doug Maxwell (YouTube Audio Library, attribution not required)`
+- Ep018: `Music: "Claudio The Worm" by The Green Orbs (YouTube Audio Library, attribution not required)`
 - Ep015: `Music: "Sand Castle" by Quincas Moreira (YouTube Audio Library, attribution not required)`
 - Ep016: `Music: "At The Fair" by The Green Orbs (YouTube Audio Library, attribution not required)`
 - Ep017: `Music: "Rainy Day Games" by The Green Orbs (YouTube Audio Library, attribution not required)`
