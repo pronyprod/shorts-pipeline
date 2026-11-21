@@ -1,0 +1,17 @@
+{
+  "episode": "ep018",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep018.ts lines: only CAPITALS added; words identical to say. Owner rule 12 Nov: clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is holding something impossibly heavy. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a hushed shock", "tagged": "Someone just put a teaspoon of NEUTRON star in your hand." },
+    { "n": 2, "style": "calm and steady, a little ominous", "tagged": "It weighs about FIVE billion tonnes. Your hand is going DOWN." },
+    { "n": 3, "style": "steady and amazed", "tagged": "That's over seven hundred Great PYRAMIDS, squeezed into one teaspoon." },
+    { "n": 4, "style": "hushed and tense, each clause landing", "tagged": "The floor can't HOLD it, so it sinks straight into the Earth." },
+    { "n": 5, "style": "the key line: big, clear punch, then a heavy pause", "tagged": "A star heavier than our SUN, squeezed into a ball the size of a CITY." },
+    { "n": 6, "style": "clear and impressed", "tagged": "That's why nothing we can see is DENSER." },
+    { "n": 7, "style": "leaning in, amazed, sharing a true fact", "tagged": "And here's the wild part. All eight BILLION people on Earth, squashed that tight, would fit in a SUGAR cube." },
+    { "n": 8, "style": "warm and amused, a little grin", "tagged": "EVERYONE you know. Small enough to lose in your POCKET." },
+    { "n": 9, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}
