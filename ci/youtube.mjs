@@ -237,6 +237,10 @@ else if (cmd === "comment") {
         wait(`no video titled "${u.title}" and none published on ${u.date}`);
         continue;
       }
+      if (video.privacy !== "public" && video.publishedAt && Date.parse(video.publishedAt) > now.getTime()) {
+        console.log(`${name}: ${video.id} is scheduled for ${wib(new Date(video.publishedAt)).slice(0, 16).replace("T", " ")} WIB (second daily slot?); later run`);
+        continue;
+      }
       if (video.privacy !== "public") {
         wait(`video ${video.id} is still ${video.privacy}`);
         continue;

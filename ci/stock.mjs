@@ -27,7 +27,7 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } fr
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { CHANNELS, publishAtFor, sheetGet } from "./sheet.mjs";
+import { CHANNELS, doubleActive, nextSlot, sheetGet, slotTimes } from "./sheet.mjs";
 
 const repo = path.resolve(import.meta.dirname, "..");
 const env = process.env;
@@ -142,6 +142,10 @@ if (cmd === "plan") {
   const held = readHeld().filter((h) => !h.test);
   const heldOf = (k) => held.filter((h) => h.channel === k).length;
   const level = (k) => aheadOf(queues, k, D) + heldOf(k);
+  // second daily video: two episodes a night keep two slots a day filled, so the target is one day higher
+  const fulls = Object.fromEntries(Object.keys(CHANNELS).map((k) => [k, queues[k].map((r) => String(r[4] ?? "")).filter((x) => /^\d{4}-\d{2}-\d{2}T/.test(x))]));
+  const double = doubleActive(channel, fulls, D);
+  const target = TARGET_DAYS + (double ? 1 : 0);
   const lines = Object.keys(CHANNELS).map((k) => `${CHANNELS[k].sheetName}: latest queued ${latestOf(queues, k) || "none"} = ${aheadOf(queues, k, D)} day(s) ahead of ${D}, ${heldOf(k)} held (target ${TARGET_DAYS})`);
   const decide = (make, kind, reason) => {
     if (env.GITHUB_OUTPUT) appendFileSync(env.GITHUB_OUTPUT, `make=${make}\nkind=${kind}\n`);
@@ -157,7 +161,7 @@ if (cmd === "plan") {
     if (existsSync(pending) && env.TEST !== "true") decide(true, "delivery-retry", "A delivery from an earlier run is retried.");
     if (ahead < 1) decide(true, "mandatory", `Nothing queued for ${addDays(D, 1)} yet.`);
     if (!stockOn && !force) decide(true, "daily", "Stock is off: the usual one episode per run (queued if the upload window allows, else held).");
-    if (level(channel) >= TARGET_DAYS) decide(false, "at-target", `${c.sheetName} already has ${level(channel)} days (queued + held).`);
+    if (level(channel) >= target) decide(false, "at-target", `${c.sheetName} already has ${level(channel)} days (queued + held).`);
     decide(true, "daily", `Below the ${TARGET_DAYS}-day target (${level(channel)} queued + held): the usual episode.`);
   }
   if (!stockOn && !force) decide(false, "stock-off", "Stock building is off (repository variable STOCK).");
@@ -165,7 +169,7 @@ if (cmd === "plan") {
   if (existsSync(state)) decide(false, "unfinished", "The first episode of this run did not finish (state file).");
   if (existsSync(pending)) decide(false, "pending", "The first episode's delivery did not finish.");
   if (ahead < 1 && env.TEST !== "true") decide(false, "first-failed", "Tomorrow is still not covered: the first episode did not deliver.");
-  if (!force && level(channel) >= TARGET_DAYS) decide(false, "at-target", `${c.sheetName} already has ${level(channel)} days (queued + held).`);
+  if (!force && level(channel) >= target) decide(false, "at-target", `${c.sheetName} already has ${level(channel)} days (queued + held).`);
   if (!force && channel !== "countryballs" && level("countryballs") < TARGET_DAYS)
     decide(false, "countryballs-first", `Country Flux first while building stock (it has ${level("countryballs")} days queued + held).`);
   if (!geminiOk(channel, lines)) decide(false, "gemini-quota", "Not enough Gemini quota left with 3 spare.");
@@ -177,7 +181,8 @@ if (cmd === "plan") {
   const used = Math.round((Date.now() - startedMs) / 60000);
   lines.push(`time: ${used} min since this run started; a ${c.sheetName} episode takes about ${NEED[channel].minutes} min; limit 200`);
   if (used + NEED[channel].minutes > 200) decide(false, "time", "Not enough time left in this run.");
-  decide(true, "stock", `Second episode for the stock (${level(channel)} days queued + held, target ${TARGET_DAYS}); queued if the upload window allows, else held for the morning job.`);
+  if (double) lines.push(`${c.sheetName} makes two a day now (second slot ${CHANNELS[channel].time2})`);
+  decide(true, double ? "second-daily" : "stock", `Second episode ${double ? "(second daily video)" : "for the stock"} (${level(channel)} days queued + held, target ${TARGET_DAYS}); queued if the upload window allows, else held for the morning job.`);
 } else if (cmd === "queue-held") {
   const test = env.TEST === "true";
   const only = arg("channel");
@@ -235,9 +240,11 @@ if (cmd === "plan") {
     process.exit(0);
   }
   const c = CHANNELS[h.channel];
-  let dates = liveDates(queues[h.channel]);
+  const fullsOf = (k) => queues[k].map((r) => String(r[4] ?? "")).filter((x) => /^\d{4}-\d{2}-\d{2}T/.test(x));
+  const double = doubleActive(h.channel, Object.fromEntries(Object.keys(CHANNELS).map((k) => [k, fullsOf(k)])), D);
+  let dates = fullsOf(h.channel);
   for (const item of batch) {
-    const publishAt = publishAtFor(dates, now, c.time);
+    const publishAt = nextSlot(dates, now, slotTimes(h.channel, double));
     const r = spawnSync("node", ["ci/sheet.mjs", "deliver", "--channel", item.channel, "--episode", item.episode, "--url", item.url, "--publish-at", publishAt, "--topic", item.topic ?? "", ...(test ? ["--test"] : [])], { cwd: repo, encoding: "utf8" });
     process.stdout.write(r.stdout ?? "");
     if (r.status !== 0) {
@@ -246,7 +253,7 @@ if (cmd === "plan") {
       process.exit(1);
     }
     const rows = JSON.parse(r.stdout.trim().split("\n").pop());
-    dates = [...dates, publishAt.slice(0, 10)];
+    dates = [...dates, publishAt];
     writeHeld(readHeld().filter((x) => !(x.channel === item.channel && x.episode === item.episode && !!x.test === test)));
     logLine(`- **${c.sheetName} ${item.episode} queued from held stock${item.series ? ` (series Part ${item.series.part})` : ""}${test ? " (TEST, not for upload)" : ""} (${D}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; ${needed ? "nothing was queued for tomorrow" : w.detail}; video ${item.url}`);
     summary(`**${c.sheetName} ${item.episode}** queued from held stock for ${publishAt} (${rows.queueTab} row ${rows.queueRow}).`);

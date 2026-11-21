@@ -29,9 +29,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const CHANNELS = {
-  countryballs: { project: "countryballs-video", queueTab: "Queue Countryballs", sheetName: "Countryballs", time: "07:30", file: (ep) => `${ep}.mp4` },
+  countryballs: { project: "countryballs-video", queueTab: "Queue Countryballs", sheetName: "Countryballs", time: "07:30", time2: "18:00", file: (ep) => `${ep}.mp4` },
   whatif: { project: "whatif-video", queueTab: "Queue What If", sheetName: "What If", time: "07:30", file: (ep) => `WhatIf_${ep}.mp4` },
-  fakta: { project: "fakta-video", queueTab: "Queue Fakta", sheetName: "Fakta Unik", time: "18:00", file: (ep) => `Fakta_${ep}.mp4` },
+  fakta: { project: "fakta-video", queueTab: "Queue Fakta", sheetName: "Fakta Unik", time: "18:00", time2: "12:00", file: (ep) => `Fakta_${ep}.mp4` },
 };
 const TEST_QUEUE = "Queue Test";
 const TEST_UPLOADS = "Uploads Test";
@@ -65,13 +65,48 @@ export const publishAtFor = (queueDates, runStart, time) => {
   return `${day}T${time}:00+07:00`;
 };
 
+// Second daily video (owner, 22 Nov 2026): a channel listed in the repository variable DOUBLE_CHANNELS gets two slots a
+// day (its usual time + time2: Country Flux 18:00, PomProds 18:00, Fakta 12:00), but only once EVERY channel's queue
+// reaches 3 days ahead. `queues` = live Publish at strings per channel; D = today's date (WIB).
+export const doubleActive = (channel, publishAtsByChannel, D, env = process.env) => {
+  const list = String(env.DOUBLE_CHANNELS ?? "").split(/[\s,]+/).filter(Boolean);
+  if (!list.includes(channel) || !CHANNELS[channel].time2) return false;
+  const day = (s) => String(s ?? "").slice(0, 10);
+  return Object.values(publishAtsByChannel).every((arr) => {
+    const latest = arr.map(day).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d)).sort().pop();
+    return latest && (Date.parse(latest) - Date.parse(D)) / 86400000 >= 3;
+  });
+};
+export const slotTimes = (channel, double) => {
+  const c = CHANNELS[channel];
+  return double && c.time2 ? [c.time, c.time2].sort() : [c.time];
+};
+// The first free slot after the latest queued one, never today (same rule as publishAtFor, with 1 or 2 slots a day).
+export const nextSlot = (publishAts, runStart, times) => {
+  const toMs = (s) => Date.parse(s);
+  const latest = Math.max(0, ...publishAts.filter((s) => /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(s ?? "")).map((s) => toMs(s.length > 16 ? s : `${s}:00+07:00`)));
+  let day = addDays(wibDate(runStart), 1);
+  if (latest) {
+    const latestDay = wibDate(new Date(latest));
+    if (latestDay > day) day = latestDay;
+  }
+  for (let i = 0; i < 400; i++) {
+    for (const t of times) {
+      const slot = `${day}T${t}:00+07:00`;
+      if (toMs(slot) > latest) return slot;
+    }
+    day = addDays(day, 1);
+  }
+  throw new Error("no slot found");
+};
+
 // A resumed episode (state file) keeps the publishAt it was given, but only while that time is still after the
 // run start and no queue row already uses that date. If it has passed (or is taken), the normal rule above applies.
-export const publishAtResumed = (statePublishAt, queueDates, runStart, time) => {
-  const normal = publishAtFor(queueDates, runStart, time);
+export const publishAtResumed = (statePublishAt, queuePublishAts, runStart, times) => {
+  const normal = nextSlot(queuePublishAts, runStart, times);
   if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:00\+07:00$/.test(statePublishAt ?? "")) return { publishAt: normal, kept: false };
   const ahead = Date.parse(statePublishAt) > runStart.getTime() + 3600 * 1000; // at least 1 h of margin
-  const taken = queueDates.includes(statePublishAt.slice(0, 10));
+  const taken = queuePublishAts.some((q) => q && Date.parse(q.length > 16 ? q : `${q}:00+07:00`) === Date.parse(statePublishAt));
   return ahead && !taken ? { publishAt: statePublishAt, kept: true } : { publishAt: normal, kept: false, stale: statePublishAt };
 };
 
@@ -197,6 +232,12 @@ if (!isMain) {
   const runStart = new Date(process.env.RUN_START || Date.now());
   const col = await get(`'${c.queueTab}'!E:E`);
   const dates = col.slice(2).map((r) => String(r[0] ?? "").slice(0, 10));
+  const fulls = col.slice(2).map((r) => String(r[0] ?? ""));
+  const all = {};
+  for (const [k, ch] of Object.entries(CHANNELS)) all[k] = k === opt("channel") ? fulls : (await get(`'${ch.queueTab}'!E:E`)).slice(2).map((r) => String(r[0] ?? ""));
+  const double = doubleActive(opt("channel"), all, wibDate(runStart));
+  const times = slotTimes(opt("channel"), double);
+  if (double) console.error(`sheet: ${c.sheetName} has two daily slots now (${times.join(", ")})`);
   const redo = opt("redo");
   if (redo) {
     const rows = await get(`'${c.queueTab}'!A:E`);
@@ -204,7 +245,7 @@ if (!isMain) {
     if (live.length !== 1) fail(`redo ${redo}: expected exactly one live row in "${c.queueTab}", found ${live.length}`);
     const at = live[0][4];
     const ahead = Date.parse(at) > runStart.getTime() + 3600 * 1000;
-    const r = ahead ? at : publishAtFor(dates, runStart, c.time);
+    const r = ahead ? at : nextSlot(fulls, runStart, times);
     console.error(`sheet: redo ${redo} ${ahead ? "keeps its queued" : "had a passed"} Publish at ${at}${ahead ? "" : `; recomputed ${r}`}`);
     console.log(r);
     process.exit(0);
@@ -212,7 +253,7 @@ if (!isMain) {
   const statePath = opt("state");
   let statePublishAt;
   if (statePath && existsSync(statePath)) statePublishAt = JSON.parse(readFileSync(statePath, "utf8")).publishAt;
-  const r = publishAtResumed(statePublishAt, dates, runStart, c.time);
+  const r = publishAtResumed(statePublishAt, fulls, runStart, times);
   if (r.stale) console.error(`sheet: the resumed episode's publishAt ${r.stale} has passed or is taken; recomputed ${r.publishAt}`);
   else if (r.kept) console.error(`sheet: resumed episode keeps its publishAt ${r.publishAt}`);
   console.log(r.publishAt);

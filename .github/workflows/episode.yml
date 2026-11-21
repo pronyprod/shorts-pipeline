@@ -66,6 +66,7 @@ jobs:
       STOCK_FORCE: ${{ (github.event_name == 'workflow_dispatch' && inputs.test && inputs.stock_test) && 'true' || 'false' }}
       MAX_UPLOADS_24H: ${{ vars.MAX_UPLOADS_24H || '4' }}
       NEW_FORMATS: ${{ vars.NEW_FORMATS || 'off' }}
+      DOUBLE_CHANNELS: ${{ vars.DOUBLE_CHANNELS || '' }}
     steps:
       - uses: actions/checkout@v4
         with:

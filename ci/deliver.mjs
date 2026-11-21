@@ -131,12 +131,12 @@ if (!result.redo) {
   const queues = await loadQueues();
   const D = wibDate(new Date(env.RUN_START || Date.now()));
   const needed = aheadOf(queues, channel, D) < 1;
-  const w = windowCheck({ queues, own: env.KIND === "stock" ? null : channel });
+  const w = windowCheck({ queues, own: ["stock", "second-daily"].includes(env.KIND) ? null : channel });
   // a channel's episodes are queued strictly in order (an older held one goes first), and a series Part 1 waits
   // until its Part 2 is released, so the two parts land on consecutive days (owner, 22 Nov 2026)
   const olderHeld = readHeld().filter((h) => h.channel === channel && !!h.test === test).length;
   const part1 = result.series?.part === 1;
-  const hold = test ? env.KIND === "stock" || part1 : !needed && (!w.ok || olderHeld > 0 || part1);
+  const hold = test ? ["stock", "second-daily"].includes(env.KIND) || part1 : !needed && (!w.ok || olderHeld > 0 || part1);
   if (!needed && olderHeld) console.log(`deliver: ${olderHeld} older ${c.sheetName} episode(s) are held: this one waits behind them`);
   if (part1) console.log("deliver: series Part 1: held until its Part 2 is released");
   console.log(`deliver: ${needed ? "nothing queued for tomorrow" : w.detail} -> ${hold ? "HOLD" : "queue now"}`);
@@ -156,6 +156,6 @@ if (sheet.status !== 0) stop(`${sheet.status === 2 ? "queue or Uploads row" : "s
 const rows = JSON.parse(sheet.stdout.trim().split("\n").pop());
 
 // ---------- 4. log ----------
-logLine(`- **${c.sheetName} ${episode} cloud delivery${env.KIND === "stock" ? " (STOCK: extra episode for the 3-day target)" : ""}${result.redo ? " (REDO, replaces the earlier version: its queue and Uploads rows are marked REMOVED)" : ""}${test ? " (TEST, not for upload)" : ""} (${today}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; video ${url}`);
+logLine(`- **${c.sheetName} ${episode} cloud delivery${["stock", "second-daily"].includes(env.KIND) ? " (STOCK: extra episode for the 3-day target)" : ""}${result.redo ? " (REDO, replaces the earlier version: its queue and Uploads rows are marked REMOVED)" : ""}${test ? " (TEST, not for upload)" : ""} (${today}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; video ${url}`);
 rmSync(PENDING, { force: true });
 summary(`**${c.sheetName} ${episode}** ${test ? "TEST delivered" : "queued"} for ${publishAt}\n\n- ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}\n- ${url}`);
