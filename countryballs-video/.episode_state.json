@@ -1,6 +1,0 @@
-{
-  "episode": "Ep016",
-  "step": 2,
-  "voiceAttempts": {},
-  "note": "Fixed 21 Nov 2026 (maintainer): punch1 reworded \"An apple from the ground.\" -> \"France: earth apple.\" (same joke: French pomme de terre / Dutch aardappel = earth apple; same pattern as \"Germany: wash bear.\"), bank row updated; voice-match now also treats an/and as equal. Resume at step 3: run check-voices FIRST and re-take only the lines it lists as Failed (expected: punch1 only, --line punch1 --attempt 1, then 2). Generate all voices only if the clips are missing. Write Ep016.md with the checks if it is missing."
-}

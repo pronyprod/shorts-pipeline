@@ -506,6 +506,10 @@ CHECK NEEDED: Ep014 voice lines punch1 ("I centred myself." heard as "scented", 
   Nothing uncertain; ready for 2026-11-20 07:30 WIB.
 
 CHECK NEEDED: Ep016 voice line punch1 ("An apple from the ground." heard as "and Apple from the ground." after 2 retries)
+- **Countryballs Ep016 (words in different languages, 21 Nov, cloud run):** potato (FR earth apple), raccoon (DE wash bear), bat (FR bald mouse), penguin (FR manchot); music At The Fair.
+  countryballs-video/renders/Ep016.mp4, 18.8 s, -13.6 LUFS, true peak -1.42 dBTP, no silence over 1 s, no decode errors; voices 11/11.
+  Nothing uncertain (meanings checked on Wiktionary, URLs in Ep016.md); ready for 2026-11-22 07:30 WIB.
+AUTO-REWORD: Countryballs Ep016 punch1: "An apple from the ground." -> "France: earth apple." (maintainer's rewording of 21 Nov, not an automatic one; whisper heard "France Earth Apple."; passed on first Kokoro retake)
 
 ## 11. Open questions
 - Countryballs: English or Indonesian? (or both later)
@@ -675,3 +679,4 @@ CHECK NEEDED: Ep017 visual: Everest tag hidden behind depth counter (beat 7), fi
   (1) Ep016 punch1 ("An apple from the ground.", heard as "and Apple from the ground." after 2 retries) reworded to "France: earth apple." (same joke and fact: French pomme de terre / Dutch aardappel = earth apple; same pattern as "Germany: wash bear."), in ep016.ts and the bank row. `voice-match.mjs` also treats an/and as the same word (scores: old line 100%, new line 100% against "France, earth apple." and "France's Earth Apple."). State reset (`cloudStop` and `voiceAttempts` cleared, note: check-voices first, re-take only failed lines, expected punch1 only).
   (2) Automatic rewording (CLOUD_RULES "Automatic rewording of a voice line", all 3 channels; Country Flux step 3 points to it): a line that still fails whisper after the channel's own retries is reworded ONCE (same meaning and joke, clearer words, facts kept and re-checked, changed everywhere it lives), re-taken and re-checked; every rewording gets an `AUTO-REWORD:` log line and goes into the state and result; only a failing reworded line stops with CHECK NEEDED (both wordings in the reason).
   (3) 3-day stock planner `ci/stock.mjs` + two rounds per run (workflow matrix `round: [1, 2]`, one at a time): see the next entry once tested.
+- **Countryballs Ep016 cloud delivery (2026-11-21):** queued for 2026-11-22T07:30:00+07:00; Queue Countryballs row 18, Uploads row 53; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep016/Ep016.mp4
