@@ -102,10 +102,10 @@ Every flag below was compared by eye against the flag-icons 4x3 SVGs in `public/
 | Ep014 | DK → CH | White cross on red, moved to the centre | "I moved to the middle." | squint | proud | **(DONE: Ep014)**
 | Ep014 | CO → VE | Yellow-blue-red + arc of eight stars | "I added eight stars." | proud | smug | **(DONE: Ep014)**
 | Ep014 | KW → AE | Black and red swap places | "We swapped black and red." | laughing | laughing | **(DONE: Ep014)**
-| Ep018 | NO → FO | Cross stays, red field → white field | "I painted the walls white." | disappointed | innocent |
-| Ep018 | PL → MC | White over red → red over white | "I'm upside down." | confused | defiant |
-| Ep018 | BO → GH | Same stripes, shield → black star | "My shield became a star." | shocked | proud |
-| Ep018 | US → MY | Red-white stripes, stars → crescent and star | "I swapped stars for a moon." | squint | smug |
+| Ep018 | NO → FO | Cross stays, red field → white field | "I painted the walls white." | disappointed | innocent | **(DONE: Ep018)**
+| Ep018 | PL → MC | White over red → red over white | "I'm upside down." | confused | defiant | **(DONE: Ep018)**
+| Ep018 | BO → GH | Same stripes, shield → black star | "My shield became a star." | shocked | proud | **(DONE: Ep018)**
+| Ep018 | US → MY | Red-white stripes, stars → crescent and star | "I traded stars for a moon." | squint | smug | **(DONE: Ep018)**
 
 ### Size duel: two balls grow to true area, guess who wins
 Ball area is proportional to country area. The winner says the line.

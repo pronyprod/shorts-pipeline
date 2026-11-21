@@ -515,6 +515,11 @@ AUTO-REWORD: Countryballs Ep016 punch1: "An apple from the ground." -> "France: 
   File: countryballs-video/renders/Ep017.mp4, 23.0 s, -14.2 LUFS, -1.19 dBTP; whisper 7/7 lines (punch4 needed 1 Kokoro retry), no silence over 1 s, 0 decode errors, facts rows all checked, 4 beat frames checked; ready for 2026-11-23T07:30:00+07:00.
   Nothing uncertain (Ecuador parents' eyes set down so the condor emblem stays visible; no series story: newFormats off).
 
+- **Countryballs Ep018 (22 Nov 2026):** twins NO→FO, PL→MC, BO→GH, US→MY; music "Claudio The Worm" (The Green Orbs). Ready for 2026-11-24T07:30:00+07:00.
+  File: countryballs-video/renders/Ep018.mp4, 20.3 s, -14.1 LUFS (cross-check -14.02), true peak -1.31 dBTP; whisper 7/7 lines match, no silence, 0 decode errors.
+  Nothing uncertain; punch4 was reworded once (see AUTO-REWORD line).
+AUTO-REWORD: Countryballs Ep018 punch4: "I swapped stars for a moon." -> "I traded stars for a moon." (whisper heard "I swap stars for a moon." after 2 retries; passed)
+
 ## 11. Open questions
 - Countryballs: English or Indonesian? (or both later)
 - Formats #2 and #3: pending the ID scan.
@@ -705,3 +710,4 @@ CHECK NEEDED: Ep017 visual: Everest tag hidden behind depth counter (beat 7), fi
 - **What If Ep018 cloud delivery (2026-11-22):** queued for 2026-11-22T07:30:00+07:00; Queue What If row 21, Uploads row 54; video https://github.com/pronyprod/shorts-pipeline/releases/download/whatif-Ep018/WhatIf_Ep018.mp4
 - **PomProds Page added to Reels (22 Nov 2026, ~00:30 WIB):** owner linked Page "PomProds" to @pomprods and assigned it to the system user. META_FB_CHANNELS = "countryballs whatif". whoami 44927716159: token sees PomProds (Instagram @pomprods) and Country Flux. TEST runs: Ep016 Instagram + Facebook fine (44928242564); Ep017 Instagram binary upload refused by Meta ("ProcessingFailedError", not retriable) three times while the file is normal (h264 High 1080x1920 30 fps, AAC 48 kHz, 51.6 s, same atom layout as working files). Fix: when the direct upload is refused, a new container is made with video_url (the public release/Drive link) and Meta fetches it; TEST 44928478078 passed (Instagram FINISHED, Facebook draft ready then deleted). FaktaMantra: still waiting for its Page.
 - **Countryballs Ep017 cloud delivery (2026-11-22):** queued for 2026-11-23T07:30:00+07:00; Queue Countryballs row 19, Uploads row 55; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep017/Ep017.mp4
+- **Countryballs Ep018 held as stock (2026-11-22):** made, checked and released, not queued yet (busiest 24 h window from 11-21 04:19 WIB would hold 6 uploads (limit 5; 5 in the last 24 h, 2 nightly episode(s) that must still come)); the morning job queues it when the upload window allows; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep018/Ep018.mp4
