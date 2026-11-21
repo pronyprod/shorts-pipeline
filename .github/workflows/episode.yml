@@ -162,12 +162,18 @@ jobs:
           npm_config_onnxruntime_node_install_cuda: skip
         run: npm ci --no-audit --no-fund
 
+      # whisper.cpp is compiled for the CPU features of the machine that builds it (AVX-512 etc.); a runner without
+      # them crashed with "Illegal instruction" (18 and 21 Nov). So the cache is kept per CPU feature set.
+      - name: CPU features (for the whisper cache)
+        if: env.GO == 'true'
+        run: echo "CPUKEY=$(grep -m1 '^flags' /proc/cpuinfo | grep -oE 'avx512[a-z_]*|avx2|fma|f16c' | sort -u | tr -d '\n' | md5sum | cut -c1-10)" >> "$GITHUB_ENV"
+
       - name: Cache whisper.cpp and its model
         if: env.GO == 'true'
         uses: actions/cache@v4
         with:
           path: .cache/whisper
-          key: whisper-1.5.5-${{ env.CHANNEL == 'countryballs' && 'base.en' || 'small' }}-v1
+          key: whisper-1.5.5-${{ env.CHANNEL == 'countryballs' && 'base.en' || 'small' }}-${{ env.CPUKEY }}-v2
 
       - name: Cache Chrome for Remotion and the Kokoro voice model
         if: env.GO == 'true'

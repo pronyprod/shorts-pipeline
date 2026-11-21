@@ -50,6 +50,27 @@ place() { # target dir, model name
   cp "$CACHE/whisper/main" "$1/main.exe"
   ln -sf "$CACHE/whisper/ggml-$2.bin" "$1/ggml-$2.bin"
 }
+build_whisper() {
+  rm -rf "$CACHE/whisper-src"
+  git clone --quiet --depth 1 --branch "v$WHISPER_VERSION" https://github.com/ggerganov/whisper.cpp "$CACHE/whisper-src"
+  make -C "$CACHE/whisper-src" -j"$(nproc)" main >/dev/null
+  cp "$CACHE/whisper-src/main" "$CACHE/whisper/main"
+  rm -rf "$CACHE/whisper-src"
+}
+# Does the (possibly cached) program run on THIS CPU? 1 s of silence through the real model; exit 132 = Illegal
+# instruction (built on a CPU with features this one lacks): build it again here.
+whisper_ok() {
+  ffmpeg -v error -y -f lavfi -i anullsrc=r=16000:cl=mono -t 1 "$CACHE/whisper/probe.wav"
+  "$CACHE/whisper/main" -m "$CACHE/whisper/ggml-$1.bin" -f "$CACHE/whisper/probe.wav" -nt -np >/dev/null 2>&1
+}
+WMODEL=$([ "$CHANNEL" = countryballs ] && echo base.en || echo small)
+model "$WMODEL"
+if ! whisper_ok "$WMODEL"; then
+  echo "whisper: the cached program does not run on this CPU (exit $?): building it here"
+  build_whisper
+  whisper_ok "$WMODEL" || { echo "whisper: still fails after a fresh build"; exit 1; }
+fi
+echo "whisper: self-test passed"
 if [ "$CHANNEL" = countryballs ]; then
   model base.en
   place "$ROOT/countryballs-video/whisper.cpp" base.en
