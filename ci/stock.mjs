@@ -18,7 +18,7 @@
 //   plan, round 1: redo, unfinished episode, delivery retry, or nothing queued for tomorrow: always make.
 //                  otherwise: STOCK on: make while ahead + held < 3; STOCK off: one per run as before.
 //   plan, round 2: STOCK on (or a forced test), round 1 delivered, ahead + held < 3, Country Flux first (a second
-//                  What If / Fakta episode only when Country Flux has ahead + held >= 3), Gemini quota (today's
+//                  PomProds / Fakta episode only when Country Flux has ahead + held >= 3), Gemini quota (today's
 //                  requests for the channel's model + this episode's need + 3 spare <= daily limit), and time
 //                  (minutes since the run started + the channel's typical episode time <= 200).
 //   queueing (deliver.mjs, queue-held): nothing queued for tomorrow -> queue now; otherwise only when the upload

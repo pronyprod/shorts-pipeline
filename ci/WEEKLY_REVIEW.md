@@ -6,17 +6,17 @@ Owner, 22 Nov 2026: more views, zero daily work. You run unattended on a Linux r
 - `ci-out/review/episodes.json` (and `.csv`): one record per YouTube episode: channel, episode, posted date, views at
   48 h, average % viewed, subscribers gained, average view duration (s), title, topic, hook, hashtags, pinned comment.
   Rows without numbers are too new (YouTube Analytics is 2-3 days behind): skip them.
-- The repo: each channel's episode files (What If / PomProds: `whatif-video/src/whatif/episodes/epNNN.ts` and the kit
+- The repo: each channel's episode files (PomProds: `whatif-video/src/whatif/episodes/epNNN.ts` and the kit
   file's `style`; Fakta: `fakta-video/src/episodes/`; Countryballs: `countryballs-video/src/countryballs/episodes/` and
   the format in the bank), the banks `shared/FLAG_PAIR_BANK.md`, `shared/WHATIF_BANK.md`, `shared/FAKTA_BANK.md`, and the
   previous `shared/WHAT_WORKS.md` if it exists.
 - `ci-out/context.json`: `{ "test": true|false, "date": "YYYY-MM-DD" }`.
 
 ## 1. Write `shared/WHAT_WORKS.md` (replace it every week)
-Per channel (Country Flux = Countryballs, PomProds = What If, Fakta Unik):
+Per channel (Country Flux = Countryballs, PomProds (called "What If" before 22 Nov 2026), Fakta Unik):
 - A table of the episodes with numbers, best first by views at 48 h, with average % viewed, subs, and what the episode
   was (format / category / style, hook type, title pattern).
-- **What works** and **what does not**, for: topics/categories, hooks (the first line), styles (What If: A/B/D/P),
+- **What works** and **what does not**, for: topics/categories, hooks (the first line), styles (PomProds: A/B/D/P),
   formats (Countryballs sub-formats), title patterns (question, number, CAPS word, emoji, "What if you ..."), length.
   Name the episodes behind each claim. With fewer than 3 episodes behind a pattern, say "early sign", not a rule.
   Views and average % viewed can disagree: report both (reach vs retention).

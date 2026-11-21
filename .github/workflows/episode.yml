@@ -4,7 +4,7 @@ name: Daily episode
 # (always when nothing is queued for tomorrow); round 2 makes a second one only when ci/stock.mjs says the channel is
 # below the 3-day target and every limit allows it (uploads in 24 h, Gemini quota with 3 spare, time, Country Flux
 # first). Stock building is on when the repository variable STOCK is "on". Jobs never overlap (concurrency group).
-# Schedule (WIB = UTC+7): countryballs 19:20, What If 20:20, Fakta 21:20.
+# Schedule (WIB = UTC+7): countryballs 19:20, PomProds 20:20, Fakta 21:20.
 # The schedule only does work when the repository variable CLOUD_SCHEDULE is set to "on"
 # (Settings > Secrets and variables > Actions > Variables). Until then the laptop stays in charge
 # and only the manual "Run workflow" button does anything.
@@ -237,7 +237,7 @@ jobs:
             --allowedTools Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch
             --max-turns 400
 
-      # What If: Claude hands the full render to the workflow (result "render"), because a background render dies
+      # PomProds: Claude hands the full render to the workflow (result "render"), because a background render dies
       # when the Claude session ends (run 44103438051, 17 Nov). The render runs here with no session to outlive.
       - name: Render handed over by Claude
         id: render
@@ -251,11 +251,11 @@ jobs:
           COMP="$(node -p 'require("./ci-out/result.json").composition')"
           fail() {
             printf '{ "status": "check-needed", "episode": "%s", "reason": "cloud render: %s" }\n' "$EP" "$1" > "$ROOT/ci-out/result.json"
-            echo "CHECK NEEDED: What If $EP cloud render: $1; state kept at step 5, the next run renders again without new voice requests ($(date +%F), $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)" >> "$ROOT/shared/PROJECT_LOG.md"
-            echo "**CHECK NEEDED** What If $EP render: $1" >> "$GITHUB_STEP_SUMMARY"
+            echo "CHECK NEEDED: PomProds $EP cloud render: $1; state kept at step 5, the next run renders again without new voice requests ($(date +%F), $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)" >> "$ROOT/shared/PROJECT_LOG.md"
+            echo "**CHECK NEEDED** PomProds $EP render: $1" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           }
-          [ "$CHANNEL" = whatif ] || fail "render hand-off is only for What If"
+          [ "$CHANNEL" = whatif ] || fail "render hand-off is only for PomProds"
           [[ "$EP" =~ ^Ep[0-9]{3}$ ]] || fail "bad episode name in result.json"
           [[ "$COMP" =~ ^Kit-k[0-9]{3}[a-z]?$ ]] || fail "bad composition name in result.json"
           cd "$ROOT/$PROJECT"

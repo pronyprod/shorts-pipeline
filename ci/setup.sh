@@ -54,7 +54,7 @@ if [ "$CHANNEL" = countryballs ]; then
   model base.en
   place "$ROOT/countryballs-video/whisper.cpp" base.en
 else
-  # What If uses Fakta's whisper folder (../fakta-video/whisper), so both get the same place
+  # PomProds uses Fakta's whisper folder (../fakta-video/whisper), so both get the same place
   model small
   place "$ROOT/fakta-video/whisper" small
 fi

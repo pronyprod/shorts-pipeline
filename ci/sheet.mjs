@@ -30,7 +30,7 @@ import { fileURLToPath } from "node:url";
 
 export const CHANNELS = {
   countryballs: { project: "countryballs-video", queueTab: "Queue Countryballs", sheetName: "Countryballs", time: "07:30", file: (ep) => `${ep}.mp4` },
-  whatif: { project: "whatif-video", queueTab: "Queue What If", sheetName: "What If", time: "07:30", file: (ep) => `WhatIf_${ep}.mp4` },
+  whatif: { project: "whatif-video", queueTab: "Queue PomProds", sheetName: "PomProds", time: "07:30", file: (ep) => `WhatIf_${ep}.mp4` },
   fakta: { project: "fakta-video", queueTab: "Queue Fakta", sheetName: "Fakta Unik", time: "18:00", file: (ep) => `Fakta_${ep}.mp4` },
 };
 const TEST_QUEUE = "Queue Test";
