@@ -1,0 +1,19 @@
+{
+  "episode": "ep019",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep019.ts lines: only CAPITALS added; words identical to say. Owner rule 12 Nov: clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is riding a falling space telescope. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a hushed shock", "tagged": "You're riding a dying space TELESCOPE, falling at over twenty eight thousand kilometres an hour." },
+    { "n": 2, "style": "calm and steady, awed", "tagged": "Every second, you fly almost EIGHT kilometres." },
+    { "n": 3, "style": "tense and steady", "tagged": "About a hundred and twenty kilometres up, you hit the first AIR." },
+    { "n": 4, "style": "tense, each sentence landing", "tagged": "It piles up in front of you. SQUEEZED air is the real heat." },
+    { "n": 5, "style": "worried and steady", "tagged": "At six hundred sixty degrees, aluminium MELTS. Your telescope starts to fall apart." },
+    { "n": 6, "style": "the key line: big, clear punch", "tagged": "Around seventy eight kilometres up, it BREAKS into pieces." },
+    { "n": 7, "style": "calm and explanatory, a little relieved", "tagged": "That's why astronauts ride home behind a HEAT shield." },
+    { "n": 8, "style": "leaning in, amazed, sharing a true story", "tagged": "This REALLY happened. On November fourth, NASA's Swift telescope came down." },
+    { "n": 9, "style": "clear and amazed", "tagged": "It burned up over SUMATRA, in Indonesia, after almost twenty two years in space." },
+    { "n": 10, "style": "warm and amused, a little grin", "tagged": "Along the way, it caught over one thousand seven hundred fifty COSMIC explosions." },
+    { "n": 11, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}

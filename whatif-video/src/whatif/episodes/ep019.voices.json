@@ -1,0 +1,25 @@
+{
+  "narrator": {
+    "engine": "gemini",
+    "voice": "Puck",
+    "models": [
+      "gemini-3.8-flash-tts"
+    ],
+    "tempo": 1,
+    "innerPauseCap": 0.45,
+    "requests": 1
+  },
+  "durations": [
+    6.35,
+    3,
+    3.89,
+    4.05,
+    6.34,
+    3.89,
+    2.5,
+    5.28,
+    6.04,
+    5.78,
+    3.63
+  ]
+}
