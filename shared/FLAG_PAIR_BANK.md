@@ -52,6 +52,11 @@ Created 2026-10-29. Every pair below was checked visually against the flag-icons
 | 30 | HU Hungary | BG Bulgaria | Red-white-green → white-green-red (shuffled) | "I shuffled my stripes." | confused | innocent |
 | 31 | CM Cameroon | SN Senegal | Stripes reordered, yellow star → green star | "My star turned green." | squint | proud |
 | 32 | TD Chad | AD Andorra | Same tricolour + shield | "I got a shield too." (use only if #17 isn't used) | proud | smug |
+| 33 | GB United Kingdom | AU Australia | Union Jack kept in the corner, rest of the flag now blue with stars (added by weekly review 2026-11-22; verify visually) | "I moved south and got stars." | proud | smug |
+| 34 | DK Denmark | NO Norway | White cross on red + a blue cross inside it (added by weekly review 2026-11-22; verify visually) | "I added a blue stripe." | squint | proud |
+| 35 | ML Mali | GH Ghana | Same green-yellow-red, stripes lie down, black star added (added by weekly review 2026-11-22; verify visually) | "I lay down and got a star." | confused | smug |
+| 36 | SE Sweden | FI Finland | Blue field with yellow cross → white field with blue cross (added by weekly review 2026-11-22; verify visually) | "I swapped my colours." | shocked | innocent |
+| 37 | AR Argentina | NI Nicaragua | Light blue-white-light blue → blue-white-blue, sun → triangle emblem (added by weekly review 2026-11-22; verify visually) | "I traded the sun for a triangle." | disappointed | defiant |
 
 ## Suggested episodes (4 rounds each, varied colours and reactions)
 | Episode | Rounds |
@@ -63,7 +68,7 @@ Created 2026-10-29. Every pair below was checked visually against the flag-icons
 | Ep006 | #13 JP→GL half · #5 DE→BE stood up · #29 AR→HN stars · #16 RO→MD bird **(DONE: Ep006)** |
 | Ep007 | #21 LI→HT Olympics · #4 AT→LV diet · #15 ML→GN backwards · #26 PE→CA leaf **(DONE: Ep007)** |
 | Ep008 | #14 SN→ML star · #28 AR→GT bird · #7 RU→SK badge · #30 HU→BG shuffled **(DONE: Ep008)** |
-| Spare | #9, #17, #31, #32 |
+| Spare | #9, #17, #31, #32, #33-#37 (added by weekly review 2026-11-22) |
 
 Check before each episode: no reaction repeats in consecutive rounds (adjust if needed), and
 background colours alternate (avoid two red-reveal rounds back to back).
@@ -141,6 +146,25 @@ Ball area is proportional to country area. The winner says the line.
 | Ep020 | Pineapple | DE Ananas · FR ananas · ES piña · PT abacaxi | Spanish piña also means pinecone | "Spain also sees a pinecone." |
 
 Left out on purpose: Italian guanto and patata, and Spanish mariquita, because of their slang meanings.
+
+## Order for Ep020-Ep033 (weekly review 2026-11-22)
+Evidence (`shared/WHAT_WORKS.md`): classic Flag Family is the base (6 of 8 above 11,000 views; Ep008 31,214, Ep002 26,952), Twins Ep010 21,672 and Reverse quiz Ep009 14,658 are early signs, Size duel Ep011 7,298 is the weakest format (early sign). Words has no numbers yet. Rules kept: no format twice in a row, timely slot (Ep020, Ep025, Ep030), series (Part 1 Ep027, Part 2 Ep028), every pair compared by eye in the flag-icons 4x3 SVGs before use. Size duel drops to at most 1 in 5 until a second data point exists.
+Titles: "[This/Their kid] + a concrete visual verb + CAPS word + one emoji + Guess the flag/parents" (like Ep008, Ep002, Ep007, Ep004); no meme phrases, no "Can you guess?" without an object.
+- Ep020: Words (rows above; timely slot, one round needs a news hook or a current date)
+- Ep021: Classic Flag Family: #9, #33, #31, #34
+- Ep022: Twins (new pairs, verify)
+- Ep023: Classic Flag Family: #17, #35, #36, #37
+- Ep024: Reverse quiz (new pairs, verify)
+- Ep025: Timely (classic style or twins, whichever has a news hook)
+- Ep026: Reverse quiz or Size duel (new rows; the Size duel only if Ep019's numbers are at least the median)
+- Ep027: Series Part 1, "Twins: can you tell them apart?" (new twin pairs, verify)
+- Ep028: Series Part 2 (reveal + 3 new twin pairs)
+- Ep029: Classic Flag Family (new pairs, verify; #32 only if #17 is unused)
+- Ep030: Timely
+- Ep031: Twins (new pairs)
+- Ep032: Reverse quiz (new pairs)
+- Ep033: Classic Flag Family (new pairs)
+Pairs #33-#37 were added by this review and listed in the "Spare" row.
 
 ## Next ideas once pairs run out
 - "Flag Family" variants: grandparents, twins (TD/RO), "my evil twin", "my cousin".
