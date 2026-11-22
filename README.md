@@ -73,6 +73,7 @@ Never put any of these in a file in this repo or in a chat.
   that is later. Decided when the run starts, never when it finishes.
 - Queue and Uploads rows: next empty row, whole row in one write, leading apostrophes on Episode / Publish at /
   Planned date, row 2 never touched, read back and compared; any difference stops with `CHECK NEEDED` in the log.
+  Log tags: `CHECK NEEDED` = something to look at; `CLAUDE LIMIT` = the Claude usage/rate limit stopped a run before it made anything (nothing to fix, the next run makes the episode); `CLEARED <date>` = an old CHECK NEEDED that turned out harmless.
 - A failed delivery is remembered in `ci/pending/` and retried by that channel's next run before anything new.
 - Nothing is committed without passing `tools/scan.sh` (keys, tokens, personal details, Drive IDs, music files).
 

@@ -288,6 +288,7 @@ jobs:
           fail "remotion render failed twice: $(grep -m1 -iE 'error' "$ROOT/ci-out/render-1.log" | cut -c1-150 | tr -d '"\')"
 
       - name: Claude finishes the episode (checks after the workflow's render)
+        id: claude2
         if: env.GO == 'true' && steps.render.outputs.rendered == 'true'
         uses: anthropics/claude-code-action@v1
         env:
@@ -311,6 +312,12 @@ jobs:
             --permission-mode default
             --allowedTools Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch
             --max-turns 300
+
+      # The Claude action hides its output; when it fails, show only the final error text and sort it (usage limit or
+      # not), so the log says why instead of "ended without a result file" (22 Nov 2026, runs 44944551689/44947130130).
+      - name: Why did Claude stop? (only when a Claude step failed)
+        if: always() && env.GO == 'true' && (steps.claude1.outcome == 'failure' || steps.claude2.outcome == 'failure')
+        run: node ci/claude-error.mjs "${{ steps.claude2.outputs.execution_file || steps.claude1.outputs.execution_file }}" || true
 
       - name: Verify the mandatory checks (Claude's numbers + the workflow's own measurements)
         if: always() && env.GO == 'true' && steps.ctx.outcome == 'success'

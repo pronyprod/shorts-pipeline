@@ -53,8 +53,17 @@ const stop = (reason, keepPending = true) => {
 
 // ---------- what did Claude leave? ----------
 if (!existsSync(RESULT)) {
-  logLine(`CHECK NEEDED: ${c.sheetName} cloud run${test ? " (TEST)" : ""} ended without a result file (${today}, ${runUrl})`);
-  summary(`**CHECK NEEDED** ${c.sheetName}: the Claude step ended without ci-out/result.json. Open the run log.`);
+  // ci/claude-error.mjs says why the Claude step stopped (22 Nov 2026). A usage/rate limit is not an episode problem:
+  // nothing to fix, nothing kept, the next run makes the episode, so it is logged as CLAUDE LIMIT, not CHECK NEEDED.
+  const ERR = path.join(repo, "ci-out", "claude-error.json");
+  const err = existsSync(ERR) ? JSON.parse(readFileSync(ERR, "utf8")) : null;
+  if (err?.kind === "limit") {
+    logLine(`CLAUDE LIMIT: ${c.sheetName} cloud run${test ? " (TEST)" : ""} stopped before making the episode: Claude usage/rate limit ("${err.text.slice(0, 160)}"). Not an episode problem, nothing to fix; the next run makes it (${today}, ${runUrl})`);
+    summary(`**CLAUDE LIMIT** ${c.sheetName}: ${err.text}. Nothing to fix; the next run makes the episode.`);
+    process.exit(1);
+  }
+  logLine(`CHECK NEEDED: ${c.sheetName} cloud run${test ? " (TEST)" : ""} ended without a result file${err ? ` (Claude: "${err.text.slice(0, 160)}")` : ""} (${today}, ${runUrl})`);
+  summary(`**CHECK NEEDED** ${c.sheetName}: the Claude step ended without ci-out/result.json${err ? `: ${err.text}` : ". Open the run log."}`);
   process.exit(1);
 }
 result = JSON.parse(readFileSync(RESULT, "utf8"));

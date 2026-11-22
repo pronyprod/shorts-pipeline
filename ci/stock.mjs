@@ -165,15 +165,25 @@ if (cmd === "plan") {
   const state = path.join(repo, c.project, ".episode_state.json");
   const pending = path.join(repo, "ci", "pending", `${channel}.json`);
   const ahead = aheadOf(queues, channel, D);
+  // A SCHEDULED run that GitHub starts after midnight (00:00-05:59 WIB) belongs to the night before. When that night's
+  // episode is already queued (nothing missing for today), it makes nothing: the evening run makes the next one.
+  // Why (22 Nov 2026): the scheduled runs of 21 Nov started at 02:29, 03:07 and 03:35 WIB, after the owner's manual
+  // catch-up runs had already made the night's episodes; they started Claude again and ran into the Claude usage
+  // limit (PomProds and Fakta stopped within seconds, "ended without a result file"). Manual runs still run.
+  const urg = urgency(queues, channel, runStart.toISOString());
+  const late = { skip: env.GITHUB_EVENT_NAME === "schedule" && env.TEST !== "true" && urg.lateNight && !urg.needed,
+    reason: `Late scheduled run (started after midnight WIB): this night's ${c.sheetName} episode is already queued (latest ${latestOf(queues, channel) || "none"}); the evening run makes the next one.` };
   if (round === 1) {
     if (env.REDO) decide(true, "redo", `Redo of ${env.REDO}.`);
     if (existsSync(state)) decide(true, "resume", "An unfinished episode is in the state file: it is finished first.");
     if (existsSync(pending) && env.TEST !== "true") decide(true, "delivery-retry", "A delivery from an earlier run is retried.");
+    if (late.skip) decide(false, "late-night", late.reason);
     if (ahead < 1) decide(true, "mandatory", `Nothing queued for ${addDays(D, 1)} yet.`);
     if (!stockOn && !force) decide(true, "daily", "Stock is off: the usual one episode per run (queued if the upload window allows, else held).");
     if (level(channel) >= target) decide(false, "at-target", `${c.sheetName} already has ${level(channel)} days (queued + held).`);
     decide(true, "daily", `Below the ${TARGET_DAYS}-day target (${level(channel)} queued + held): the usual episode.`);
   }
+  if (late.skip) decide(false, "late-night", late.reason);
   if (!stockOn && !force) decide(false, "stock-off", "Stock building is off (repository variable STOCK).");
   if (env.REDO) decide(false, "redo", "No second episode after a redo.");
   if (existsSync(state)) decide(false, "unfinished", "The first episode of this run did not finish (state file).");
