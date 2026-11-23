@@ -103,7 +103,18 @@ if (cmd === "test") {
   say(`Ep011 durations: worst ${v.worstMs} ms (${v.detail}) -> ${v.ok ? "OK" : "TOO FAR"}`);
   for (const f of readdirSync(keep)) {
     const a = pcm(path.join(keep, f)), b = pcm(path.join(dir, f));
-    say(`  ${f}: committed ${(a.length / 24000).toFixed(3)} s, new ${(b.length / 24000).toFixed(3)} s, waveform correlation ${corr(a, b).toFixed(4)}`);
+    // best waveform match within +/- 20 ms (a few ms of trim or resampler delay make a plain correlation meaningless)
+    let bestLag = 0, best = -1;
+    for (let lag = -480; lag <= 480; lag += 4) {
+      const c = lag >= 0 ? corr(a.subarray(lag), b) : corr(a, b.subarray(-lag));
+      if (c > best) (best = c), (bestLag = lag);
+    }
+    const env = (x) => Array.from({ length: Math.floor(x.length / 240) }, (_, i) => Math.sqrt(x.subarray(i * 240, i * 240 + 240).reduce((s, v) => s + v * v, 0) / 240));
+    const ea = env(a), eb = env(b);
+    const n = Math.min(ea.length, eb.length), ma = ea.slice(0, n).reduce((s, v) => s + v, 0) / n, mb = eb.slice(0, n).reduce((s, v) => s + v, 0) / n;
+    let sxy = 0, sx = 0, sy = 0;
+    for (let i = 0; i < n; i++) (sxy += (ea[i] - ma) * (eb[i] - mb)), (sx += (ea[i] - ma) ** 2), (sy += (eb[i] - mb) ** 2);
+    say(`  ${f}: committed ${(a.length / 24000).toFixed(3)} s, new ${(b.length / 24000).toFixed(3)} s, waveform ${corr(a, b).toFixed(3)}, best within 20 ms ${best.toFixed(3)} (shift ${(bestLag / 24).toFixed(1)} ms), envelope ${(sxy / Math.sqrt(sx * sy)).toFixed(3)}`);
   }
 } else if (cmd === "build") {
   const uploads = await sheetGet("'Uploads'!A1:Z");
