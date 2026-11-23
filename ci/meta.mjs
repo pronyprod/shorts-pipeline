@@ -300,7 +300,8 @@ const postFacebook = async (acct, e, buf) => {
 // Instagram media insights need instagram_manage_insights; Facebook video insights need read_insights. Each metric is
 // asked alone, so one the API does not offer never hides the others.
 const IG_METRICS = ["reach", "views", "ig_reels_avg_watch_time", "total_interactions"];
-const FB_METRICS = ["post_impressions_unique", "blue_reels_play_count", "fb_reels_total_plays", "post_video_avg_time_watched"];
+// Facebook Reels have no reach metric (post_impressions_unique is refused for Reels, 23 Nov 2026): "reach" there = plays.
+const FB_METRICS = ["blue_reels_play_count", "fb_reels_total_plays", "post_video_avg_time_watched", "post_video_followers"];
 const metric = async (url, params, token) => {
   try {
     const d = (await graph("GET", url, params, token)).data ?? [];
@@ -330,7 +331,7 @@ const readInsights = async (p, acct) => {
       else out[m] = r.value;
     }
   }
-  out.reach = p.platform === "instagram" ? out.reach ?? null : out.post_impressions_unique ?? null;
+  out.reach = p.platform === "instagram" ? out.reach ?? null : out.blue_reels_play_count ?? out.fb_reels_total_plays ?? null;
   out.plays = p.platform === "instagram" ? out.views ?? null : out.blue_reels_play_count ?? out.fb_reels_total_plays ?? null;
   out.avgWatchMs = p.platform === "instagram" ? out.ig_reels_avg_watch_time ?? null : out.post_video_avg_time_watched ?? null;
   if (errors.length) out.errors = errors;
