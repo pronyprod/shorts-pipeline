@@ -379,7 +379,7 @@ const updateInsights = async (posted, found) => {
     n++;
     const i = p.insights;
     say(`insights ${p.channel} ${p.platform} ${p.ep} (${i.ageH} h, ${p.captionType ?? "old caption"}): reach ${i.reach ?? "-"}, plays ${i.plays ?? "-"}, avg watch ${i.avgWatchMs ?? "-"} ms${i.errors ? `; not available: ${i.errors.map((x) => x.split(":")[0]).join(", ")}` : ""}`);
-    if (i.errors?.length && i.reach == null) say(`  first error: ${i.errors[0].slice(0, 200)}`);
+    if (i.errors?.length && i.reach == null) for (const x of [...new Set(i.errors.map((y) => y.replace(/^[^:]+: /, "")))].slice(0, 3)) say(`  error: ${x.slice(0, 200)} (${i.errors.filter((y) => y.endsWith(x)).map((y) => y.split(":")[0]).join(", ")})`);
   }
   if (n && !TEST) writePosted(posted);
   brake(posted);
