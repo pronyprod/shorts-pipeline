@@ -6,7 +6,7 @@
 //   node ci/meta.mjs todo                   (no Meta token needed) the next episodes per channel that need a caption file
 //                                           (written by Claude in meta-captions.yml, rules in ci/CAPTIONS.md)
 //   node ci/meta.mjs check-captions         validate ci/meta/captions/*.json; a broken variant is removed (plain is used)
-//   node ci/meta.mjs insights               read insights of posts 24 h+ old, then the safety brake (also part of "post")
+//   node ci/meta.mjs insights               read insights of posts 48 h+ old, then the safety brake (also part of "post")
 //   node ci/meta.mjs compare                trend vs plain captions per account: median reach, plays, avg watch time
 //   node ci/meta.mjs selftest               caption rules and brake on made-up data
 //
@@ -15,7 +15,7 @@
 // hashtags. Claude writes a "trend" and a "plain" variant per episode into ci/meta/captions/<channel>-<ep>.json
 // (meta-captions.yml; used while under 72 h old). This script validates them; a missing or rule-breaking variant
 // falls back to a plain caption built from the sheet (title, hook line, pinned-comment question, episode hashtags).
-// Safety brake: about 24 h after each post its insights (reach, plays, avg watch time; non-follower reach when the
+// Safety brake: about 48 h after each post (Meta's numbers lag up to 48 h) its insights (reach, plays, avg watch time; non-follower reach when the
 // API gives it) go into posted.json. When an account's last 3 measured posts are all trend captions and each reached
 // under half of that account's own baseline (median of its 4-10 earlier measured posts), the account switches to plain
 // captions (ci/meta/mode.json) and a "REELS WARNING" line goes into shared/PROJECT_LOG.md.
@@ -325,7 +325,7 @@ const readInsights = async (p, acct) => {
     if (Array.isArray(res)) for (const x of res) out[`reach_${String(x.dimension_values?.[0] ?? "").toLowerCase()}`] = x.value;
   } else {
     for (const m of FB_METRICS) {
-      const r = await metric(`${p.id}/video_insights`, { metric: m }, token);
+      const r = await metric(`${p.id}/video_insights`, { metric: m, period: "lifetime" }, token);
       if (r.error) errors.push(`${m}: ${r.error}`);
       else out[m] = r.value;
     }
@@ -372,7 +372,7 @@ const updateInsights = async (posted, found) => {
   let n = 0;
   for (const p of posted.posts) {
     const age = (Date.now() - Date.parse(p.at)) / 3600000;
-    if (p.insights || age < 24 || age > 24 * 14 || !p.id) continue;
+    if ((p.insights && p.insights.reach != null) || age < 48 || age > 24 * 14 || !p.id) continue;
     const acct = found[p.channel];
     if (!acct?.page && !acct?.ig) continue;
     p.insights = await readInsights(p, acct);
