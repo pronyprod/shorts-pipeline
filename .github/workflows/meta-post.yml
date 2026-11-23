@@ -73,7 +73,7 @@ jobs:
       - name: Run
         run: |
           if [ "$JOB" = whoami ]; then node ci/meta.mjs whoami; exit; fi
-          if [ "$JOB" = insights ]; then if [ "$TEST" = true ]; then node ci/meta.mjs insights --test; else node ci/meta.mjs insights; fi; exit; fi
+          if [ "$JOB" = insights ]; then if [ "$TEST" = true ]; then node ci/meta.mjs insights --test --min-age 24; else node ci/meta.mjs insights; fi; exit; fi
           set -- post
           [ "$TEST" = true ] && set -- "$@" --test
           [ -n "$CH" ] && set -- "$@" --channel "$CH"

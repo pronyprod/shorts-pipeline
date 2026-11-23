@@ -372,7 +372,7 @@ const updateInsights = async (posted, found) => {
   let n = 0;
   for (const p of posted.posts) {
     const age = (Date.now() - Date.parse(p.at)) / 3600000;
-    if ((p.insights && p.insights.reach != null) || age < 48 || age > 24 * 14 || !p.id) continue;
+    if ((p.insights && p.insights.reach != null) || age < Number(opt("min-age") ?? 48) || age > 24 * 14 || !p.id) continue;
     const acct = found[p.channel];
     if (!acct?.page && !acct?.ig) continue;
     p.insights = await readInsights(p, acct);
