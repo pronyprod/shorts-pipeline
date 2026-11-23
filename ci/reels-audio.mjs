@@ -120,7 +120,7 @@ export const makeReels = async ({ channel, episode, mp4, composition, outDir = p
   const j = JSON.parse(m.slice(m.lastIndexOf("{"), m.lastIndexOf("}") + 1));
   const ln = `loudnorm=I=-14:TP=-1.5:LRA=11:measured_I=${j.input_i}:measured_TP=${j.input_tp}:measured_LRA=${j.input_lra}:measured_thresh=${j.input_thresh}:offset=${j.target_offset}:linear=true`;
   const out = path.join(outDir, reelsFileName(path.basename(mp4)));
-  run("ffmpeg", ["-v", "error", "-y", "-i", mp4, "-i", wav, "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-af", `${ln},aresample=48000`, "-c:a", "aac", "-b:a", "192k", "-ac", "2", "-t", secs.toFixed(3), "-metadata", `comment=${creditFor(t)}`, "-movflags", "+faststart", out]);
+  run("ffmpeg", ["-v", "error", "-y", "-i", mp4, "-i", wav, "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-af", `${ln},aresample=48000,alimiter=limit=0.79:level=false`, "-c:a", "aac", "-b:a", "192k", "-ac", "2", "-t", secs.toFixed(3), "-metadata", `comment=${creditFor(t)}`, "-movflags", "+faststart", out]);
   // checks
   const d = duration(out), L = loudness(out);
   const problems = [];

@@ -61,6 +61,8 @@ jobs:
       - name: Commit reels-extra.json and the log
         if: always() && inputs.mode == 'build'
         run: |
+          # the regenerated voice files (ep011 is tracked) must not block the pull: drop them first
+          git checkout -- countryballs-video
           git add ci/meta/reels-extra.json shared/PROJECT_LOG.md 2>/dev/null || true
           if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
           git config user.name "github-actions[bot]"
