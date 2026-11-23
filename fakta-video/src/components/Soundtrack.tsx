@@ -7,6 +7,8 @@ import { Audio } from "@remotion/media";
 import React, { useMemo } from "react";
 import { interpolate, staticFile, useVideoConfig } from "remotion";
 import { DUCK_DB, MUSIC_LUFS, OPEN_DB, VOICE_LUFS, musicFile, type Track } from "../music";
+import { reelsMusic } from "../reelsMusic";
+const RM = reelsMusic();
 
 const db = (x: number) => Math.pow(10, x / 20);
 const MERGE_GAP = 0.6; // pauses shorter than this keep the music ducked
@@ -66,7 +68,7 @@ export const Soundtrack: React.FC<{
   return (
     <>
       {mute !== "voice" && <Audio src={staticFile(voice)} volume={voiceGain} />}
-      {mute !== "music" && <Audio src={staticFile(musicFile(track))} trimBefore={Math.round(musicStart * fps)} volume={musicVolume} />}
+      {mute !== "music" && <Audio src={staticFile(RM?.file ?? musicFile(track))} trimBefore={Math.round((RM ? RM.start : musicStart) * fps)} volume={musicVolume} />}
     </>
   );
 };

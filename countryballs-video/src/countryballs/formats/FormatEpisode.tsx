@@ -16,6 +16,8 @@ import { ReverseRound } from "./ReverseRound";
 import { SizeRound } from "./SizeRound";
 import { formatRoundFrames } from "./timing";
 import { WordsRound } from "./WordsRound";
+import { reelsMusic } from "../../reelsMusic";
+const RM = reelsMusic();
 
 export type FormatEpisodeProps = { episodeId: string };
 
@@ -68,8 +70,8 @@ export const FormatEpisode: React.FC<FormatEpisodeProps> = ({ episodeId }) => {
         }}
       />
       <Audio
-        src={staticFile(`music/norm/${track.file}`)}
-        trimBefore={Math.round(track.start * fps)}
+        src={staticFile(RM?.file ?? `music/norm/${track.file}`)}
+        trimBefore={Math.round((RM ? RM.start : track.start) * fps)}
         volume={(f) =>
           template.musicVolume *
           interpolate(

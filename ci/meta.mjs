@@ -45,6 +45,9 @@ import { createSign } from "node:crypto";
 import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { CHANNELS } from "./sheet.mjs";
+import { creditFor, pickTrack } from "./reels-audio.mjs";
+import { spawnSync } from "node:child_process";
+import { tmpdir } from "node:os";
 
 const GRAPH = "https://graph.facebook.com/v27.0";
 const RUPLOAD_IG = "https://rupload.facebook.com/ig-api-upload/v27.0";
@@ -243,6 +246,34 @@ const download = async (url) => {
   return buf;
 };
 
+// ---------- the Reels version (CC BY music, owner 23 Nov 2026) ----------
+// Only the Reels version is posted: <file>-reels.mp4 next to the YouTube file in the same GitHub release, made by
+// ci/reels-audio.mjs. Episodes without one (Drive-era and older releases) are skipped, never posted with YouTube music.
+const reelsUrlOf = (e) => (/^https:\/\/github\.com\/[^/]+\/[^/]+\/releases\/download\//.test(e.url) ? e.url.replace(/\.mp4$/i, "-reels.mp4") : null);
+const reelsSeen = new Map();
+const hasReels = async (e) => {
+  const u = reelsUrlOf(e);
+  if (!u) return false;
+  if (!reelsSeen.has(u)) reelsSeen.set(u, await fetch(u, { method: "HEAD", redirect: "follow" }).then((r) => r.ok).catch(() => false));
+  return reelsSeen.get(u);
+};
+// the credit written into the file by ci/reels-audio.mjs (falls back to the track list's pick)
+const creditOf = (buf, e) => {
+  const f = path.join(tmpdir(), `reels-${process.pid}.mp4`);
+  writeFileSync(f, buf);
+  const r = spawnSync("ffprobe", ["-v", "error", "-show_entries", "format_tags=comment", "-of", "default=nw=1:nk=1", f], { encoding: "utf8" });
+  rmSync(f, { force: true });
+  const c = (r.stdout ?? "").trim();
+  return /^Music: .*CC BY/.test(c) ? c : creditFor(pickTrack(e.channel, e.ep));
+};
+// replace any "Music:" line by the Reels track's credit, right after "Voiceover: AI"
+const withCredit = (text, credit) => {
+  const lines = text.split("\n").filter((l) => !/^Music:/.test(l));
+  const i = lines.findIndex((l) => /Voiceover: AI/.test(l));
+  lines.splice(i >= 0 ? i + 1 : lines.length, 0, credit);
+  return lines.join("\n");
+};
+
 const postInstagram = async (acct, e, buf) => {
   const token = acct.page?.access_token ?? need("META_TOKEN");
   const fields = { media_type: "REELS", caption: e.cap.text, share_to_feed: "true", is_ai_generated: "true" };
@@ -253,8 +284,8 @@ const postInstagram = async (acct, e, buf) => {
     // PomProds Ep017 (22 Nov 2026): the binary upload was refused ("ProcessingFailedError") every time while other
     // files worked. Second way: Meta fetches the public file itself (a new container with video_url).
     console.log(`${e.ep}: direct upload refused (${err.message.slice(0, 120)}); trying again with the video link`);
-    const r = await fetch(e.url, { method: "HEAD", redirect: "follow" });
-    c = await graph("POST", `${acct.ig.id}/media`, { ...fields, video_url: r.url || e.url }, token);
+    const r = await fetch(e.videoUrl, { method: "HEAD", redirect: "follow" });
+    c = await graph("POST", `${acct.ig.id}/media`, { ...fields, video_url: r.url || e.videoUrl }, token);
   }
   let status = "";
   for (let i = 0; i < 40; i++) {
@@ -441,7 +472,12 @@ if (cmd === "whoami") {
       if (opt("episode")) cand = live.filter((e) => e.ep === opt("episode"));
       const skipped = live.filter((e) => (posted.failures[key(e)] ?? 0) >= 3 && !e.links[col[pf]]).map((e) => e.ep);
       if (skipped.length) say(`${name} ${pf}: skipped after 3 failures: ${skipped.join(", ")} (fix the file, then remove them from failures in ci/meta/posted.json)`);
-      const next = opt("episode") ? cand[0] : q.order[0];
+      let next;
+      for (const e of opt("episode") ? cand : q.order) if (await hasReels(e)) { next = e; break; }
+      if (!next && cand.length) {
+        say(`${name} ${pf}: ${cand.length} waiting, none has a Reels version (CC BY music) yet`);
+        continue;
+      }
       if (!next) {
         say(`${name} ${pf}: nothing waiting`);
         continue;
@@ -457,11 +493,13 @@ if (cmd === "whoami") {
       next.cap = chooseCaption(next, pf, modeOf(ch, pf));
       if (PLAN) {
         say(`${name} ${pf}: next ${next.ep} (${fresh.includes(next) ? "fresh" : "backlog"}; ${cand.length} waiting, ${todayN} today; caption ${next.cap.type}, mode ${modeOf(ch, pf)})`);
-        if (args.includes("--caption")) console.log(`${next.cap.text}\n---`);
+        if (args.includes("--caption")) console.log(`${withCredit(next.cap.text, creditFor(pickTrack(ch, next.ep)))}\n---`);
         continue;
       }
       try {
-        const buf = await download(next.url);
+        next.videoUrl = reelsUrlOf(next);
+        const buf = await download(next.videoUrl);
+        next.cap = { ...next.cap, text: withCredit(next.cap.text, creditOf(buf, next)) };
         const r = pf === "instagram" ? await postInstagram(a, next, buf) : await postFacebook(a, next, buf);
         if (TEST) {
           say(`TEST ${name} ${pf} ${next.ep} (${(buf.length / 1e6).toFixed(1)} MB, caption ${next.cap.type}): ${r.test}`);
@@ -498,7 +536,9 @@ if (cmd === "whoami") {
     const eps = [];
     for (const pf of ["instagram", "facebook"]) for (const e of queueFor(posted, ch, pf, live, col).order.slice(0, 2)) if (!eps.some((x) => x.ep === e.ep)) eps.push(e);
     for (const e of live.filter((x) => x.row && x.at > now.getTime() && x.at - now.getTime() < 24 * 3600000)) if (!eps.some((x) => x.ep === e.ep)) eps.push(e);
-    for (const e of eps.slice(0, 3)) {
+    const withReels = [];
+    for (const e of eps) if (await hasReels(e)) withReels.push(e);
+    for (const e of withReels.slice(0, 3)) {
       const f = readJson(capFile(ch, e.ep), null);
       if (f && Date.now() - Date.parse(f.written) < 48 * 3600000) continue;
       todo.push({

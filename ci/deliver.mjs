@@ -108,6 +108,12 @@ if (!url) {
     : run("gh", ["release", "create", tag, mp4, "--title", title, "--notes", notes, ...(test ? ["--prerelease"] : []), "--latest=false"]);
   if (up.status !== 0) stop(`release upload failed: ${(up.stderr ?? "").slice(0, 200)}`);
   url = `https://github.com/${env.GITHUB_REPOSITORY}/releases/download/${tag}/${fileName}`;
+  // Reels version (CC BY music) made by ci/reels-audio.mjs: uploaded next to it; its absence never stops the delivery
+  const reels = path.join(repo, "ci-out", "reels", fileName.replace(/\.mp4$/i, "-reels.mp4"));
+  if (existsSync(reels)) {
+    const r = run("gh", ["release", "upload", tag, reels, "--clobber"]);
+    console.log(r.status === 0 ? `deliver: Reels version uploaded (${path.basename(reels)})` : `deliver: Reels version NOT uploaded: ${(r.stderr ?? "").slice(0, 160)}`);
+  } else console.log("deliver: no Reels version for this episode (Instagram/Facebook skip it)");
   result.url = url;
 }
 

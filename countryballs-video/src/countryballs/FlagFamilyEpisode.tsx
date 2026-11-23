@@ -13,6 +13,8 @@ import { EPISODES } from "./episodes";
 import { FADE_IN, FADE_OUT, TRACKS } from "./music";
 import { END_COLOR, LATEST_TEMPLATE, TEMPLATES } from "./theme";
 import { OUTRO, roundFrames } from "./timing";
+import { reelsMusic } from "../reelsMusic";
+const RM = reelsMusic();
 
 export type FlagFamilyProps = {
   episodeId: string;
@@ -137,8 +139,8 @@ export const FlagFamilyEpisode: React.FC<FlagFamilyProps> = ({
       {track ? (
         // episode's own track: starts at its lively point, fades in, fades out on the last frame
         <Audio
-          src={staticFile(`music/norm/${track.file}`)}
-          trimBefore={Math.round(track.start * fps)}
+          src={staticFile(RM?.file ?? `music/norm/${track.file}`)}
+          trimBefore={Math.round((RM ? RM.start : track.start) * fps)}
           volume={(f) =>
             template.musicVolume *
             interpolate(
@@ -151,7 +153,7 @@ export const FlagFamilyEpisode: React.FC<FlagFamilyProps> = ({
         />
       ) : music ? (
         // older episodes: a looping file given as a prop
-        <Audio src={staticFile(music)} volume={template.musicVolume} loop />
+        <Audio src={staticFile(RM?.file ?? music)} trimBefore={RM ? Math.round(RM.start * fps) : undefined} volume={template.musicVolume} loop={!RM} />
       ) : null}
     </AbsoluteFill>
   );

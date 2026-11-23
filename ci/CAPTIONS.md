@@ -45,6 +45,9 @@ If no good trend fits, set `"trend": null` and leave out both `trend` captions. 
 
 Never write "You see" in a caption.
 
+Do not write a "Music:" line: the Reels versions use different music (a CC BY 4.0 track) and the posting script adds
+its credit line itself, after "Voiceover: AI".
+
 ## Instagram caption (both variants)
 
 ```
@@ -53,7 +56,6 @@ Never write "You see" in a caption.
 <line 3: a question that invites comments>
 
 Voiceover: AI
-Music: <exactly the "Music:" credit from youtubeDescription, if it has one>
 
 #tag1 #tag2 #tag3
 ```
@@ -83,7 +85,6 @@ Shorter:
 <the question>
 
 Voiceover: AI
-Music: <credit, if any>
 
 #tag1 #tag2
 ```

@@ -22,6 +22,8 @@ import { PomBlock } from "./PomBlock";
 import { PomPaper } from "./PomPaper";
 import { CounterBoard, Falling, type CounterValue } from "./props";
 import type { Expression, Outfit, Pose } from "./types";
+import { reelsMusic } from "../reelsMusic";
+const RM = reelsMusic();
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 // music alone (no narrator): measured 11 Nov on Ep009's track, about -15 LUFS with the peak just under -1 dBFS.
@@ -394,15 +396,15 @@ export const KitEpisodeView: React.FC<{ k: KitEp }> = ({ k }) => {
         </Sequence>
       ))}
       {k.mute === "bed" ? null : !voice ? (
-        <Audio src={staticFile(plan.track.file)} trimBefore={Math.round(plan.offset * fps)} volume={(f) => SOLO_MUSIC * Math.max(0, Math.min(1, f / fps / 0.5, (videoSec - f / fps) / 0.6))} />
-      ) : plan.mode === "early build" ? (
+        <Audio src={staticFile(RM?.file ?? plan.track.file)} trimBefore={Math.round((RM ? RM.start : plan.offset) * fps)} volume={(f) => SOLO_MUSIC * Math.max(0, Math.min(1, f / fps / 0.5, (videoSec - f / fps) / 0.6))} />
+      ) : plan.mode === "early build" && !RM ? (
         musicSections(plan).map((s, j) => (
           <Sequence key={j} from={Math.round(s.videoStart * fps)} layout="none">
             <Audio src={staticFile(plan.track.file)} trimBefore={Math.round(s.trackOffset * fps)} volume={(f) => lift(s.videoStart + f / fps) * musicGain(s.videoStart + f / fps, plan, schedule.lines, videoSec, tpl.musicFadeIn, tpl.loopFade) * s.fade(s.videoStart + f / fps)} />
           </Sequence>
         ))
       ) : (
-        <Audio src={staticFile(plan.track.file)} trimBefore={Math.round(plan.offset * fps)} volume={(f) => lift(f / fps) * musicGain(f / fps, plan, schedule.lines, videoSec, tpl.musicFadeIn, tpl.loopFade)} />
+        <Audio src={staticFile(RM?.file ?? plan.track.file)} trimBefore={Math.round((RM ? RM.start : plan.offset) * fps)} volume={(f) => lift(f / fps) * musicGain(f / fps, plan, schedule.lines, videoSec, tpl.musicFadeIn, tpl.loopFade)} />
       )}
       {k.sfx !== false && k.mute !== "bed" ? (
         <SfxLayer

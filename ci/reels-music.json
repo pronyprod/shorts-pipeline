@@ -1,0 +1,23 @@
+{
+  "_about": "Music for the Instagram/Facebook Reels versions only (owner, 23 Nov 2026). All tracks by Kevin MacLeod (incompetech.com), licensed CC BY 4.0 (incompetech FAQ: credit 'Title Kevin MacLeod (incompetech.com) / Licensed under Creative Commons: By Attribution 4.0 / https://creativecommons.org/licenses/by/4.0/'). YouTube keeps its Audio Library music. The MP3s are downloaded by ci/reels-audio.mjs and checked against sha256 (never committed). A channel's track = list[episode number % list length], skipping a track too short for the video.",
+  "credit": "Music: \"{title}\" by Kevin MacLeod (incompetech.com), CC BY 4.0 (creativecommons.org/licenses/by/4.0)",
+  "base": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/",
+  "musicLufs": { "countryballs": -16.2, "whatif": -16.8, "fakta": -16 },
+  "channels": {
+    "countryballs": [
+      { "id": "monkeys-spinning-monkeys", "title": "Monkeys Spinning Monkeys", "file": "Monkeys Spinning Monkeys.mp3", "sha256": "a5bb345c23849ad0786aa0bc5157a9f2d4039660fe00282e55754d475f36dc14", "seconds": 125, "start": 0 },
+      { "id": "fluffing-a-duck", "title": "Fluffing a Duck", "file": "Fluffing a Duck.mp3", "sha256": "cb23b1833c35e391de10d998d6a40cfc760565ce31d23014c86025523ca8239b", "seconds": 67, "start": 0 },
+      { "id": "sneaky-snitch", "title": "Sneaky Snitch", "file": "Sneaky Snitch.mp3", "sha256": "db1710333d68a215277f77e4e17e1a64bf4ed38f87c70f8d0f56b16b6aa4f884", "seconds": 136, "start": 0 }
+    ],
+    "whatif": [
+      { "id": "investigations", "title": "Investigations", "file": "Investigations.mp3", "sha256": "699f7a3cd227dfe5c1e88099b45af57202bfe9d56f86b8b43e4252b65dd96768", "seconds": 93, "start": 0 },
+      { "id": "pixel-peeker-polka-faster", "title": "Pixel Peeker Polka - faster", "file": "Pixel Peeker Polka - faster.mp3", "sha256": "b2609a077fae292679f25b83519f470ed308abb40d11f89bff8c6f896deefed3", "seconds": 202, "start": 0 },
+      { "id": "wallpaper", "title": "Wallpaper", "file": "Wallpaper.mp3", "sha256": "9fa810e5193c88f1b360537366f210f16c2588106d5292f0659e9957fa274f96", "seconds": 220, "start": 0 }
+    ],
+    "fakta": [
+      { "id": "carefree", "title": "Carefree", "file": "Carefree.mp3", "sha256": "8433b770a630d9b1594fd484442c677907ece899a4d149954cd2e74fd733e311", "seconds": 205, "start": 0 },
+      { "id": "life-of-riley", "title": "Life of Riley", "file": "Life of Riley.mp3", "sha256": "1916f05cd1860949f9241e17966d334c39852b531329e4a05802720bb154c564", "seconds": 235, "start": 0 },
+      { "id": "happy-alley", "title": "Happy Alley", "file": "Happy Alley.mp3", "sha256": "f598c8ee624f1db9a2cd38886524a40baff4ce730dcf999c0763791268fa8265", "seconds": 80, "start": 5 }
+    ]
+  }
+}

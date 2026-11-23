@@ -320,8 +320,17 @@ jobs:
         run: node ci/claude-error.mjs "${{ steps.claude2.outputs.execution_file || steps.claude1.outputs.execution_file }}" || true
 
       - name: Verify the mandatory checks (Claude's numbers + the workflow's own measurements)
+        id: verify
         if: always() && env.GO == 'true' && steps.ctx.outcome == 'success'
         run: node ci/verify.mjs
+
+      # Instagram/Facebook get a Reels version with a CC BY 4.0 track instead of the YouTube Audio Library music
+      # (owner, 23 Nov 2026; ci/reels-audio.mjs). It never blocks the YouTube delivery: a failure only means no Reels file.
+      - name: Reels version with CC BY music (never blocks the YouTube delivery)
+        if: always() && env.GO == 'true' && steps.ctx.outcome == 'success' && steps.verify.outcome == 'success'
+        continue-on-error: true
+        timeout-minutes: 20
+        run: node ci/reels-audio.mjs --from-result
 
       - name: Deliver (release, public download check, spreadsheet rows, log line)
         if: always() && env.GO == 'true' && steps.ctx.outcome == 'success'

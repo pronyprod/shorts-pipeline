@@ -18,6 +18,8 @@ import { MUSIC_VOLUME, templateOf } from "./theme";
 import { musicGain, musicSections, planMusic } from "./music";
 import { buildSchedule, Schedule } from "./timing";
 import type { Episode } from "./types";
+import { reelsMusic } from "../reelsMusic";
+const RM = reelsMusic();
 
 export type WhatIfProps = { episodeId: keyof typeof EPISODES; music: string };
 
@@ -114,7 +116,7 @@ export const WhatIfEpisode: React.FC<WhatIfProps> = ({ episodeId, music }) => {
           <Audio src={staticFile(`voices/${ep.id}/line${String(i + 1).padStart(2, "0")}.wav`)} />
         </Sequence>
       ))}
-      {plan?.mode === "early build" ? (
+      {plan?.mode === "early build" && !RM ? (
         musicSections(plan).map((sec, i) => (
           <Sequence key={i} from={Math.round(sec.videoStart * fps)} layout="none">
             <Audio
@@ -129,12 +131,12 @@ export const WhatIfEpisode: React.FC<WhatIfProps> = ({ episodeId, music }) => {
         ))
       ) : plan ? (
         <Audio
-          src={staticFile(plan.track.file)}
-          trimBefore={Math.round(plan.offset * fps)}
+          src={staticFile(RM?.file ?? plan.track.file)}
+          trimBefore={Math.round((RM ? RM.start : plan.offset) * fps)}
           volume={(f) => musicGain(f / fps, plan, schedule.lines, videoSec, tpl.musicFadeIn, tpl.loopFade)}
         />
       ) : music ? (
-        <Audio src={staticFile(music)} volume={musicFade} loop />
+        <Audio src={staticFile(RM?.file ?? music)} trimBefore={RM ? Math.round(RM.start * fps) : undefined} volume={musicFade} loop={!RM} />
       ) : null}
     </AbsoluteFill>
   );
