@@ -51,6 +51,8 @@ Then **Generate new token**:
   - `pages_manage_posts`
   - `instagram_basic`
   - `instagram_content_publish`
+  - `instagram_manage_insights` and `read_insights` (added 23 Nov 2026: reach and plays per Reel for the caption
+    safety brake)
 - Generate → **copy the token** (it is shown only once). Do not send it in chat or email.
 
 ## 4. Put the token in GitHub (owner)
