@@ -35,6 +35,34 @@ export const pickTrack = (channel, episode, seconds = 0) => {
   return list[n % list.length];
 };
 export const creditFor = (t) => MUSIC.credit.replace("{title}", t.title);
+// How alike two files sound: correlation of their 50 ms loudness envelopes, and of the waveforms (8 kHz mono).
+export const compareAudio = (a, b) => {
+  const pcm = (f) => {
+    const r = spawnSync("ffmpeg", ["-v", "error", "-i", f, "-ac", "1", "-ar", "8000", "-f", "s16le", "-"], { maxBuffer: 1e9 });
+    return new Int16Array(r.stdout.buffer, r.stdout.byteOffset, r.stdout.length / 2);
+  };
+  const env = (x) => {
+    const w = 400, o = [];
+    for (let i = 0; i + w <= x.length; i += w) {
+      let s = 0;
+      for (let j = i; j < i + w; j++) s += x[j] * x[j];
+      o.push(Math.sqrt(s / w));
+    }
+    return o;
+  };
+  const pearson = (x, y) => {
+    const n = Math.min(x.length, y.length);
+    let mx = 0, my = 0;
+    for (let i = 0; i < n; i++) (mx += x[i]), (my += y[i]);
+    mx /= n;
+    my /= n;
+    let sxy = 0, sx = 0, sy = 0;
+    for (let i = 0; i < n; i++) (sxy += (x[i] - mx) * (y[i] - my)), (sx += (x[i] - mx) ** 2), (sy += (y[i] - my) ** 2);
+    return sxy / Math.sqrt(sx * sy || 1);
+  };
+  const A = pcm(a), B = pcm(b);
+  return { envelope: pearson(env(A), env(B)), waveform: pearson(A, B) };
+};
 export const reelsFileName = (mp4Name) => mp4Name.replace(/\.mp4$/i, "-reels.mp4");
 
 const run = (cmd, args, opts = {}) => {

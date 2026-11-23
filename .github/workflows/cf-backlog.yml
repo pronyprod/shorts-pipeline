@@ -1,0 +1,80 @@
+name: Country Flux backlog Reels
+
+# No Claude (ci/cf-backlog.mjs): Kokoro voices made again for older Country Flux episodes; when they match the
+# published ones, a Reels version with CC BY music goes to the release "countryballs-reels-backlog" and into
+# ci/meta/reels-extra.json (the Reels drip-feed posts them, best performers first, max 2 a day).
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "test = Ep011 voices vs the committed ones; build = make the backlog Reels versions"
+        type: choice
+        options: [test, build]
+        default: test
+      only:
+        description: "build: only these episodes (e.g. Ep003,Ep004); empty = all"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cf-backlog
+  cancel-in-progress: false
+
+jobs:
+  backlog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      TZ: Asia/Jakarta
+      GH_TOKEN: ${{ github.token }}
+      GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+      SHEET_ID: ${{ secrets.SHEET_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: System packages (ffmpeg, what headless Chrome needs)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends ffmpeg libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 libgbm1 libxrandr2 libxkbcommon0 libxfixes3 libxcomposite1 libxdamage1 libpango-1.0-0 libcairo2 libcups2 libdrm2 libegl1 libgl1 libgles2
+          sudo apt-get install -y -qq --no-install-recommends libasound2t64 || sudo apt-get install -y -qq --no-install-recommends libasound2
+      - name: npm ci, ffmpeg where the voice scripts expect it, Chrome
+        working-directory: countryballs-video
+        env:
+          ONNXRUNTIME_NODE_INSTALL_CUDA: skip
+          npm_config_onnxruntime_node_install_cuda: skip
+        run: |
+          npm ci --no-audit --no-fund
+          mkdir -p node_modules/@remotion/compositor-win32-x64-msvc
+          ln -sf "$(command -v ffmpeg)" node_modules/@remotion/compositor-win32-x64-msvc/ffmpeg.exe
+          npx remotion browser ensure
+      - name: Release for the backlog files
+        if: inputs.mode == 'build'
+        run: gh release view countryballs-reels-backlog >/dev/null 2>&1 || gh release create countryballs-reels-backlog --title "Country Flux Reels backlog (CC BY music)" --notes "Reels versions of older Country Flux episodes with CC BY 4.0 music (Kevin MacLeod). For Instagram/Facebook only." --latest=false
+      - name: Run
+        run: |
+          if [ "${{ inputs.mode }}" = test ]; then node ci/cf-backlog.mjs test; else node ci/cf-backlog.mjs build ${{ inputs.only && format('--only {0}', inputs.only) || '' }}; fi
+      - name: Commit reels-extra.json and the log
+        if: always() && inputs.mode == 'build'
+        run: |
+          git add ci/meta/reels-extra.json shared/PROJECT_LOG.md 2>/dev/null || true
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git commit -q -m "reels: Country Flux backlog versions (run $GITHUB_RUN_ID)"
+          for i in 1 2 3; do git pull -q --rebase "$REMOTE" main && git push -q "$REMOTE" HEAD:refs/heads/main && exit 0; sleep 20; done
+          echo "::error::git push failed"; exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cf-backlog-${{ inputs.mode }}
+          path: |
+            ci-out/cf-backlog/*-reels.mp4
+            ci-out/reels/*.mp4
+          retention-days: 14
+          if-no-files-found: ignore

@@ -249,7 +249,8 @@ const download = async (url) => {
 // ---------- the Reels version (CC BY music, owner 23 Nov 2026) ----------
 // Only the Reels version is posted: <file>-reels.mp4 next to the YouTube file in the same GitHub release, made by
 // ci/reels-audio.mjs. Episodes without one (Drive-era and older releases) are skipped, never posted with YouTube music.
-const reelsUrlOf = (e) => (/^https:\/\/github\.com\/[^/]+\/[^/]+\/releases\/download\//.test(e.url) ? e.url.replace(/\.mp4$/i, "-reels.mp4") : null);
+const EXTRA = readJson(path.join(repo, "ci", "meta", "reels-extra.json"), {}); // ci/cf-backlog.mjs (Country Flux backlog)
+const reelsUrlOf = (e) => EXTRA[`${e.channel}/${e.ep}`] ?? (/^https:\/\/github\.com\/[^/]+\/[^/]+\/releases\/download\//.test(e.url) ? e.url.replace(/\.mp4$/i, "-reels.mp4") : null);
 const reelsSeen = new Map();
 const hasReels = async (e) => {
   const u = reelsUrlOf(e);
@@ -419,12 +420,26 @@ const updateInsights = async (posted, found) => {
 };
 
 // The next episodes a channel/platform would post, in order (fresh first, then the backlog oldest first).
+let VIEWS = {};
+const loadViews = async () => {
+  const rows = await getRows("'Tracking'!A1:I");
+  const h = rows[0] ?? [];
+  const iCh = h.indexOf("Channel"), iEp = h.indexOf("Episode"), iPf = h.indexOf("Platform"), iV = h.indexOf("Views at 48h");
+  const byName = Object.fromEntries(Object.entries(CHANNELS).map(([k, c]) => [c.sheetName, k]));
+  for (const r of rows.slice(1)) {
+    const k = byName[r[iCh]];
+    const n = Number(String(r[iV] ?? "").replace(/[^\d]/g, ""));
+    if (k && /youtube/i.test(r[iPf] ?? "") && n) VIEWS[`${k}/${r[iEp]}`] = n;
+  }
+};
 const queueFor = (posted, ch, pf, live, col) => {
   const mine = posted.posts.filter((p) => p.channel === ch && p.platform === pf);
   const key = (e) => `${ch}/${e.ep}/${pf}`;
   const cand = live.filter((e) => e.at + 30 * 60000 <= now.getTime() && e.row && !e.links[col[pf]] && !mine.some((p) => p.ep === e.ep) && (posted.failures[key(e)] ?? 0) < 3);
   const fresh = cand.filter((e) => now.getTime() - e.at < 24 * 3600000).sort((x, y) => y.at - x.at);
-  const backlog = cand.filter((e) => !fresh.includes(e)).sort((x, y) => x.at - y.at);
+  // backlog: best performers first (YouTube views at 48 h from the Tracking tab), unknown ones after, oldest first
+  const v = (e) => VIEWS[`${ch}/${e.ep}`] ?? -1;
+  const backlog = cand.filter((e) => !fresh.includes(e)).sort((x, y) => v(y) - v(x) || x.at - y.at);
   return { order: [...fresh, ...backlog], fresh, cand, mine, key };
 };
 
@@ -446,6 +461,7 @@ if (cmd === "whoami") {
   const posted = readPosted();
   const { found } = PLAN ? { found: Object.fromEntries(Object.keys(CHANNELS).map((k) => [k, { ig: { id: "-" }, page: { id: "-" } }])) } : await accounts();
   if (!PLAN && !opt("episode")) await updateInsights(posted, found);
+  await loadViews();
   const uploads = await getRows("'Uploads'!A1:Z");
   const head = uploads[0] ?? [];
   const col = { instagram: head.indexOf("Instagram link"), facebook: head.indexOf("Facebook link") };
@@ -527,6 +543,7 @@ if (cmd === "whoami") {
 } else if (cmd === "todo") {
   // the next 2 episodes per channel (any platform) plus tomorrow's, whose caption file is missing or over 48 h old
   const posted = readPosted();
+  await loadViews();
   const uploads = await getRows("'Uploads'!A1:Z");
   const head = uploads[0] ?? [];
   const col = { instagram: head.indexOf("Instagram link"), facebook: head.indexOf("Facebook link") };
