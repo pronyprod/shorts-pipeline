@@ -25,6 +25,26 @@ Write ONLY files under `ci/meta/captions/`. Touch nothing else.
 
 If no good trend fits, set `"trend": null` and leave out both `trend` captions. The plain captions are always required.
 
+## How to work (required, in this order)
+
+1. **Research trends first.** Do at least 6 web searches, for example:
+   - what is trending today worldwide: sports results, film releases, big events, space and science news;
+   - this week's big events;
+   - for FaktaMantra, what is trending in Indonesia today (berita viral hari ini, trending Indonesia, sports, films
+     in Indonesian cinemas).
+
+   Write what you found to `ci-out/trends.md`: 8-15 current trends, each with its date and source link.
+2. **For each episode**, look for a TRUE link between one of those trends and the episode's topic: same country, flag,
+   animal, number, place or physics. Look actively. A sports final, a space mission, a film or a national holiday
+   often has a real numeric or geographic link. Use a trend only when the link is real and the hard rules below
+   allow it.
+3. **Write the plain variants yourself:** a better, searchable hook, the fact, and a question. `plainFallback` is
+   only what gets posted if you write nothing. Do not copy it unchanged.
+4. **Write `ci-out/caption-notes.md`:** one line per episode with the trend you used (or the best one you rejected
+   and the rule that ruled it out).
+
+Never write "You see" in a caption.
+
 ## Instagram caption (both variants)
 
 ```

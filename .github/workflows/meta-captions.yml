@@ -52,10 +52,12 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            Read ci/CAPTIONS.md and follow it exactly. Write one caption file for every entry in
-            ci-out/caption-todo.json (the "file" field). Current date and time: run `date`. Search the web for
-            what is trending now before writing trend hooks; when nothing fits safely, write "trend": null.
-            Only write files under ci/meta/captions/.
+            Read ci/CAPTIONS.md and follow it exactly, including "How to work": research the current trends
+            with web searches FIRST (ci-out/trends.md), then write one caption file for every entry in
+            ci-out/caption-todo.json (the "file" field), then ci-out/caption-notes.md. Current date and time:
+            run `date`. A trend hook needs a true, real link and must pass every hard rule; otherwise "trend": null.
+            Write the plain captions yourself (do not copy plainFallback). Only write files under
+            ci/meta/captions/ and ci-out/.
           claude_args: |
             --permission-mode default
             --allowedTools Bash,Read,Write,Glob,Grep,WebSearch,WebFetch
@@ -67,6 +69,7 @@ jobs:
         if: always() && steps.todo.outputs.n != '0'
         run: |
           node ci/meta.mjs check-captions | tee -a "$GITHUB_STEP_SUMMARY"
+          for f in ci-out/trends.md ci-out/caption-notes.md; do [ -f "$f" ] && { echo; echo "### $f"; cat "$f"; } | tee -a "$GITHUB_STEP_SUMMARY"; done
           for f in ci/meta/captions/*.json; do [ -f "$f" ] || continue; echo; echo "### $f"; node -e 'const j=require("./"+process.argv[1]);for(const pf of ["instagram","facebook"])for(const v of ["trend","plain"])if(j[pf]?.[v])console.log(`--- ${pf} ${v}\n${j[pf][v]}`);if(j.trend)console.log(`--- trend: ${j.trend.source} | ${j.trend.sourceUrl} | ${j.trend.why}`)' "$f"; done
       - name: Only caption files changed?
         if: always() && steps.todo.outputs.n != '0'
