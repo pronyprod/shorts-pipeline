@@ -13,7 +13,7 @@ on:
       job:
         description: "What to run"
         type: choice
-        options: [whoami, post, insights]
+        options: [whoami, post, insights, copyright]
         default: whoami
       test:
         description: "Test: upload and process, but publish nothing (Facebook: draft, then deleted), write nothing"
@@ -73,6 +73,7 @@ jobs:
       - name: Run
         run: |
           if [ "$JOB" = whoami ]; then node ci/meta.mjs whoami; exit; fi
+          if [ "$JOB" = copyright ]; then node ci/meta.mjs copyright; exit; fi
           if [ "$JOB" = insights ]; then if [ "$TEST" = true ]; then node ci/meta.mjs insights --test --min-age 24; else node ci/meta.mjs insights; fi; exit; fi
           set -- post
           [ "$TEST" = true ] && set -- "$@" --test
@@ -80,7 +81,7 @@ jobs:
           [ -n "$EP" ] && [ "$TEST" = true ] && set -- "$@" --episode "$EP"
           node ci/meta.mjs "$@"
       - name: Commit posted.json
-        if: always() && env.TEST != 'true' && (env.JOB == 'post' || env.JOB == 'insights')
+        if: always() && env.TEST != 'true' && (env.JOB == 'post' || env.JOB == 'insights' || env.JOB == 'copyright')
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

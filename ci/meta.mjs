@@ -621,6 +621,33 @@ if (cmd === "whoami") {
   ok("brake does not fire on plain posts", !brakeDecision([...base, mk(300, "plain", 7), mk(400, "plain", 8), mk(200, "plain", 9)], "c/instagram"));
   ok("brake needs a baseline of 4", !brakeDecision([...base.slice(0, 3), mk(300, "trend", 7), mk(400, "trend", 8), mk(200, "trend", 9)], "c/instagram"));
   process.exit(bad);
+} else if (cmd === "copyright") {
+  // Has Meta flagged or muted any posted Reel? (the first 12 carry YouTube Audio Library music; owner 23 Nov 2026)
+  // Instagram: media field copyright_check_information; Facebook: the video's status and copyright fields. Each field is
+  // asked alone so one the API does not know never hides the others. A flag is also written to the log.
+  const posted = readPosted();
+  const { found } = await accounts();
+  const flagged = [];
+  for (const p of posted.posts) {
+    const acct = found[p.channel];
+    const token = acct?.page?.access_token ?? need("META_TOKEN");
+    const fields = p.platform === "instagram" ? ["copyright_check_information", "media_product_type", "is_shared_to_feed"] : ["status", "copyright_check_information", "copyright_monitoring_status", "published"];
+    const got = {};
+    for (const f of fields) {
+      try {
+        got[f] = (await graph("GET", p.id, { fields: f }, token))[f] ?? null;
+      } catch (e) {
+        got[f] = `(not available: ${e.message.slice(0, 80)})`;
+      }
+    }
+    const txt = JSON.stringify(got);
+    const bad = /"matches_found":true|muted|blocked|copyright_violation|"status":"(?:error|blocked)"|"video_status":"(?:error|blocked)"/i.test(txt);
+    if (bad) flagged.push(`${p.channel} ${p.platform} ${p.ep} ${p.link}`);
+    say(`${bad ? "FLAGGED" : "ok"} ${p.channel} ${p.platform} ${p.ep}: ${txt.slice(0, 400)}`);
+  }
+  if (flagged.length) logLine(`- REELS WARNING (${today}): Meta flagged/muted ${flagged.length} Reel(s) (copyright check): ${flagged.join("; ")}`);
+  say(`copyright: ${posted.posts.length} checked, ${flagged.length} flagged`);
+  if (process.env.GITHUB_STEP_SUMMARY) writeFileSync(process.env.GITHUB_STEP_SUMMARY, `${summary.map((l) => `- ${l}`).join("\n")}\n`, { flag: "a" });
 } else if (cmd === "compare") {
   const posted = readPosted();
   const rows = [];
