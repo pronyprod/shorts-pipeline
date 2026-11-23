@@ -85,7 +85,13 @@ export const slotTimes = (channel, double) => {
 export const nextSlot = (publishAts, runStart, times) => {
   const toMs = (s) => Date.parse(s);
   const latest = Math.max(0, ...publishAts.filter((s) => /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(s ?? "")).map((s) => toMs(s.length > 16 ? s : `${s}:00+07:00`)));
-  let day = addDays(wibDate(runStart), 1);
+  // A run that starts 00:00-05:59 WIB (a scheduled run hours late, or a catch-up) belongs to the night before: it may
+  // still fill TODAY's slot when that slot is at least 3 hours after the run's start (time to make, render and let
+  // Zapier upload). Why (23 Nov 2026): PomProds' run started at 03:22 with nothing queued for 23 Nov; "never today"
+  // gave its episode 24 Nov and the 23 Nov 07:30 slot stayed empty.
+  const lateNight = new Date(runStart.getTime() + 7 * 3600 * 1000).getUTCHours() < 6;
+  const earliest = lateNight ? runStart.getTime() + 3 * 3600 * 1000 : 0;
+  let day = lateNight ? wibDate(runStart) : addDays(wibDate(runStart), 1);
   if (latest) {
     const latestDay = wibDate(new Date(latest));
     if (latestDay > day) day = latestDay;
@@ -93,7 +99,7 @@ export const nextSlot = (publishAts, runStart, times) => {
   for (let i = 0; i < 400; i++) {
     for (const t of times) {
       const slot = `${day}T${t}:00+07:00`;
-      if (toMs(slot) > latest) return slot;
+      if (toMs(slot) > latest && toMs(slot) >= earliest) return slot;
     }
     day = addDays(day, 1);
   }
