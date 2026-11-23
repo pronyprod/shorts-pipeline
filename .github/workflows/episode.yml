@@ -329,7 +329,7 @@ jobs:
       - name: Reels version with CC BY music (never blocks the YouTube delivery)
         if: always() && env.GO == 'true' && steps.ctx.outcome == 'success' && steps.verify.outcome == 'success'
         continue-on-error: true
-        timeout-minutes: 20
+        timeout-minutes: 30
         run: node ci/reels-audio.mjs --from-result
 
       - name: Deliver (release, public download check, spreadsheet rows, log line)
