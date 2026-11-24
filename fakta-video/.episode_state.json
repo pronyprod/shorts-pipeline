@@ -1,0 +1,15 @@
+{
+  "episode": "Ep020",
+  "topic": "Hujan meteor Geminid 13-14 Des 2026, asal asteroid Phaethon (science, TIMELY; source Medcom 18 Nov 2026)",
+  "step": 3,
+  "status": "check-needed",
+  "reason": "Ep020 line joins: JOIN CHECK failed on line 4 (0.15 s burst/breath at edges); whole-block re-take needed but the run's 4-request cap was used (1 accidental Ep019 call, 1 HTTP 400, 2 on Ep020)",
+  "publishAt": "2026-11-26T18:00:00+07:00",
+  "note": "Script ep020-script.ts is done and fact-checked (sources in SOURCES). data/tts/ep020 has a take; next run: one whole-block re-take (new request), then make-voice, captions, build Ep020.tsx, Root, render, checks. Timely source date 18 Nov 2026 expires ~18 Dec; fine.",
+  "cloudStop": {
+    "fixMark": "89ef15fdfde68cf3b99f3494ba392296ca6763ac",
+    "retried": false,
+    "date": "2026-11-25",
+    "reason": "Ep020 line joins: JOIN CHECK FAILED on line 4; whole-block re-take needed but the run's 4 Gemini request cap was used (1 accidental Ep019 call, 1 HTTP 400, 2 on Ep020). Script and sources are done; state kept."
+  }
+}
