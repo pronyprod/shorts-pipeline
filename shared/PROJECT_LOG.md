@@ -1,5 +1,5 @@
 # PROJECT LOG: AI Shorts Channel Business
-Last updated: 2026-11-22 (Sunday), Fakta Ep018
+Last updated: 2026-11-24 (Tuesday), Fakta Ep019
 Owner: the channel owner (UTC+7)
 
 > **For any future Claude session:** this is the master record. Read all of it before
@@ -757,3 +757,7 @@ CLEARED 22 Nov (harmless: a late scheduled run after the manual catch-up run, st
   Nothing uncertain (no timely slot, no series slot).
 - **Countryballs Ep021 held as stock (2026-11-24):** made, checked and released, not queued yet (busiest 24 h window from 11-24 07:04 WIB would hold 5 uploads (limit 4; 2 in the last 24 h, 2 nightly episode(s) that must still come)); the morning job queues it when the upload window allows; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep021/Ep021.mp4
 CHECK NEEDED: PomProds cloud run ended without a result file (2026-11-24, https://github.com/pronyprod/shorts-pipeline/actions/runs/45300766976)
+- **Fakta Ep019 (2026-11-24):** Indonesia punya berapa pulau? 13.466 (survei 2007-2010) vs 17.508 (UU 1996), cuma ~6.000 berpenghuni, >50% orang di Jawa; geography (bank V13), 44.5 s, -14.0 LUFS (true peak -2.16 dBTP), 4 Gemini requests, ready for 2026-11-25T18:00:00+07:00.
+  File: fakta-video/renders/Fakta_Ep019.mp4, uploads/Ep019.txt. Not a timely slot, no series slot (newFormats false).
+  Uncertain: "about 6,000 inhabited" rests on one secondary source (Wikipedia), said as "sekitar"/"kira-kira sepertiga"; line 6 and the "13.466" number are whisper quirks only (listed in Ep019.md); the per-run limit of 4 requests was used up by two retakes of line 6.
+- **Fakta Unik Ep019 cloud delivery (2026-11-24):** queued for 2026-11-25T18:00:00+07:00; Queue Fakta row 21, Uploads row 62; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep019/Fakta_Ep019.mp4

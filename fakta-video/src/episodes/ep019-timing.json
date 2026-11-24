@@ -1,0 +1,50 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 4.458,
+    "words": 9
+  },
+  {
+    "id": "survey",
+    "start": 4.758,
+    "end": 11.654,
+    "words": 19
+  },
+  {
+    "id": "law",
+    "start": 11.954,
+    "end": 19.709,
+    "words": 20
+  },
+  {
+    "id": "why",
+    "start": 20.009,
+    "end": 25.27,
+    "words": 15
+  },
+  {
+    "id": "tebak",
+    "start": 25.57,
+    "end": 30.185,
+    "words": 12
+  },
+  {
+    "id": "reveal",
+    "start": 30.485,
+    "end": 36.517,
+    "words": 7
+  },
+  {
+    "id": "java",
+    "start": 36.817,
+    "end": 41.431,
+    "words": 12
+  },
+  {
+    "id": "question",
+    "start": 41.731,
+    "end": 44.207,
+    "words": 9
+  }
+]

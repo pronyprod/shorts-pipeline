@@ -40,6 +40,7 @@ Tracks from the **YouTube Audio Library**, downloaded on 30 Oct 2026 (320 kbps) 
 | Ep016 (`renders/Fakta_Ep016.mp4`, kopi java) | The Curious Kitten | Aaron Kenny | Music: "The Curious Kitten" by Aaron Kenny (YouTube Audio Library) |
 | Ep017 (`renders/Fakta_Ep017.mp4`, rafflesia) | Brain Trust | Wayne Jones | Music: "Brain Trust" by Wayne Jones (YouTube Audio Library) |
 | Ep018 (`renders/Fakta_Ep018.mp4`, bendera Monako) | Cooper Ave | The Westerlies | Music: "Cooper Ave" by The Westerlies (YouTube Audio Library) |
+| Ep019 (`renders/Fakta_Ep019.mp4`, jumlah pulau Indonesia) | Dog Park | Silent Partner | Music: "Dog Park" by Silent Partner (YouTube Audio Library) |
 | Ep001 V1 / V2 (published files) | "Peta Pulse" (generated, retired) | channel | none needed |
 
 All tracks:
