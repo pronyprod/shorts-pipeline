@@ -756,3 +756,4 @@ CLEARED 22 Nov (harmless: a late scheduled run after the manual catch-up run, st
   countryballs-video/renders/Ep021.mp4, 19.5 s, -14.0 LUFS (true peak -1.18 dBTP); voices 7/7 whisper match, no silence, 4 stills + 4 final frames checked; ready for 2026-11-27T07:30:00+07:00.
   Nothing uncertain (no timely slot, no series slot).
 - **Countryballs Ep021 held as stock (2026-11-24):** made, checked and released, not queued yet (busiest 24 h window from 11-24 07:04 WIB would hold 5 uploads (limit 4; 2 in the last 24 h, 2 nightly episode(s) that must still come)); the morning job queues it when the upload window allows; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep021/Ep021.mp4
+CHECK NEEDED: PomProds cloud run ended without a result file (2026-11-24, https://github.com/pronyprod/shorts-pipeline/actions/runs/45300766976)

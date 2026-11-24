@@ -1,0 +1,19 @@
+{
+  "episode": "ep020",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep020.ts lines: only CAPITALS added; words identical to say. Owner rule 12 Nov: clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is sending a radio message into deep space. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a hushed curiosity", "tagged": "You send a radio MESSAGE to Voyager 1, and the clock starts." },
+    { "n": 2, "style": "calm and steady, impressed", "tagged": "Radio flies at LIGHT speed. It reaches the Moon in just over a second." },
+    { "n": 3, "style": "steady, building a little", "tagged": "The Sun is eight MINUTES away. Pluto is about five and a half HOURS." },
+    { "n": 4, "style": "teasing, then serious", "tagged": "But you're not even CLOSE. Voyager 1 is far beyond that." },
+    { "n": 5, "style": "the key line: big, clear punch", "tagged": "Your message needs a whole DAY to arrive." },
+    { "n": 6, "style": "amused and steady", "tagged": "Then the answer needs ANOTHER whole day to return." },
+    { "n": 7, "style": "warm and wry", "tagged": "Two days of waiting, for one HELLO." },
+    { "n": 8, "style": "leaning in, amazed, sharing real news", "tagged": "This is REAL. On November eighteenth, Voyager 1 passed one light-day from Earth." },
+    { "n": 9, "style": "clear and amazed", "tagged": "It left in nineteen seventy seven, and it has flown for over forty nine YEARS." },
+    { "n": 10, "style": "warm and awed", "tagged": "It is about twenty six billion KILOMETRES away, and it still sends data home." },
+    { "n": 11, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}

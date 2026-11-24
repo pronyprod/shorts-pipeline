@@ -13,6 +13,7 @@ import { k016 } from "./k016";
 import { k017 } from "./k017";
 import { k018 } from "./k018";
 import { k019 } from "./k019";
+import { k020 } from "./k020";
 import { showcase } from "./showcase";
 import { tFlatA, tFlatC, tLiveB, tLiveBbed, tLiveBdry, tLiveBvoice, tPixelP, tShadeD } from "./tests";
 
@@ -30,6 +31,7 @@ export const KIT_EPISODES: Record<string, KitEp> = {
   k017,
   k018,
   k019,
+  k020,
   tShadeD,
   tFlatA,
   tPixelP,
