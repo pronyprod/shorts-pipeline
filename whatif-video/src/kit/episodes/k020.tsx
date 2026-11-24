@@ -68,11 +68,11 @@ export const k020: KitEp = {
   base: { episode: ep020, voices },
   beats: [
     { line: 0, place: "space", shot: "medium", env: "space", pom: { expr: "neutral", pose: "pointUp", float: true } },
-    { line: 1, place: "space", shot: "medium", pom: { expr: "relieved", pose: "pointUp", float: true } },
+    { line: 1, place: "space", shot: "wide", pom: { expr: "relieved", pose: "pointUp", float: true } },
     { line: 2, place: "space", shot: "wide", pom: { expr: "shocked", pose: "pointUp", float: true } },
     { line: 3, place: "space", shot: "wide", pom: { expr: "scared", pose: "hold", float: true } },
-    { line: 4, place: "space", shot: "medium", pom: { expr: "shocked", pose: "armsUp", float: true } },
-    { line: 5, place: "space", shot: "medium", pom: { expr: "neutral", pose: "hold", float: true } },
+    { line: 4, place: "space", shot: "wide", pom: { expr: "shocked", pose: "armsUp", float: true } },
+    { line: 5, place: "space", shot: "wide", pom: { expr: "neutral", pose: "hold", float: true } },
     { line: 6, place: "space", shot: "close", pom: { expr: "relieved", pose: "armsUp", float: true } },
     { line: 7, place: "space", shot: "wide", pom: { expr: "shocked", pose: "pointUp", float: true } },
     { line: 8, place: "space", shot: "medium", pom: { expr: "relieved", pose: "hold", float: true } },
@@ -82,10 +82,10 @@ export const k020: KitEp = {
   extras: (c) => {
     const b = c.beat;
     const f = c.frame;
-    const far = SP[0] + 4.2;
+    const far = SP[0] + 3.3;
     if (b === 0) return <Pulse x={interpolate(c.p, [0.3, 1], [PX, PX + 2.4], clamp)} frame={f} />;
     if (b === 1) {
-      const mx = slideIn(c.p, SP[0] + 9, far);
+      const mx = slideIn(c.p, SP[0] + 8, far);
       return (
         <>
           <Ball p={[mx, Y + 0.3, -0.5]} r={0.7} color="#C9CCD3" />
@@ -116,7 +116,7 @@ export const k020: KitEp = {
       );
     }
     if (b === 4) {
-      const px = slideIn(c.p, SP[0] + 10, far + 0.4);
+      const px = slideIn(c.p, SP[0] + 8, far + 0.2);
       return (
         <>
           <Probe p={[px, Y + 0.2, -0.3]} />
@@ -125,7 +125,7 @@ export const k020: KitEp = {
       );
     }
     if (b === 5) {
-      const px = far + 0.4;
+      const px = far + 0.2;
       return (
         <>
           <Probe p={[px, Y + 0.2, -0.3]} />
@@ -135,10 +135,10 @@ export const k020: KitEp = {
     }
     if (b === 6) return <Pulse x={PX + 0.5} frame={f} />;
     if (b >= 7 && b <= 9) {
-      const px = interpolate(b + c.p, [7, 10], [far + 1.4, far - 0.6], clamp);
+      const px = interpolate(b + c.p, [7, 10], [far + 0.6, far - 0.2], clamp);
       return <Probe p={[px, Y + 0.2, -0.3]} />;
     }
-    return <Probe p={[far + 0.4, Y + 0.2, -0.3]} />;
+    return <Probe p={[far + 0.2, Y + 0.2, -0.3]} />;
   },
   tags: (c) => (c.beat === 7 ? [{ text: "18 NOV 2026: 1 LIGHT-DAY", at: [SP[0] + 1.2, 3.9, 0] as V3, bg: "#FFD166" }] : []),
 };

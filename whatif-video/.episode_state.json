@@ -1,1 +1,14 @@
-{ "episode": "Ep020", "premise": "What if you sent Voyager 1 a message? (Timely, Absurd scale)", "style": "A", "step": 2, "publishAt": "2026-11-25T07:30:00+07:00", "note": "timely: Voyager 1 one light-day 18 Nov 2026" }
+{
+  "episode": "Ep020",
+  "premise": "What if you sent Voyager 1 a message? (Timely, Absurd scale)",
+  "style": "A",
+  "step": 5,
+  "publishAt": "2026-11-25T07:30:00+07:00",
+  "note": "render handed to workflow",
+  "cloudStop": {
+    "fixMark": "89ef15fdfde68cf3b99f3494ba392296ca6763ac",
+    "retried": false,
+    "date": "2026-11-25",
+    "reason": "visual fixed, needs a new render: message-travel counter showed 1.5 h while the voice and label said the Sun is 8 minutes; travelAt now holds 8.3 min on that line. All other checks passed on the first MP4 (voice 11/11 whisper, -14.34 LUFS, -1.82 dBTP, 48.3 s, no silence, joins ok, facts ok, file ok)."
+  }
+}

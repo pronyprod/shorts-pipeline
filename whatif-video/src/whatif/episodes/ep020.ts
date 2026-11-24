@@ -48,7 +48,7 @@ export const DIST_T = 9;
 
 // seconds the message has travelled
 export const travelAt = (t: number) =>
-  lerpKeys(t, [[0.05, 0.2], [1, 0.2], [2, MOON_S], [3, PLUTO_S], [4, 60_000], [ARRIVE_T, DAY_S], [BACK_T, 2 * DAY_S]]);
+  lerpKeys(t, [[0.05, 0.2], [1, 0.2], [2, MOON_S], [2.4, SUN_S], [2.55, SUN_S], [2.95, PLUTO_S], [4, 60_000], [ARRIVE_T, DAY_S], [BACK_T, 2 * DAY_S]]);
 export const yearsAt = (t: number) => lerpKeys(t, [[YEARS_T, 0], [DIST_T, YEARS_FLYING]]);
 export const distAt = (t: number) => lerpKeys(t, [[DIST_T, 0], [END_T, BILLION_KM]]);
 
@@ -69,13 +69,13 @@ export const ep020: Episode = {
     if (t < REAL_T) return { text: fmtTime(travelAt(t)) };
     if (t < YEARS_T) return { label: "One way to Voyager 1", text: { value: "24.0", unit: "h" } };
     if (t < DIST_T) return { label: "Voyager 1 flying", text: { value: yearsAt(t).toFixed(1), unit: "yr" } };
-    return { label: "Voyager 1 is", text: { value: distAt(t).toFixed(1), unit: "billion km away" } };
+    return { label: "Voyager 1 is", text: { value: distAt(t).toFixed(1), unit: "billion km" } };
   },
   rungs: [
     { t: 0.05, label: "Radio flies at light speed", icon: "drop", size: 1, relation: "about" },
     { t: 1, label: `Moon: ${MOON_S.toFixed(1)} seconds`, icon: "drop", size: 1, relation: "about" },
     { t: 2, label: `Sun: ${(SUN_S / 60).toFixed(1)} minutes`, icon: "drop", size: 1, relation: "about" },
-    { t: 2.6, label: "Pluto: about 5.5 hours", icon: "drop", size: 1, relation: "about" },
+    { t: 2.9, label: "Pluto: about 5.5 hours", icon: "drop", size: 1, relation: "about" },
     { t: 3, label: "Voyager 1 is farther still", icon: "drop", size: 1, relation: "about" },
     { t: ARRIVE_T - 0.5, label: "Message arrives: 24 hours", icon: "drop", size: 1, relation: "about" },
     { t: BACK_T, label: "Answer back: 48 hours", icon: "drop", size: 1, relation: "about" },
