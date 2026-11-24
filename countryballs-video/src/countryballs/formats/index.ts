@@ -14,6 +14,8 @@ import { ep016 } from "../episodes/ep016";
 import ep016Voices from "../episodes/ep016.voices.json";
 import { ep017 } from "../episodes/ep017";
 import ep017Voices from "../episodes/ep017.voices.json";
+import { ep020 } from "../episodes/ep020";
+import ep020Voices from "../episodes/ep020.voices.json";
 import { ep019 } from "../episodes/ep019";
 import ep019Voices from "../episodes/ep019.voices.json";
 import type { FormatEpisodeData, FormatVoices } from "./types";
@@ -29,4 +31,5 @@ export const FORMAT_EPISODES: Record<string, { episode: FormatEpisodeData; voice
   ep016: { episode: ep016, voices: ep016Voices },
   ep017: { episode: ep017, voices: ep017Voices },
   ep019: { episode: ep019, voices: ep019Voices },
+  ep020: { episode: ep020, voices: ep020Voices },
 };

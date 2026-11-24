@@ -140,10 +140,10 @@ Ball area is proportional to country area. The winner says the line.
 | Ep016 | Raccoon | DE Waschbär · FR raton laveur · ES mapache · IT procione | German "wash bear" | "Germany calls it wash bear." | **(DONE: Ep016)**
 | Ep016 | Bat | DE Fledermaus · FR chauve-souris · ES murciélago · IT pipistrello | French chauve (bald) + souris (mouse) | "France calls it a bald mouse." | **(DONE: Ep016)**
 | Ep016 | Penguin | DE Pinguin · ES pingüino · IT pinguino · FR manchot | French is the odd one out | "France had to be different." | **(DONE: Ep016)**
-| Ep020 | Skunk | DE Stinktier · ES mofeta · FR mouffette · IT moffetta | German "stink animal" | "Germany just says stink animal." |
-| Ep020 | Hippo | DE Nilpferd · FR hippopotame · ES hipopótamo · IT ippopotamo | German "Nile horse" | "Germany saw a Nile horse." |
-| Ep020 | Hedgehog | DE Igel · ES erizo · FR hérisson · IT riccio | All mean hedgehog | "Spiky in every language." |
-| Ep020 | Pineapple | DE Ananas · FR ananas · ES piña · PT abacaxi | Spanish piña also means pinecone | "Spain also sees a pinecone." |
+| Ep020 | Skunk | DE Stinktier · ES mofeta · FR mouffette · IT moffetta | German "stink animal" | "Germany just says stink animal." | **(DONE: Ep020)**
+| Ep020 | Hippo | DE Nilpferd · FR hippopotame · ES hipopótamo · IT ippopotamo | German "Nile horse" | "Germany saw a Nile horse." | **(DONE: Ep020, reworded to Flusspferd "river horse")**
+| Ep020 | Hedgehog | DE Igel · ES erizo · FR hérisson · IT riccio | All mean hedgehog | "Spiky in every language." | **(DONE: Ep020)**
+| Ep020 | Pineapple | DE Ananas · FR ananas · ES piña · PT abacaxi | Spanish piña also means pinecone | "Spain also sees a pinecone." | (not used; Ep020 used Pumpkin instead, Thanksgiving 26 Nov 2026)
 
 Left out on purpose: Italian guanto and patata, and Spanish mariquita, because of their slang meanings.
 
