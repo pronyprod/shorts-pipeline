@@ -23,6 +23,7 @@
 | Ep018 | Claudio The Worm | The Green Orbs | YouTube Audio Library, attribution not required |
 | Ep019 | Bubble Bath | The Green Orbs | YouTube Audio Library, attribution not required |
 | Ep020 | Ukulele Beach | Doug Maxwell | YouTube Audio Library, attribution not required |
+| Ep021 | Sand Castle | Quincas Moreira | YouTube Audio Library, attribution not required |
 
 Credit line for descriptions (copy exactly; one per episode):
 - Ep001: `Music: "Bubble Bath" by The Green Orbs (YouTube Audio Library, attribution not required)`
@@ -45,6 +46,7 @@ Credit line for descriptions (copy exactly; one per episode):
 - Ep018: `Music: "Claudio The Worm" by The Green Orbs (YouTube Audio Library, attribution not required)`
 - Ep019: `Music: "Bubble Bath" by The Green Orbs (YouTube Audio Library, attribution not required)`
 - Ep020: `Music: "Ukulele Beach" by Doug Maxwell (YouTube Audio Library, attribution not required)`
+- Ep021: `Music: "Sand Castle" by Quincas Moreira (YouTube Audio Library, attribution not required)`
 
 The original Ep001 render has no music. The current Ep002V2 render still has the old generated loop (below); the old Ep001V2 and Ep002 renders with that loop are kept as `renders/*_generated-music.mp4`.
 
