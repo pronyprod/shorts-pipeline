@@ -15,6 +15,8 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { loadEpisode } from "./episode.mts";
+// @ts-ignore plain JS module shared by the cloud runs
+import { guardGeminiRequest } from "../../ci/gemini-guard.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const arg = (n: string) => process.argv.find((a) => a.startsWith(`--${n}=`))?.split("=")[1];
@@ -60,6 +62,7 @@ const tts = async (name: string, text: string): Promise<string> => {
   if (left() <= 0) throw new Error(`${model}: no free quota left today (resets ~14:00 WIB)`);
   const key = process.env.GEMINI_API_KEY;
   if (!key) throw new Error("GEMINI_API_KEY is not set");
+  guardGeminiRequest({ project: "fakta-video", episode: id }); // cloud: right episode, max 4 per run
   const wait = last + 20_000 - Date.now();
   if (wait > 0) {
     console.log(`  waiting ${Math.ceil(wait / 1000)} s (3 requests per minute)`);

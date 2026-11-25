@@ -1,6 +1,7 @@
 // Gemini TTS requests with per-day quota tracking and automatic model fallback.
 // The API key is read from the environment only (GEMINI_API_KEY) and never logged.
 import { pcm16ToFloat } from "./audio.mjs";
+import { guardGeminiRequest } from "../../../ci/gemini-guard.mjs";
 
 // This project uses ONLY 3.8 (owner rule 2026-10-31: 3.1 is reserved for the fakta project).
 // The 3.1 request format stays below for reference and for the offline self-test.
@@ -131,6 +132,14 @@ export class TtsClient {
 
   async #call(model, body, label) {
     if (this.sent.length >= this.maxRequests) throw new RequestBudgetError(`request cap of ${this.maxRequests} reached`);
+    if (this.episodeId && this.transport === httpTransport) {
+      // real requests only: the offline self-test (test audio) is never limited
+      try {
+        guardGeminiRequest({ project: "whatif-video", episode: this.episodeId }); // cloud: right episode, max 4 per run
+      } catch (e) {
+        throw new RequestBudgetError(e.message);
+      }
+    }
     const wait = this.lastCall + this.minGapMs - Date.now();
     if (wait > 0) {
       this.log(`  waiting ${Math.ceil(wait / 1000)}s between requests (free tier: 3 per minute)`);

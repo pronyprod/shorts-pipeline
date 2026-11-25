@@ -69,6 +69,7 @@ export const runEpisode = async ({ episodeId, voice, from = 1, to, out, quotaFil
   mkdirSync(rawDir, { recursive: true });
   const quota = new Quota(quotaFile);
   const client = new TtsClient({ quota, voice, persona: dir.persona, models, transport, log, maxRequests });
+  client.episodeId = episodeId; // ci/gemini-guard.mjs: in the cloud only the state file's episode may spend requests
   const report = { episodeId, voice, lines: `${from}-${to}`, requests: [], result: {} };
   const finish = (status) => {
     report.status = status;
