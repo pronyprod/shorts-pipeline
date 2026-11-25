@@ -3,7 +3,13 @@
   "topic": "Hujan meteor Geminid 13-14 Des 2026, asal asteroid Phaethon (science, TIMELY; source Medcom 18 Nov 2026)",
   "step": 3,
   "status": "check-needed",
-  "reason": "Ep020 line joins: JOIN CHECK failed on line 4 (0.15 s burst/breath at edges); whole-block re-take needed but the run's 4-request cap was used (1 accidental Ep019 call, 1 HTTP 400, 2 on Ep020)",
+  "reason": "Ep020 line joins (retry after stop): whole-block re-take done (3 of 4 requests ok, 1 HTTP 400); all 7 lines match script but JOIN CHECK still fails on line 4 (0.18 s burst/breath at the edges); run cap of 4 requests used up",
   "publishAt": "2026-11-26T18:00:00+07:00",
-  "note": "Script ep020-script.ts is done and fact-checked (sources in SOURCES). data/tts/ep020 has a take; next run: one whole-block re-take (new request), then make-voice, captions, build Ep020.tsx, Root, render, checks. Timely source date 18 Nov 2026 expires ~18 Dec; fine."
+  "note": "Voice lines in data/tts/ep020/lines all pass whisper; make-voice join check fails only on line 4 (\"speed\", twice now). Next run: one whole-block re-take; if line 4 fails the join again, reword it ONCE (e.g. drop the \"...\" after \"Tapi tunggu\") per CLOUD_RULES auto-reword, log AUTO-REWORD. Then make-voice, captions, build Ep020.tsx, Root, render, checks.",
+  "cloudStop": {
+    "fixMark": "5f3e29da08f7108823db5049a0133c5e4db9b8e3",
+    "retried": false,
+    "date": "2026-11-26",
+    "reason": "Ep020 line joins: JOIN CHECK still fails on line 4 (0.18 s burst/breath at edges) after the whole-block re-take; run cap of 4 Gemini requests used up (retry after stop)"
+  }
 }

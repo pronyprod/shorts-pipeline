@@ -776,3 +776,4 @@ Resolved (part 2, 2026-11-25): PomProds Ep020 visual counter fix verified on the
 CHECK NEEDED: Fakta Unik cloud run ended without a result file (Claude: "no error text in the execution file") (2026-11-25, https://github.com/pronyprod/shorts-pipeline/actions/runs/45606956358)
 - **CATCH-UP (2026-11-26 01:42 WIB):** FaktaMantra had nothing queued for 2026-11-26 (latest 2026-11-25, 0 held) and no episode run was going: its episode run was started by ci/health.mjs.
 CHECK NEEDED: Fakta Unik cloud run ended without a result file (Claude: "no error text in the execution file") (2026-11-26, https://github.com/pronyprod/shorts-pipeline/actions/runs/45677897481)
+- **Fakta Ep020 (2026-11-26):** CHECK NEEDED: Ep020 line joins (retry after stop): whole-block re-take made, all 7 lines match the script, but JOIN CHECK still fails on line 4 (0.18 s burst/breath at the edges); the run cap of 4 Gemini requests (1 HTTP 400 + 3 ok) is used up. State kept.
