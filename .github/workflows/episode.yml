@@ -315,9 +315,11 @@ jobs:
 
       # The Claude action hides its output; when it fails, show only the final error text and sort it (usage limit or
       # not), so the log says why instead of "ended without a result file" (22 Nov 2026, runs 44944551689/44947130130).
-      - name: Why did Claude stop? (only when a Claude step failed)
-        if: always() && env.GO == 'true' && (steps.claude1.outcome == 'failure' || steps.claude2.outcome == 'failure')
-        run: node ci/claude-error.mjs "${{ steps.claude2.outputs.execution_file || steps.claude1.outputs.execution_file }}" || true
+      # Also when Claude ended normally but left no ci-out/result.json (PomProds 24 Nov, run 45300766976: 37 turns,
+      # no error, no result file, and its last message was hidden): then its last message is shown too.
+      - name: Why did Claude stop? (a Claude step failed, or left no result file)
+        if: always() && env.GO == 'true' && (steps.claude1.outcome == 'failure' || steps.claude2.outcome == 'failure' || (steps.claude1.outcome == 'success' && hashFiles('ci-out/result.json') == ''))
+        run: node ci/claude-error.mjs "${{ steps.claude2.outputs.execution_file || steps.claude1.outputs.execution_file }}" ${{ (steps.claude1.outcome == 'failure' || steps.claude2.outcome == 'failure') && '--failed' || '' }} || true
 
       - name: Verify the mandatory checks (Claude's numbers + the workflow's own measurements)
         id: verify

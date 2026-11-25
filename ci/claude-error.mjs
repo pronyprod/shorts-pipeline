@@ -11,7 +11,8 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } fr
 import path from "node:path";
 
 const repo = path.resolve(import.meta.dirname, "..");
-const files = [...process.argv.slice(2), path.join(process.env.RUNNER_TEMP ?? "/tmp", "claude-execution-output.json")].filter(Boolean);
+const failed = process.argv.includes("--failed"); // the Claude step itself failed (else: it ended without a result file)
+const files = [...process.argv.slice(2).filter((a) => a !== "--failed"), path.join(process.env.RUNNER_TEMP ?? "/tmp", "claude-execution-output.json")].filter(Boolean);
 let text = "";
 for (const f of files) {
   if (!existsSync(f)) continue;
@@ -35,9 +36,10 @@ text = String(text || "no error text in the execution file")
   .replace(/\s+/g, " ")
   .trim()
   .slice(0, 300);
-const kind = /usage limit|rate.?limit|limit reached|too many requests|\b429\b|overloaded|\b529\b|quota/i.test(text) ? "limit" : "error";
+// only a FAILED step can be a usage limit; a normal ending's last words may mention limits for other reasons
+const kind = failed && /usage limit|rate.?limit|limit reached|too many requests|\b429\b|overloaded|\b529\b|quota/i.test(text) ? "limit" : failed ? "error" : "no-result";
 mkdirSync(path.join(repo, "ci-out"), { recursive: true });
 writeFileSync(path.join(repo, "ci-out", "claude-error.json"), `${JSON.stringify({ kind, text }, null, 2)}\n`);
-const line = `Claude stopped (${kind === "limit" ? "usage/rate limit, not an episode problem" : "error"}): ${text}`;
+const line = kind === "no-result" ? `Claude ended without a result file; its last message: ${text}` : `Claude stopped (${kind === "limit" ? "usage/rate limit, not an episode problem" : "error"}): ${text}`;
 console.log(line);
 if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, `**${line}**\n\n`);

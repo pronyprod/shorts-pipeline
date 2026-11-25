@@ -1,0 +1,73 @@
+name: Health check and catch-up
+
+# No Claude (ci/health.mjs). 06:40 WIB: the morning health check (missed days, tomorrow covered?, stops, episodes
+# waiting for a fix); a problem opens/updates the GitHub issue "Health alert" (GitHub emails the owner), adds a
+# HEALTH ALERT line to the log and turns the run red. Every run also does the catch-up: a channel with nothing for
+# tomorrow gets its episode run started (Gemini channels only after the 15:00 WIB reset or at night).
+# Several times a day and night, because GitHub sometimes starts the scheduled episode runs hours late or not at all
+# (23 Nov evening: none; 24 + 25 Nov: 10-12 h late).
+on:
+  schedule:
+    - cron: "40 23 * * *" # 06:40 WIB check + catch-up
+    - cron: "40 2 * * *" # 09:40 WIB catch-up
+    - cron: "40 5 * * *" # 12:40 WIB catch-up
+    - cron: "25 8 * * *" # 15:25 WIB catch-up (after the Gemini reset)
+    - cron: "40 9 * * *" # 16:40 WIB catch-up
+    - cron: "40 16 * * *" # 23:40 WIB catch-up (evening runs did not come?)
+    - cron: "40 18 * * *" # 01:40 WIB catch-up
+    - cron: "40 20 * * *" # 03:40 WIB catch-up
+  workflow_dispatch:
+    inputs:
+      job:
+        type: choice
+        options: [check, catchup]
+        default: check
+      dry:
+        description: "Dry run: report only (no issue, no log line, no run started)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: health
+  cancel-in-progress: false
+
+jobs:
+  health:
+    if: github.event_name == 'workflow_dispatch' || vars.CLOUD_SCHEDULE == 'on'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TZ: Asia/Jakarta
+      GH_TOKEN: ${{ github.token }}
+      GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+      SHEET_ID: ${{ secrets.SHEET_ID }}
+      HEALTH_DRY: ${{ (github.event_name == 'workflow_dispatch' && inputs.dry) && 'true' || 'false' }}
+      JOB: ${{ inputs.job || (github.event.schedule == '40 23 * * *' && 'check') || 'catchup' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Catch-up (start the episode run of a channel with nothing for tomorrow)
+        if: env.JOB == 'catchup' || env.JOB == 'check'
+        run: node ci/health.mjs catchup
+      - name: Health check (red when a day is missing or tomorrow is not covered)
+        id: check
+        if: env.JOB == 'check'
+        run: node ci/health.mjs check
+      - name: Commit the log and catchup.json
+        if: always() && env.HEALTH_DRY != 'true'
+        run: |
+          git add shared/PROJECT_LOG.md ci/stock/catchup.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git commit -q -m "health: check / catch-up (run $GITHUB_RUN_ID)"
+          for i in 1 2 3; do git pull -q --rebase "$REMOTE" main && git push -q "$REMOTE" HEAD:refs/heads/main && exit 0; sleep 20; done
+          echo "::error::git push failed"; exit 1
