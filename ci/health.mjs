@@ -61,7 +61,9 @@ const coverage = async () => {
   return res;
 };
 // tomorrow is covered when queued, or when a held episode exists and today's/tomorrow's chain is not broken
-const coveredTomorrow = (c) => c.days.has(addDays(today, 1)) || (c.heldN > 0 && c.latest >= today);
+// the day the next episode is for: tomorrow, but between midnight and 06:00 WIB still today (that morning slot)
+const needDay = () => (wibHour(now) < 6 ? today : addDays(today, 1));
+const coveredTomorrow = (c) => c.days.has(needDay()) || (c.heldN > 0 && c.latest >= addDays(needDay(), -1));
 const waitingForFix = (st) => st?.cloudStop?.retried === true;
 
 const activeRuns = async () => {
@@ -80,7 +82,7 @@ if (cmd === "check") {
     say(`- **${NAME[k]}**: ${line}; held ${c.heldN}${c.state ? `; unfinished ${c.state.episode} (${c.state.status ?? `step ${c.state.step}`})` : ""}`);
     const missed = look.filter((d) => d <= today && !c.days.has(d));
     if (missed.length) alerts.push(`${NAME[k]} had NO video on ${missed.join(", ")}`);
-    if (!coveredTomorrow(c)) alerts.push(`${NAME[k]} has nothing for tomorrow (${addDays(today, 1)}) yet`);
+    if (!coveredTomorrow(c)) alerts.push(`${NAME[k]} has nothing for ${needDay()} yet`);
     if (waitingForFix(c.state)) alerts.push(`${NAME[k]} ${c.state.episode} stopped twice and waits for a fix: ${String(c.state.cloudStop.reason ?? "").slice(0, 160)}`);
   }
   // stops of the last 2 days
@@ -140,8 +142,8 @@ if (cmd === "check") {
     await gh("POST", "/actions/workflows/episode.yml/dispatches", { ref: "main", inputs: { channel: k, test: false } });
     last[k] = now.toISOString();
     writeFileSync(file, `${JSON.stringify(last, null, 2)}\n`);
-    appendFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), `- **CATCH-UP (${today} ${new Date(now.getTime() + WIB).toISOString().slice(11, 16)} WIB):** ${NAME[k]} had nothing queued for ${addDays(today, 1)} (latest ${c.latest || "none"}, ${c.heldN} held) and no episode run was going: its episode run was started by ci/health.mjs.\n`);
-    say(`catch-up: started ${NAME[k]} (nothing for ${addDays(today, 1)})`);
+    appendFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), `- **CATCH-UP (${today} ${new Date(now.getTime() + WIB).toISOString().slice(11, 16)} WIB):** ${NAME[k]} had nothing queued for ${needDay()} (latest ${c.latest || "none"}, ${c.heldN} held) and no episode run was going: its episode run was started by ci/health.mjs.\n`);
+    say(`catch-up: started ${NAME[k]} (nothing for ${needDay()})`);
     break;
   }
   if (!out.length) say("catch-up: every channel has tomorrow covered");
