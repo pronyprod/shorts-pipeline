@@ -153,8 +153,16 @@ if (isMain) {
         process.exit(0);
       }
       const mp4 = path.join(repo, PROJECT[channel], "renders", FILE[channel](result.episode));
-      const comp = channel === "whatif" ? result.composition : undefined;
-      if (channel === "whatif" && !comp) throw new Error("result.json has no composition for PomProds");
+      // PomProds: part 2's result.json has no composition (only the render hand-off had it; Ep020, 25 Nov): look it
+      // up in the kit's episode list (kNNN, maybe with a letter, e.g. k007b)
+      let comp = channel === "whatif" ? result.composition : undefined;
+      if (channel === "whatif" && !comp) {
+        const n = /(\d{3})/.exec(result.episode)?.[1];
+        const idx = readFileSync(path.join(repo, "whatif-video", "src", "kit", "episodes", "index.ts"), "utf8");
+        const keys = [...new Set(idx.match(new RegExp(`\\bk${n}[a-z]?\\b`, "g")) ?? [])];
+        if (keys.length !== 1) throw new Error(`no unique kit composition for ${result.episode} (found: ${keys.join(", ") || "none"})`);
+        comp = `Kit-${keys[0]}`;
+      }
       const r = await makeReels({ channel, episode: result.episode, mp4, composition: comp });
       summary(`Reels version: ${path.relative(repo, r.out)} with "${r.track.title}" (CC BY 4.0), ${r.seconds.toFixed(1)} s, ${r.lufs} LUFS, true peak ${r.truePeak} dBTP`);
     } else {
