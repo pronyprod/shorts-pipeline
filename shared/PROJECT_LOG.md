@@ -1,5 +1,5 @@
 # PROJECT LOG: AI Shorts Channel Business
-Last updated: 2026-11-26 (Thursday), Fakta Ep020
+Last updated: 2026-11-26 (Thursday), Fakta Ep021
 Owner: the channel owner (UTC+7)
 
 > **For any future Claude session:** this is the master record. Read all of it before
@@ -791,3 +791,7 @@ CHECK NEEDED: Fakta Unik cloud run ended without a result file (Claude: "no erro
   Fakta Ep020 got NO Reels version: the CC BY track for it, "Happy Alley", is the only one of the 9 MP3s with embedded cover art, and ffmpeg tried to write that picture into the audio-only .m4a ("Could not write header ... Invalid argument"). Fix: `-vn` in ci/reels-audio.mjs (checked: Happy Alley normalises fine with it). Ep020's voice files are not kept after a run, so it cannot get a Reel afterwards (YouTube unaffected).
 - **HEALTH ALERT (2026-11-26):** PomProds had NO video on 2026-11-24, 2026-11-25; FaktaMantra had NO video on 2026-11-24; FaktaMantra has nothing for 2026-11-27 yet.
 - **CATCH-UP (2026-11-26 18:28 WIB):** FaktaMantra had nothing queued for 2026-11-27 (latest 2026-11-26, 0 held) and no episode run was going: its episode run was started by ci/health.mjs.
+- **Fakta Ep021 (2026-11-26):** Pelaut Makassar dan teripang ke Arnhem Land, sebelum Australia jadi negara (history, bank V12), 46.4 s, -14.0 LUFS, true peak -1.9 dBTP, 1 Gemini request, ready for 2026-11-27T18:00:00+07:00. No series story (newFormats off); not a timely slot.
+  File: fakta-video/renders/Fakta_Ep021.mp4, uploads/Ep021.txt. Music: Good Starts. Checks run by Claude on the final MP4: whisper 8/8 lines (name quirks listed in Ep021.md), joins OK, no silence over 1 s, 0 decode errors, visual 8 beats clean.
+  Uncertain: start of the trade debated (c.1720 vs earlier): only "more than 100 years before 1901" is claimed; 60 boats said as "about"; screen route schematic.
+- **Fakta Unik Ep021 cloud delivery (2026-11-26):** queued for 2026-11-27T18:00:00+07:00; Queue Fakta row 23, Uploads row 67; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep021/Fakta_Ep021.mp4

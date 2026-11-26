@@ -42,6 +42,7 @@ Tracks from the **YouTube Audio Library**, downloaded on 30 Oct 2026 (320 kbps) 
 | Ep018 (`renders/Fakta_Ep018.mp4`, bendera Monako) | Cooper Ave | The Westerlies | Music: "Cooper Ave" by The Westerlies (YouTube Audio Library) |
 | Ep019 (`renders/Fakta_Ep019.mp4`, jumlah pulau Indonesia) | Dog Park | Silent Partner | Music: "Dog Park" by Silent Partner (YouTube Audio Library) |
 | Ep020 (`renders/Fakta_Ep020.mp4`, hujan meteor Geminid) | Dog and Pony Show | Silent Partner | Music: "Dog and Pony Show" by Silent Partner (YouTube Audio Library) |
+| Ep021 (`renders/Fakta_Ep021.mp4`, pelaut Makassar dan teripang) | Good Starts | Jingle Punks | Music: "Good Starts" by Jingle Punks (YouTube Audio Library) |
 | Ep001 V1 / V2 (published files) | "Peta Pulse" (generated, retired) | channel | none needed |
 
 All tracks:

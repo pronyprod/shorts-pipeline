@@ -1,0 +1,50 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 6.547,
+    "words": 14
+  },
+  {
+    "id": "why",
+    "start": 6.847,
+    "end": 13.697,
+    "words": 16
+  },
+  {
+    "id": "dist",
+    "start": 13.997,
+    "end": 21.296,
+    "words": 16
+  },
+  {
+    "id": "fleet",
+    "start": 21.596,
+    "end": 29.465,
+    "words": 17
+  },
+  {
+    "id": "words",
+    "start": 29.765,
+    "end": 36.96,
+    "words": 17
+  },
+  {
+    "id": "tebak",
+    "start": 37.26,
+    "end": 40.501,
+    "words": 9
+  },
+  {
+    "id": "reveal",
+    "start": 40.801,
+    "end": 42.361,
+    "words": 4
+  },
+  {
+    "id": "question",
+    "start": 42.661,
+    "end": 46.07,
+    "words": 8
+  }
+]
