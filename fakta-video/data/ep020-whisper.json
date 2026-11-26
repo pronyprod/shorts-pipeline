@@ -1,0 +1,520 @@
+[
+  {
+    "text": "Malam",
+    "startMs": 40,
+    "endMs": 450,
+    "timestampMs": 280,
+    "confidence": 0.907567
+  },
+  {
+    "text": " 13",
+    "startMs": 450,
+    "endMs": 910,
+    "timestampMs": 620,
+    "confidence": 0.954593
+  },
+  {
+    "text": " Desember",
+    "startMs": 910,
+    "endMs": 1570,
+    "timestampMs": 980,
+    "confidence": 0.797612
+  },
+  {
+    "text": " nanti,",
+    "startMs": 1570,
+    "endMs": 2110,
+    "timestampMs": 1320,
+    "confidence": 0.96815
+  },
+  {
+    "text": " ada",
+    "startMs": 2110,
+    "endMs": 2280,
+    "timestampMs": 2320,
+    "confidence": 0.834381
+  },
+  {
+    "text": " hujan",
+    "startMs": 2280,
+    "endMs": 2570,
+    "timestampMs": 2580,
+    "confidence": 0.950914
+  },
+  {
+    "text": " meteor",
+    "startMs": 2570,
+    "endMs": 2910,
+    "timestampMs": 2960,
+    "confidence": 0.958203
+  },
+  {
+    "text": " Game",
+    "startMs": 2910,
+    "endMs": 3140,
+    "timestampMs": 3260,
+    "confidence": 0.152854
+  },
+  {
+    "text": " Minute.",
+    "startMs": 3140,
+    "endMs": 3720,
+    "timestampMs": 3560,
+    "confidence": 0.342626
+  },
+  {
+    "text": " Dan",
+    "startMs": 3720,
+    "endMs": 4060,
+    "timestampMs": 4640,
+    "confidence": 0.947766
+  },
+  {
+    "text": " asalnya",
+    "startMs": 4060,
+    "endMs": 4780,
+    "timestampMs": 4940,
+    "confidence": 0.969323
+  },
+  {
+    "text": " bukan",
+    "startMs": 4780,
+    "endMs": 5300,
+    "timestampMs": 5780,
+    "confidence": 0.634801
+  },
+  {
+    "text": " dari",
+    "startMs": 5300,
+    "endMs": 5770,
+    "timestampMs": 6040,
+    "confidence": 0.997885
+  },
+  {
+    "text": " komet.",
+    "startMs": 5770,
+    "endMs": 6620,
+    "timestampMs": 6240,
+    "confidence": 0.291774
+  },
+  {
+    "text": " Kebanyakan",
+    "startMs": 6620,
+    "endMs": 7230,
+    "timestampMs": 6960,
+    "confidence": 0.918394
+  },
+  {
+    "text": " hujan",
+    "startMs": 7230,
+    "endMs": 7520,
+    "timestampMs": 7440,
+    "confidence": 0.988097
+  },
+  {
+    "text": " meteor",
+    "startMs": 7520,
+    "endMs": 7900,
+    "timestampMs": 7940,
+    "confidence": 0.989404
+  },
+  {
+    "text": " berasal",
+    "startMs": 7900,
+    "endMs": 8320,
+    "timestampMs": 8160,
+    "confidence": 0.992057
+  },
+  {
+    "text": " dari",
+    "startMs": 8320,
+    "endMs": 8570,
+    "timestampMs": 8520,
+    "confidence": 0.998992
+  },
+  {
+    "text": " komet.",
+    "startMs": 8570,
+    "endMs": 8940,
+    "timestampMs": 8680,
+    "confidence": 0.916431
+  },
+  {
+    "text": " Tapi",
+    "startMs": 8940,
+    "endMs": 9520,
+    "timestampMs": 9760,
+    "confidence": 0.993466
+  },
+  {
+    "text": " Game",
+    "startMs": 9520,
+    "endMs": 9620,
+    "timestampMs": 10000,
+    "confidence": 0.819313
+  },
+  {
+    "text": " Minute",
+    "startMs": 9620,
+    "endMs": 10130,
+    "timestampMs": 10320,
+    "confidence": 0.970565
+  },
+  {
+    "text": " berasal",
+    "startMs": 10130,
+    "endMs": 10720,
+    "timestampMs": 10620,
+    "confidence": 0.974799
+  },
+  {
+    "text": " dari",
+    "startMs": 10720,
+    "endMs": 11060,
+    "timestampMs": 11040,
+    "confidence": 0.996569
+  },
+  {
+    "text": " batu.",
+    "startMs": 11060,
+    "endMs": 11700,
+    "timestampMs": 11400,
+    "confidence": 0.758278
+  },
+  {
+    "text": " Asteroid",
+    "startMs": 11700,
+    "endMs": 12660,
+    "timestampMs": 12500,
+    "confidence": 0.459884
+  },
+  {
+    "text": " bernama",
+    "startMs": 12660,
+    "endMs": 13530,
+    "timestampMs": 13120,
+    "confidence": 0.985629
+  },
+  {
+    "text": " Paeton,",
+    "startMs": 13530,
+    "endMs": 14580,
+    "timestampMs": 13680,
+    "confidence": 0.661875
+  },
+  {
+    "text": " ditemukan",
+    "startMs": 14580,
+    "endMs": 15190,
+    "timestampMs": 14700,
+    "confidence": 0.639965
+  },
+  {
+    "text": " tahun",
+    "startMs": 15190,
+    "endMs": 15700,
+    "timestampMs": 15220,
+    "confidence": 0.994854
+  },
+  {
+    "text": " 1983.",
+    "startMs": 15700,
+    "endMs": 16960,
+    "timestampMs": 16060,
+    "confidence": 0.992188
+  },
+  {
+    "text": " Lebarnya",
+    "startMs": 16960,
+    "endMs": 17870,
+    "timestampMs": 17660,
+    "confidence": 0.727652
+  },
+  {
+    "text": " cuma",
+    "startMs": 17870,
+    "endMs": 18320,
+    "timestampMs": 18300,
+    "confidence": 0.972427
+  },
+  {
+    "text": " sekitar",
+    "startMs": 18320,
+    "endMs": 19120,
+    "timestampMs": 18520,
+    "confidence": 0.997202
+  },
+  {
+    "text": " 5",
+    "startMs": 19120,
+    "endMs": 19460,
+    "timestampMs": 18940,
+    "confidence": 0.947043
+  },
+  {
+    "text": " km.",
+    "startMs": 19460,
+    "endMs": 19720,
+    "timestampMs": 19320,
+    "confidence": 0.66763
+  },
+  {
+    "text": " Tapi",
+    "startMs": 19720,
+    "endMs": 20350,
+    "timestampMs": 20380,
+    "confidence": 0.991121
+  },
+  {
+    "text": " tunggu,",
+    "startMs": 20350,
+    "endMs": 21520,
+    "timestampMs": 20700,
+    "confidence": 0.964856
+  },
+  {
+    "text": " serpihanya",
+    "startMs": 21520,
+    "endMs": 22200,
+    "timestampMs": 21700,
+    "confidence": 0.86148
+  },
+  {
+    "text": " melesat",
+    "startMs": 22200,
+    "endMs": 22830,
+    "timestampMs": 22320,
+    "confidence": 0.551131
+  },
+  {
+    "text": " 35",
+    "startMs": 22830,
+    "endMs": 23380,
+    "timestampMs": 23140,
+    "confidence": 0.986229
+  },
+  {
+    "text": " km/dekit.",
+    "startMs": 23380,
+    "endMs": 24460,
+    "timestampMs": 23780,
+    "confidence": 0.885892
+  },
+  {
+    "text": " Jakarta",
+    "startMs": 24460,
+    "endMs": 25090,
+    "timestampMs": 25020,
+    "confidence": 0.984239
+  },
+  {
+    "text": " kesura",
+    "startMs": 25090,
+    "endMs": 25630,
+    "timestampMs": 25500,
+    "confidence": 0.559736
+  },
+  {
+    "text": " bayak",
+    "startMs": 25630,
+    "endMs": 26350,
+    "timestampMs": 25920,
+    "confidence": 0.785435
+  },
+  {
+    "text": " kurang",
+    "startMs": 26350,
+    "endMs": 26620,
+    "timestampMs": 26560,
+    "confidence": 0.881745
+  },
+  {
+    "text": " dari",
+    "startMs": 26620,
+    "endMs": 26980,
+    "timestampMs": 27020,
+    "confidence": 0.973409
+  },
+  {
+    "text": " 20",
+    "startMs": 26980,
+    "endMs": 27520,
+    "timestampMs": 27560,
+    "confidence": 0.974013
+  },
+  {
+    "text": " det.",
+    "startMs": 27520,
+    "endMs": 27820,
+    "timestampMs": 27820,
+    "confidence": 0.790107
+  },
+  {
+    "text": " Tebak",
+    "startMs": 27820,
+    "endMs": 28200,
+    "timestampMs": 28220,
+    "confidence": 0.518851
+  },
+  {
+    "text": " dulu",
+    "startMs": 28200,
+    "endMs": 28500,
+    "timestampMs": 28620,
+    "confidence": 0.982268
+  },
+  {
+    "text": " di",
+    "startMs": 28500,
+    "endMs": 28650,
+    "timestampMs": 28820,
+    "confidence": 0.986263
+  },
+  {
+    "text": " komentar.",
+    "startMs": 28650,
+    "endMs": 29520,
+    "timestampMs": 29000,
+    "confidence": 0.92004
+  },
+  {
+    "text": " Berapa",
+    "startMs": 29840,
+    "endMs": 30370,
+    "timestampMs": 30040,
+    "confidence": 0.972088
+  },
+  {
+    "text": " meteor",
+    "startMs": 30370,
+    "endMs": 30760,
+    "timestampMs": 30800,
+    "confidence": 0.987104
+  },
+  {
+    "text": " yang",
+    "startMs": 30760,
+    "endMs": 31060,
+    "timestampMs": 31240,
+    "confidence": 0.986529
+  },
+  {
+    "text": " kelihatan",
+    "startMs": 31060,
+    "endMs": 31800,
+    "timestampMs": 31440,
+    "confidence": 0.945104
+  },
+  {
+    "text": " setiap",
+    "startMs": 31800,
+    "endMs": 32180,
+    "timestampMs": 32080,
+    "confidence": 0.264336
+  },
+  {
+    "text": " jam,",
+    "startMs": 32180,
+    "endMs": 32710,
+    "timestampMs": 32360,
+    "confidence": 0.816041
+  },
+  {
+    "text": " sekitar",
+    "startMs": 32710,
+    "endMs": 33390,
+    "timestampMs": 32900,
+    "confidence": 0.774025
+  },
+  {
+    "text": " 40-50",
+    "startMs": 33390,
+    "endMs": 34640,
+    "timestampMs": 33940,
+    "confidence": 0.986745
+  },
+  {
+    "text": " meter",
+    "startMs": 34640,
+    "endMs": 35120,
+    "timestampMs": 35260,
+    "confidence": 0.581456
+  },
+  {
+    "text": " per",
+    "startMs": 35120,
+    "endMs": 35410,
+    "timestampMs": 35680,
+    "confidence": 0.476586
+  },
+  {
+    "text": " jam?",
+    "startMs": 35410,
+    "endMs": 36040,
+    "timestampMs": 35940,
+    "confidence": 0.993559
+  },
+  {
+    "text": " Kalau",
+    "startMs": 36040,
+    "endMs": 36550,
+    "timestampMs": 36600,
+    "confidence": 0.647462
+  },
+  {
+    "text": " langitnya",
+    "startMs": 36550,
+    "endMs": 37610,
+    "timestampMs": 36900,
+    "confidence": 0.826752
+  },
+  {
+    "text": " gelap.",
+    "startMs": 37610,
+    "endMs": 38060,
+    "timestampMs": 37380,
+    "confidence": 0.588509
+  },
+  {
+    "text": " Malam",
+    "startMs": 38060,
+    "endMs": 38690,
+    "timestampMs": 39260,
+    "confidence": 0.97685
+  },
+  {
+    "text": " itu",
+    "startMs": 38690,
+    "endMs": 39130,
+    "timestampMs": 39560,
+    "confidence": 0.978047
+  },
+  {
+    "text": " kamu",
+    "startMs": 39130,
+    "endMs": 39170,
+    "timestampMs": 39880,
+    "confidence": 0.78801
+  },
+  {
+    "text": " begadang",
+    "startMs": 39170,
+    "endMs": 39910,
+    "timestampMs": 40080,
+    "confidence": 0.355782
+  },
+  {
+    "text": " atau",
+    "startMs": 39910,
+    "endMs": 40280,
+    "timestampMs": 40640,
+    "confidence": 0.978405
+  },
+  {
+    "text": " tidur?",
+    "startMs": 40280,
+    "endMs": 41080,
+    "timestampMs": 40840,
+    "confidence": 0.990816
+  }
+]

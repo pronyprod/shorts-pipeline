@@ -1,0 +1,44 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 6.533,
+    "words": 14
+  },
+  {
+    "id": "rock",
+    "start": 6.833,
+    "end": 14.214,
+    "words": 14
+  },
+  {
+    "id": "size",
+    "start": 14.514,
+    "end": 19.667,
+    "words": 13
+  },
+  {
+    "id": "speed",
+    "start": 19.967,
+    "end": 27.797,
+    "words": 18
+  },
+  {
+    "id": "tebak",
+    "start": 28.097,
+    "end": 32.371,
+    "words": 10
+  },
+  {
+    "id": "reveal",
+    "start": 32.671,
+    "end": 37.282,
+    "words": 12
+  },
+  {
+    "id": "question",
+    "start": 37.582,
+    "end": 42.43,
+    "words": 9
+  }
+]
