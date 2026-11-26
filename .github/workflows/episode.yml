@@ -227,6 +227,9 @@ jobs:
           GEMINI_API_KEY: ${{ env.CHANNEL != 'countryballs' && secrets.GEMINI_API_KEY || '' }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # the catch-up job (ci/health.mjs) starts runs as the github-actions bot; without this the action refuses them
+          # (runs 45606956358, 45677897481 on 25 Nov: "Workflow initiated by non-human actor")
+          allowed_bots: "github-actions,github-actions[bot]"
           prompt: |
             Channel: ${{ env.CHANNEL }}
             Test run: ${{ env.TEST }}
@@ -295,6 +298,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # the catch-up job (ci/health.mjs) starts runs as the github-actions bot; without this the action refuses them
+          # (runs 45606956358, 45677897481 on 25 Nov: "Workflow initiated by non-human actor")
+          allowed_bots: "github-actions,github-actions[bot]"
           prompt: |
             Channel: ${{ env.CHANNEL }}
             Test run: ${{ env.TEST }}
