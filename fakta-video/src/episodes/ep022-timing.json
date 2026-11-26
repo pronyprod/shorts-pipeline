@@ -1,0 +1,50 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 4.715,
+    "words": 11
+  },
+  {
+    "id": "why",
+    "start": 5.015,
+    "end": 11.993,
+    "words": 16
+  },
+  {
+    "id": "twist",
+    "start": 12.293,
+    "end": 18.707,
+    "words": 15
+  },
+  {
+    "id": "magnet",
+    "start": 19.007,
+    "end": 28.671,
+    "words": 23
+  },
+  {
+    "id": "warm",
+    "start": 28.971,
+    "end": 33.07,
+    "words": 11
+  },
+  {
+    "id": "tebak",
+    "start": 33.37,
+    "end": 36.815,
+    "words": 9
+  },
+  {
+    "id": "reveal",
+    "start": 37.115,
+    "end": 39.704,
+    "words": 5
+  },
+  {
+    "id": "question",
+    "start": 40.004,
+    "end": 43.054,
+    "words": 9
+  }
+]

@@ -795,3 +795,7 @@ CHECK NEEDED: Fakta Unik cloud run ended without a result file (Claude: "no erro
   File: fakta-video/renders/Fakta_Ep021.mp4, uploads/Ep021.txt. Music: Good Starts. Checks run by Claude on the final MP4: whisper 8/8 lines (name quirks listed in Ep021.md), joins OK, no silence over 1 s, 0 decode errors, visual 8 beats clean.
   Uncertain: start of the trade debated (c.1720 vs earlier): only "more than 100 years before 1901" is claimed; 60 boats said as "about"; screen route schematic.
 - **Fakta Unik Ep021 cloud delivery (2026-11-26):** queued for 2026-11-27T18:00:00+07:00; Queue Fakta row 23, Uploads row 67; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep021/Fakta_Ep021.mp4
+- **Fakta Ep022 (2026-11-27):** Kenapa penanak nasi tahu nasinya matang (Kenapa, bank K4), 43.4 s, -14.0 LUFS, true peak -2.0 dBTP, 1 Gemini request, ready for 2026-11-28T18:00:00+07:00 (may be held as stock). No series story (newFormats off); not a timely slot.
+  File: fakta-video/renders/Fakta_Ep022.mp4, uploads/Ep022.txt. Music: Mr. Sunny Face. Checks run by Claude on the final MP4: whisper 8/8 lines (quirks listed in Ep022.md), joins OK, no silence over 1 s, 0 decode errors, visual 8 beats clean.
+  Uncertain: exact Curie temperature dropped; warm temperature "sekitar 65 C" is for many models only (Wikipedia).
+- **Fakta Unik Ep022 cloud delivery (2026-11-27):** queued for 2026-11-28T18:00:00+07:00; Queue Fakta row 24, Uploads row 68; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep022/Fakta_Ep022.mp4
