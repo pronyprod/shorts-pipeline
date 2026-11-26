@@ -104,7 +104,8 @@ export const makeReels = async ({ channel, episode, mp4, composition, outDir = p
   const norm = path.join(project, "public", rel);
   mkdirSync(path.dirname(norm), { recursive: true });
   const gain = MUSIC.musicLufs[channel] - loudness(src).I;
-  run("ffmpeg", ["-v", "error", "-y", "-i", src, "-af", `volume=${gain.toFixed(2)}dB,alimiter=limit=0.95:level=false`, "-c:a", "aac", "-b:a", "192k", norm]);
+  // -vn: some MP3s carry cover art (Happy Alley: Fakta Ep020 lost its Reels version, 26 Nov)
+  run("ffmpeg", ["-v", "error", "-y", "-i", src, "-vn", "-af", `volume=${gain.toFixed(2)}dB,alimiter=limit=0.95:level=false`, "-c:a", "aac", "-b:a", "192k", norm]);
   mkdirSync(outDir, { recursive: true });
   const tmp = path.join(outDir, `${episode}-reels-tmp`);
   mkdirSync(tmp, { recursive: true });
