@@ -1,0 +1,17 @@
+{
+  "episode": "ep021",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep021.ts lines: only CAPITALS added; words identical to say. Clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is standing somewhere impossible. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a hushed shock", "tagged": "You step onto VENUS. You have sixty SECONDS." },
+    { "n": 2, "style": "calm and steady, a little ominous", "tagged": "It's four hundred and sixty-four DEGREES. Hot enough to melt LEAD." },
+    { "n": 3, "style": "steady and amazed", "tagged": "The air is so HEAVY, it feels like standing nine hundred metres under the SEA." },
+    { "n": 4, "style": "hushed and tense", "tagged": "Above you, the clouds are made of sulfuric ACID." },
+    { "n": 5, "style": "the key line: big, clear punch, then a heavy pause", "tagged": "That's why every visitor so far has been a ROBOT, never a PERSON." },
+    { "n": 6, "style": "clear and a little wry", "tagged": "And even robots give up FAST." },
+    { "n": 7, "style": "leaning in, amazed, sharing a true fact", "tagged": "In nineteen eighty-two, the Soviet probe Venera thirteen was built to last thirty-two MINUTES. It kept working for one hundred and twenty-SEVEN." },
+    { "n": 8, "style": "warm and impressed", "tagged": "Nearly FOUR times longer, on the HOTTEST planet there is." },
+    { "n": 9, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}
