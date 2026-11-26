@@ -177,6 +177,22 @@ export const fades = (s, sr) => {
 // Edges first (Gemini's end burst is flat before denoising, uneven after), then denoise, then fades again.
 export const cleanLine = (s, sr) => fades(denoise(cleanEdges(s, sr), sr), sr);
 
+// Owner, 26 Nov 2026 (Fakta Ep020 looped on re-takes: all words right, but the join check found 0.18 s of
+// burst/breath at line 4's edges every time). Noise reduction changes a burst's shape, so the first cleanEdges pass
+// can miss what a second pass recognises. When that is the ONLY leftover, cut it here instead of recording again:
+// cleanEdges + fades again (up to 3 passes) when the leftover is at most 0.4 s, never more than maxCut seconds in total. Returns { s, cut }; cut = 0
+// when nothing was left. Whisper still checks every line's words afterwards (mandatory checks).
+export const trimLeftoverEdges = (s, sr, maxCut = 0.6) => {
+  let out = s;
+  for (let pass = 0; pass < 3; pass++) {
+    const c = cleanEdges(out, sr);
+    if (out.length - c.length <= 0.09 * sr) break; // what the join check accepts
+    if (out.length - c.length > 0.4 * sr || s.length - c.length > maxCut * sr) break; // too much: leave it for the join check
+    out = fades(c, sr);
+  }
+  return { s: out, cut: (s.length - out.length) / sr };
+};
+
 // ---------- the automatic join check ----------
 // Each clip: no click at either edge, no burst or breath left at the edges, a quiet floor like the
 // other lines, and the same speech level as the other lines.

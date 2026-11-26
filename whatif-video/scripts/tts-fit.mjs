@@ -21,7 +21,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { FFMPEG } from "./loudness.mjs";
 import { checkLine } from "./tts/align.mjs";
-import { checkLines, cleanLine, fades } from "./voice-clean.mjs";
+import { checkLines, cleanLine, fades, trimLeftoverEdges } from "./voice-clean.mjs";
 import { concat, FRAME, frameLevels, normalise, pcm16ToFloat, readWav, SILENCE_DB, SR, wavBuffer, writeWav } from "./tts/audio.mjs";
 
 const MAX_TEMPO = 1.05;
@@ -104,7 +104,11 @@ const durations = [];
 const problems = [];
 const finals = [];
 clips.forEach((c, i) => {
-  const audio = fades(normalise(cleanLine(atempo(c.audio), SR)), SR);
+  const lvl = fades(normalise(cleanLine(atempo(c.audio), SR)), SR);
+  // a short burst/breath left at the edges is cut here (no new recording); owner 26 Nov 2026
+  const tr = trimLeftoverEdges(lvl, SR);
+  if (tr.cut > 0) console.log(`AUTO-TRIM ${c.name ?? "line"}: ${tr.cut.toFixed(2)} s of burst/breath cut at the edges (no re-take)`);
+  const audio = tr.s;
   finals.push(audio);
   const check = checkLine(ep.lines[i].say, audio);
   if (!check.ok) problems.push(`line ${i + 1}: ${check.notes.join("; ")}`);

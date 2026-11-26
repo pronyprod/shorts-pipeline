@@ -9,4 +9,5 @@ export declare const FADE_IN: number;
 export declare const FADE_OUT: number;
 export declare const fades: (s: Float32Array, sr: number) => Float32Array;
 export declare const cleanLine: (s: Float32Array, sr: number) => Float32Array;
+export declare const trimLeftoverEdges: (s: Float32Array, sr: number, maxCut?: number) => { s: Float32Array; cut: number };
 export declare const checkLines: (clips: Float32Array[], sr: number) => { line: number; ok: boolean; problems: string[] }[];

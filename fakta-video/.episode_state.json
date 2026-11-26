@@ -5,7 +5,7 @@
   "status": "check-needed",
   "reason": "Ep020 line joins (retry after stop): whole-block re-take done (3 of 4 requests ok, 1 HTTP 400); all 7 lines match script but JOIN CHECK still fails on line 4 (0.18 s burst/breath at the edges); run cap of 4 requests used up",
   "publishAt": "2026-11-26T18:00:00+07:00",
-  "note": "Voice lines in data/tts/ep020/lines all pass whisper; make-voice join check fails only on line 4 (\"speed\", twice now). Next run: one whole-block re-take; if line 4 fails the join again, reword it ONCE (e.g. drop the \"...\" after \"Tapi tunggu\") per CLOUD_RULES auto-reword, log AUTO-REWORD. Then make-voice, captions, build Ep020.tsx, Root, render, checks.",
+  "note": "OWNER 26 Nov 2026: do NOT record again (no Gemini request in this run). The takes in data/tts/ep020/lines are right (all 7 lines match the script); only the join check failed on line 4 (0.18 s burst/breath at the edges). make-voice now cuts such a leftover automatically (AUTO-TRIM, at most 0.6 s, short fades). Run make-voice again on the existing lines, check that it prints AUTO-TRIM for line 4 and 'join check passed', then captions, build Ep020.tsx + Root, render, and every mandatory check (whisper on the final voice, loudness, true peak, length, silence, joins, facts, file, visual sanity check). Deliver for 2026-11-26T18:00:00+07:00. If the join check still fails: CHECK NEEDED and stop (no re-take).",
   "cloudStop": {
     "fixMark": "5f3e29da08f7108823db5049a0133c5e4db9b8e3",
     "retried": false,

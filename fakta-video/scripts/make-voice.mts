@@ -23,7 +23,7 @@ import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { loadEpisode } from "./episode.mts";
 import { VOICE_LUFS } from "../src/music.ts";
-import { checkLines, cleanLine, fades, frames, readMonoWav, writeMonoWav } from "./voice-clean.mjs";
+import { checkLines, cleanLine, fades, frames, readMonoWav, trimLeftoverEdges, writeMonoWav } from "./voice-clean.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const arg = (name: string) => process.argv.find((a) => a.startsWith(`--${name}=`))?.split("=")[1];
@@ -92,7 +92,11 @@ SEGMENTS.forEach((seg, i) => {
     const c = cleanLine(s, sr);
     const lv = frames(c, sr).map((x) => x.l).sort((a, b) => a - b);
     const g = 10 ** ((-20 - (lv[Math.floor(lv.length * 0.8)] ?? -20)) / 20);
-    const out = fades(c.map((v) => Math.max(-0.98, Math.min(0.98, v * g))), sr);
+    const lvl = fades(c.map((v) => Math.max(-0.98, Math.min(0.98, v * g))), sr);
+    // a short burst/breath left at the edges is cut here (no new recording); timing is measured after this
+    const tr = trimLeftoverEdges(lvl, sr);
+    if (tr.cut > 0) console.log(`AUTO-TRIM line ${i + 1} (${seg.id}): ${tr.cut.toFixed(2)} s of burst/breath cut at the edges (no re-take)`);
+    const out = tr.s;
     writeMonoWav(wav, out, sr);
     cleaned.push(out);
     cleanedSr = sr;
