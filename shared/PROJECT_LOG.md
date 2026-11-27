@@ -800,3 +800,8 @@ CHECK NEEDED: Fakta Unik cloud run ended without a result file (Claude: "no erro
   Uncertain: exact Curie temperature dropped; warm temperature "sekitar 65 C" is for many models only (Wikipedia).
 - **Fakta Unik Ep022 cloud delivery (2026-11-27):** queued for 2026-11-28T18:00:00+07:00; Queue Fakta row 24, Uploads row 68; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep022/Fakta_Ep022.mp4
 - **CATCH-UP (2026-11-27 07:49 WIB):** Country Flux had nothing queued for 2026-11-28 (latest 2026-11-27, 0 held) and no episode run was going: its episode run was started by ci/health.mjs.
+- **Countryballs Ep022 (2026-11-27):** twins PL→CZ, CH→TO, IE→IN, CL→CU (new pairs, SVG-checked; not yet in the bank tables); music "At The Fair" by The Green Orbs.
+  countryballs-video/renders/Ep022.mp4, 20.4 s, -13.9 LUFS (true peak -1.36 dBTP); voices 7/7 whisper match, no silence, 4 stills + 4 final frames checked; ready for 2026-11-28T07:30:00+07:00.
+  Nothing uncertain (no timely slot, no series slot).
+AUTO-REWORD: Countryballs Ep022 punch4: "I swapped the square for stripes." -> "I traded a square for stripes." (whisper heard "I swap the square for stripes."; passed)
+- **Countryballs Ep022 cloud delivery (2026-11-27):** queued for 2026-11-28T07:30:00+07:00; Queue Countryballs row 24, Uploads row 69; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep022/Ep022.mp4

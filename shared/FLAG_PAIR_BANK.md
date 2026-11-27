@@ -152,7 +152,7 @@ Evidence (`shared/WHAT_WORKS.md`): classic Flag Family is the base (6 of 8 above
 Titles: "[This/Their kid] + a concrete visual verb + CAPS word + one emoji + Guess the flag/parents" (like Ep008, Ep002, Ep007, Ep004); no meme phrases, no "Can you guess?" without an object.
 - Ep020: Words (rows above; timely slot, one round needs a news hook or a current date)
 - Ep021: Classic Flag Family: #9, #33, #31, #34
-- Ep022: Twins (new pairs, verify)
+- Ep022: Twins (new pairs, verify) **(DONE: Ep022: PL→CZ, CH→TO, IE→IN, CL→CU)**
 - Ep023: Classic Flag Family: #17, #35, #36, #37
 - Ep024: Reverse quiz (new pairs, verify)
 - Ep025: Timely (classic style or twins, whichever has a news hook)
