@@ -799,3 +799,4 @@ CHECK NEEDED: Fakta Unik cloud run ended without a result file (Claude: "no erro
   File: fakta-video/renders/Fakta_Ep022.mp4, uploads/Ep022.txt. Music: Mr. Sunny Face. Checks run by Claude on the final MP4: whisper 8/8 lines (quirks listed in Ep022.md), joins OK, no silence over 1 s, 0 decode errors, visual 8 beats clean.
   Uncertain: exact Curie temperature dropped; warm temperature "sekitar 65 C" is for many models only (Wikipedia).
 - **Fakta Unik Ep022 cloud delivery (2026-11-27):** queued for 2026-11-28T18:00:00+07:00; Queue Fakta row 24, Uploads row 68; video https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep022/Fakta_Ep022.mp4
+- **CATCH-UP (2026-11-27 07:49 WIB):** Country Flux had nothing queued for 2026-11-28 (latest 2026-11-27, 0 held) and no episode run was going: its episode run was started by ci/health.mjs.
