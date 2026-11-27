@@ -532,6 +532,9 @@ AUTO-REWORD: Countryballs Ep018 punch4: "I swapped stars for a moon." -> "I trad
   Uncertain: nothing; the Pineapple row was swapped for Pumpkin (timely); two lines reworded once (below).
 AUTO-REWORD: Countryballs Ep020 punch1: "Germany: Nile horse." -> "Germany: river horse." (whisper heard "Germany, Niall Horse."; passed; on-screen word Nilpferd -> Flusspferd, same meaning, Wiktionary)
 AUTO-REWORD: Countryballs Ep020 punch2: "Italy: zucchini's mom." -> "Italy: mother of zucchini." (whisper heard "Italy, Zakina's mom."; passed)
+- **TEST RUN (cloud): Countryballs Ep024 (2026-11-27):** emergency evergreen, classic Flag Family IT→MX, US→LR, NL→LU, ID→PL (new pairs, SVG-checked; not in the bank tables); music "Claudio The Worm" by The Green Orbs.
+  countryballs-video/renders/Ep024.mp4, 19.5 s, -14.1 LUFS (true peak -1.19 dBTP); voices 7/7 whisper match, no silence, 4 stills + 4 final frames checked; ready for 2026-11-29T07:30:00+07:00.
+  Nothing uncertain (emergency: evergreen, no series, no timely slot).
 
 ## 11. Open questions
 - Countryballs: English or Indonesian? (or both later)
@@ -821,3 +824,4 @@ AUTO-REWORD: Countryballs Ep023 punch2: "I swapped my colours." -> "I swapped my
   7. Late scheduled night runs skip when the night's episode is already queued (no Claude usage burnt after a busy night); a Gemini HTTP 400 is refunded in ci/gemini-guard.mjs.
   8. Weekly self-test `.github/workflows/selftest.yml`, Sunday 23:59 WIB: one test-mode run per channel (only when no episode run is busy) + a health dry run; a failure opens the issue "Weekly self-test failed". [disable the workflow in the Actions tab or delete the file]
   Tested: parking 5/5, publish slots 12/12, Reels self-test 12/12, auto-trim 5/5, past publish time corrected on the test tab, watchdog matched every live row against YouTube, cloud health dry run 45923627491 (all 7 steps). Test-mode episode runs: Fakta 45931498075 success (Ep023 to Queue Test, Reels version -14 LUFS, round 2 skipped on Gemini quota); PomProds 45923747259 round 1 success (Ep022 + Reels version), round 2 a real CHECK NEEDED (Claude saw ~1 s black frames, state kept for a re-render on the test branch only); Country Flux 45923697602 round 1 skipped at target and round 2 failed at checkout: an old bug (test round 2 checks out round 1's test branch, which was never pushed when round 1 changed nothing). Fixed: round 1 of a test run now always pushes its test branch. Live queues and held stock unchanged by the tests.
+- **Countryballs Ep024 cloud delivery (TEST, not for upload) (2026-11-27):** queued for 2026-11-29T07:30:00+07:00; Queue Test row 13, Uploads Test row 13; video https://github.com/pronyprod/shorts-pipeline/releases/download/test-countryballs-Ep024-r45937563522/Ep024.mp4

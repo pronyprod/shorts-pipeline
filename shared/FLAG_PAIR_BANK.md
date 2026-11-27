@@ -154,7 +154,7 @@ Titles: "[This/Their kid] + a concrete visual verb + CAPS word + one emoji + Gue
 - Ep021: Classic Flag Family: #9, #33, #31, #34
 - Ep022: Twins (new pairs, verify) **(DONE: Ep022: PL→CZ, CH→TO, IE→IN, CL→CU)**
 - Ep023: Classic Flag Family: #17, #35, #36, #37 **(DONE: Ep023)**
-- Ep024: Reverse quiz (new pairs, verify)
+- Ep024: Reverse quiz (new pairs, verify) **(Emergency Ep024 made as classic instead: IT→MX, US→LR, NL→LU, ID→PL; reverse quiz still open)**
 - Ep025: Timely (classic style or twins, whichever has a news hook)
 - Ep026: Reverse quiz or Size duel (new rows; the Size duel only if Ep019's numbers are at least the median)
 - Ep027: Series Part 1, "Twins: can you tell them apart?" (new twin pairs, verify)

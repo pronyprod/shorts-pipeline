@@ -172,6 +172,16 @@ export const RemotionRoot: React.FC = () => {
           calculateMetadata={calculateFlagFamilyMetadata}
         />
         <Composition
+          id="Ep024"
+          component={FlagFamilyEpisode}
+          durationInFrames={570}
+          fps={30}
+          width={1080}
+          height={1920}
+          defaultProps={{ episodeId: "ep024", music: "" }}
+          calculateMetadata={calculateFlagFamilyMetadata}
+        />
+        <Composition
           id="Ep021"
           component={FlagFamilyEpisode}
           durationInFrames={570}
