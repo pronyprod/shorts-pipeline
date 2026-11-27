@@ -33,6 +33,10 @@ import { CHANNELS, doubleActive, nextSlot, sheetGet, slotTimes } from "./sheet.m
 const repo = path.resolve(import.meta.dirname, "..");
 const env = process.env;
 export const TARGET_DAYS = 3;
+// Gemini requests kept spare for re-takes. Fakta needs ~4 per episode, so with 3 spare (4 + 4 + 3 = 11 of 10) it could
+// never make a second episode a day and never build stock; 2 spare allows exactly two (owner 27 Nov 2026). The quota
+// resets at 15:00 WIB, before the nightly runs, so a tight day never blocks the next night's episode.
+const SPARE_OF = { whatif: 3, fakta: 2 };
 const SPARE = 3;
 const NEED = { whatif: { model: "gemini-3.8-flash-tts", requests: 3, minutes: 90 }, fakta: { model: "gemini-3.1-flash-tts-preview", requests: 4, minutes: 50 }, countryballs: { minutes: 35 } };
 const H = 3600 * 1000;
@@ -165,8 +169,9 @@ const geminiOk = (channel, lines) => {
     used += q.days?.[pacific]?.[NEED[channel].model]?.used ?? 0;
     limit = q.limits?.[NEED[channel].model]?.perDay ?? limit;
   }
-  lines.push(`Gemini ${NEED[channel].model}: ${used} of ${limit} used on Pacific day ${pacific}; this episode needs about ${NEED[channel].requests}, keep ${SPARE} spare`);
-  return used + NEED[channel].requests + SPARE <= limit;
+  const spare = SPARE_OF[channel] ?? SPARE;
+  lines.push(`Gemini ${NEED[channel].model}: ${used} of ${limit} used on Pacific day ${pacific}; this episode needs about ${NEED[channel].requests}, keep ${spare} spare`);
+  return used + NEED[channel].requests + spare <= limit;
 };
 
 const summary = (text) => {
@@ -241,15 +246,22 @@ if (cmd === "plan") {
   if (env.REDO) decide(false, "redo", "No second episode after a redo.");
   if (existsSync(state)) decide(false, "unfinished", "The first episode of this run did not finish (state file).");
   if (existsSync(pending)) decide(false, "pending", "The first episode's delivery did not finish.");
-  if (ahead < 1 && env.TEST !== "true") decide(false, "first-failed", "Tomorrow is still not covered: the first episode did not deliver.");
+  // round 1 delivered = queued, or held by the gap / cap in THIS run (27 Nov 2026: with cap 4 a needed episode is often
+  // held at night; that is a delivery, so the stock round may still run)
+  const heldThisRun = held.some((h) => h.channel === channel && String(h.run) === String(env.GITHUB_RUN_ID ?? "-"));
+  if (ahead < 1 && !heldThisRun && env.TEST !== "true") decide(false, "first-failed", "Tomorrow is still not covered: the first episode did not deliver.");
   if (!force && level(channel) >= target) {
     // at the stock target: make an emergency (evergreen) episode while the channel has fewer than 2 (owner 27 Nov 2026)
     if (emergencyOf(channel) >= 2) decide(false, "at-target", `${c.sheetName} already has ${level(channel)} days (queued + held) and ${emergencyOf(channel)} emergency episodes.`);
+    // stock first (owner 27 Nov 2026): emergency episodes only once EVERY channel has its 3 days, so Claude's usage
+    // and the run time go to the channels that are still short
+    const short = Object.keys(CHANNELS).filter((k) => level(k) < TARGET_DAYS);
+    if (short.length) decide(false, "stock-first", `${c.sheetName} is at its target; emergency episodes wait until every channel has ${TARGET_DAYS} days (short: ${short.map((k) => `${CHANNELS[k].sheetName} ${level(k)}`).join(", ")}).`);
     wantEmergency = true;
   }
   if (!force && channel !== "countryballs" && level("countryballs") < TARGET_DAYS)
     decide(false, "countryballs-first", `Country Flux first while building stock (it has ${level("countryballs")} days queued + held).`);
-  if (!geminiOk(channel, lines)) decide(false, "gemini-quota", "Not enough Gemini quota left with 3 spare.");
+  if (!geminiOk(channel, lines)) decide(false, "gemini-quota", `Not enough Gemini quota left with ${SPARE_OF[channel] ?? SPARE} spare.`);
   let startedMs = runStart.getTime();
   try {
     const r = await fetch(`https://api.github.com/repos/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}`, { headers: { authorization: `Bearer ${env.GH_TOKEN}` } });

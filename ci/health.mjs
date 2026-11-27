@@ -115,6 +115,18 @@ if (cmd === "check") {
   if (emergencyUsedToday()) alerts.push("an emergency episode was used today (see the log)");
   const missingUp = readFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), "utf8").split("\n").filter((l) => l.includes("UPLOAD MISSING") && [addDays(today, -1), today].some((d) => l.includes(d.slice(5)) || l.includes(new Date(`${d}T12:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short" }))));
   if (missingUp.length) alerts.push(`${missingUp.length} queued video(s) were not uploaded by Zapier and were re-queued (check Zapier if it repeats)`);
+  // Country Flux's second daily video is off (owner 27 Nov 2026); re-enable it only after all three channels held
+  // 3 days of stock for 7 days in a row without a throttle. Counted once a day here; never re-enabled automatically.
+  {
+    const ok = Object.values(cov).every((c) => stockDays(c) >= 3) && !missingUp.length;
+    const st = hstate().cfDouble ?? { streak: 0, date: "" };
+    const streak = st.date === today ? st.streak : ok ? st.streak + 1 : 0;
+    say(`- **Country Flux second video:** ${String(env.DOUBLE_CHANNELS ?? "").includes("countryballs") ? "on" : "off"}; all channels at 3 days without a throttle for ${streak} day(s) in a row (re-enable possible at 7)`);
+    if (env.HEALTH_DRY !== "true" && st.date !== today) {
+      saveH({ cfDouble: { streak, date: today } });
+      if (streak === 7) appendFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), `- **READY (${today}):** all three channels held 3 days of stock for 7 days in a row without a throttle: Country Flux's second daily video may be re-enabled (repository variable DOUBLE_CHANNELS=countryballs, a settings change for the owner or a laptop session).\n`);
+    }
+  }
   // stops of the last 2 days
   const log = readFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), "utf8").split("\n");
   const recent = [addDays(today, -1), today];
