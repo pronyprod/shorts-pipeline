@@ -1,0 +1,56 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 4.03,
+    "words": 8
+  },
+  {
+    "id": "measure",
+    "start": 4.33,
+    "end": 10.942,
+    "words": 13
+  },
+  {
+    "id": "move",
+    "start": 11.242,
+    "end": 16.656,
+    "words": 11
+  },
+  {
+    "id": "cross",
+    "start": 16.956,
+    "end": 23.361,
+    "words": 11
+  },
+  {
+    "id": "moscow",
+    "start": 23.661,
+    "end": 27.675,
+    "words": 9
+  },
+  {
+    "id": "tebak",
+    "start": 27.975,
+    "end": 31.22,
+    "words": 9
+  },
+  {
+    "id": "reveal",
+    "start": 31.52,
+    "end": 33.008,
+    "words": 2
+  },
+  {
+    "id": "payoff",
+    "start": 33.308,
+    "end": 37.674,
+    "words": 8
+  },
+  {
+    "id": "question",
+    "start": 37.974,
+    "end": 42.991,
+    "words": 10
+  }
+]

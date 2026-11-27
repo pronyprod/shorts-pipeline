@@ -1,0 +1,534 @@
+[
+  {
+    "text": "Taruh",
+    "startMs": 30,
+    "endMs": 520,
+    "timestampMs": 280,
+    "confidence": 0.583391
+  },
+  {
+    "text": " sabang",
+    "startMs": 520,
+    "endMs": 1140,
+    "timestampMs": 800,
+    "confidence": 0.605788
+  },
+  {
+    "text": " di",
+    "startMs": 1140,
+    "endMs": 1350,
+    "timestampMs": 1140,
+    "confidence": 0.990461
+  },
+  {
+    "text": " London.",
+    "startMs": 1350,
+    "endMs": 2000,
+    "timestampMs": 1440,
+    "confidence": 0.904061
+  },
+  {
+    "text": " Merokeh?",
+    "startMs": 2000,
+    "endMs": 3260,
+    "timestampMs": 2440,
+    "confidence": 0.783481
+  },
+  {
+    "text": " Sampai",
+    "startMs": 3260,
+    "endMs": 3590,
+    "timestampMs": 3400,
+    "confidence": 0.381387
+  },
+  {
+    "text": " di",
+    "startMs": 3590,
+    "endMs": 3720,
+    "timestampMs": 3720,
+    "confidence": 0.604771
+  },
+  {
+    "text": " mana?",
+    "startMs": 3720,
+    "endMs": 4240,
+    "timestampMs": 3920,
+    "confidence": 0.966789
+  },
+  {
+    "text": " Dari",
+    "startMs": 4240,
+    "endMs": 4610,
+    "timestampMs": 4560,
+    "confidence": 0.851161
+  },
+  {
+    "text": " sabang",
+    "startMs": 4610,
+    "endMs": 5170,
+    "timestampMs": 5100,
+    "confidence": 0.765264
+  },
+  {
+    "text": " sampai",
+    "startMs": 5170,
+    "endMs": 5730,
+    "timestampMs": 5480,
+    "confidence": 0.716888
+  },
+  {
+    "text": " merokeh,",
+    "startMs": 5730,
+    "endMs": 6580,
+    "timestampMs": 5740,
+    "confidence": 0.877268
+  },
+  {
+    "text": " garis",
+    "startMs": 6580,
+    "endMs": 7030,
+    "timestampMs": 6800,
+    "confidence": 0.651945
+  },
+  {
+    "text": " lurusnya",
+    "startMs": 7030,
+    "endMs": 7950,
+    "timestampMs": 7160,
+    "confidence": 0.935594
+  },
+  {
+    "text": " 5.240",
+    "startMs": 7950,
+    "endMs": 10610,
+    "timestampMs": 8280,
+    "confidence": 0.678612
+  },
+  {
+    "text": " km.",
+    "startMs": 10610,
+    "endMs": 11080,
+    "timestampMs": 10600,
+    "confidence": 0.726246
+  },
+  {
+    "text": " Kita",
+    "startMs": 11080,
+    "endMs": 11480,
+    "timestampMs": 11520,
+    "confidence": 0.982439
+  },
+  {
+    "text": " geser",
+    "startMs": 11480,
+    "endMs": 11860,
+    "timestampMs": 11820,
+    "confidence": 0.961133
+  },
+  {
+    "text": " Indonesia",
+    "startMs": 11860,
+    "endMs": 12650,
+    "timestampMs": 12360,
+    "confidence": 0.99112
+  },
+  {
+    "text": " ke",
+    "startMs": 12650,
+    "endMs": 12820,
+    "timestampMs": 12640,
+    "confidence": 0.990354
+  },
+  {
+    "text": " Eropa.",
+    "startMs": 12820,
+    "endMs": 13280,
+    "timestampMs": 12780,
+    "confidence": 0.846636
+  },
+  {
+    "text": " Ukurannya",
+    "startMs": 13280,
+    "endMs": 13920,
+    "timestampMs": 13560,
+    "confidence": 0.930527
+  },
+  {
+    "text": " asli.",
+    "startMs": 13920,
+    "endMs": 14440,
+    "timestampMs": 14020,
+    "confidence": 0.985037
+  },
+  {
+    "text": " Sabang",
+    "startMs": 14440,
+    "endMs": 15080,
+    "timestampMs": 15160,
+    "confidence": 0.980727
+  },
+  {
+    "text": " mendarat",
+    "startMs": 15080,
+    "endMs": 15920,
+    "timestampMs": 15740,
+    "confidence": 0.662067
+  },
+  {
+    "text": " di",
+    "startMs": 15920,
+    "endMs": 16120,
+    "timestampMs": 16140,
+    "confidence": 0.990975
+  },
+  {
+    "text": " London.",
+    "startMs": 16120,
+    "endMs": 16800,
+    "timestampMs": 16440,
+    "confidence": 0.998769
+  },
+  {
+    "text": " Garisnya",
+    "startMs": 16800,
+    "endMs": 17490,
+    "timestampMs": 17260,
+    "confidence": 0.966293
+  },
+  {
+    "text": " melintasi",
+    "startMs": 17490,
+    "endMs": 18270,
+    "timestampMs": 17800,
+    "confidence": 0.992935
+  },
+  {
+    "text": " Prancis,",
+    "startMs": 18270,
+    "endMs": 19080,
+    "timestampMs": 18380,
+    "confidence": 0.687138
+  },
+  {
+    "text": " Jerman,",
+    "startMs": 19080,
+    "endMs": 20100,
+    "timestampMs": 19420,
+    "confidence": 0.852445
+  },
+  {
+    "text": " dan",
+    "startMs": 20100,
+    "endMs": 20340,
+    "timestampMs": 20220,
+    "confidence": 0.583975
+  },
+  {
+    "text": " Austria.",
+    "startMs": 20340,
+    "endMs": 21040,
+    "timestampMs": 20560,
+    "confidence": 0.605687
+  },
+  {
+    "text": " Lalu",
+    "startMs": 21040,
+    "endMs": 21370,
+    "timestampMs": 21440,
+    "confidence": 0.975949
+  },
+  {
+    "text": " Turki.",
+    "startMs": 21370,
+    "endMs": 22080,
+    "timestampMs": 21700,
+    "confidence": 0.411739
+  },
+  {
+    "text": " Belum",
+    "startMs": 22080,
+    "endMs": 22510,
+    "timestampMs": 22520,
+    "confidence": 0.993311
+  },
+  {
+    "text": " sampai",
+    "startMs": 22510,
+    "endMs": 23030,
+    "timestampMs": 22800,
+    "confidence": 0.977245
+  },
+  {
+    "text": " juga,",
+    "startMs": 23030,
+    "endMs": 23680,
+    "timestampMs": 23240,
+    "confidence": 0.998511
+  },
+  {
+    "text": " tapi",
+    "startMs": 23680,
+    "endMs": 23950,
+    "timestampMs": 24000,
+    "confidence": 0.893358
+  },
+  {
+    "text": " tunggu.",
+    "startMs": 23950,
+    "endMs": 24760,
+    "timestampMs": 24280,
+    "confidence": 0.970548
+  },
+  {
+    "text": " Ini",
+    "startMs": 24760,
+    "endMs": 25140,
+    "timestampMs": 25400,
+    "confidence": 0.941438
+  },
+  {
+    "text": " dua",
+    "startMs": 25140,
+    "endMs": 25340,
+    "timestampMs": 25780,
+    "confidence": 0.827263
+  },
+  {
+    "text": " kali",
+    "startMs": 25340,
+    "endMs": 25730,
+    "timestampMs": 26160,
+    "confidence": 0.995566
+  },
+  {
+    "text": " jarak",
+    "startMs": 25730,
+    "endMs": 26210,
+    "timestampMs": 26380,
+    "confidence": 0.978668
+  },
+  {
+    "text": " London",
+    "startMs": 26210,
+    "endMs": 26800,
+    "timestampMs": 26860,
+    "confidence": 0.989066
+  },
+  {
+    "text": " ke",
+    "startMs": 26800,
+    "endMs": 27030,
+    "timestampMs": 27080,
+    "confidence": 0.992892
+  },
+  {
+    "text": " Mosco.",
+    "startMs": 27030,
+    "endMs": 27840,
+    "timestampMs": 27380,
+    "confidence": 0.478879
+  },
+  {
+    "text": " Tebak",
+    "startMs": 27840,
+    "endMs": 28160,
+    "timestampMs": 28100,
+    "confidence": 0.660257
+  },
+  {
+    "text": " dulu",
+    "startMs": 28160,
+    "endMs": 28420,
+    "timestampMs": 28440,
+    "confidence": 0.989629
+  },
+  {
+    "text": " di",
+    "startMs": 28420,
+    "endMs": 28570,
+    "timestampMs": 28560,
+    "confidence": 0.991696
+  },
+  {
+    "text": " komentar.",
+    "startMs": 28570,
+    "endMs": 29280,
+    "timestampMs": 28700,
+    "confidence": 0.986167
+  },
+  {
+    "text": " Merokeh",
+    "startMs": 29480,
+    "endMs": 29940,
+    "timestampMs": 29700,
+    "confidence": 0.986224
+  },
+  {
+    "text": " mendarat",
+    "startMs": 29940,
+    "endMs": 30480,
+    "timestampMs": 30260,
+    "confidence": 0.821052
+  },
+  {
+    "text": " di",
+    "startMs": 30480,
+    "endMs": 30610,
+    "timestampMs": 30640,
+    "confidence": 0.964405
+  },
+  {
+    "text": " negara",
+    "startMs": 30610,
+    "endMs": 31010,
+    "timestampMs": 30780,
+    "confidence": 0.887031
+  },
+  {
+    "text": " apa?",
+    "startMs": 31010,
+    "endMs": 31480,
+    "timestampMs": 31200,
+    "confidence": 0.981446
+  },
+  {
+    "text": " Arab",
+    "startMs": 31480,
+    "endMs": 32240,
+    "timestampMs": 31920,
+    "confidence": 0.72009
+  },
+  {
+    "text": " Saudi.",
+    "startMs": 32240,
+    "endMs": 33200,
+    "timestampMs": 32640,
+    "confidence": 0.832799
+  },
+  {
+    "text": " Satu",
+    "startMs": 33200,
+    "endMs": 33830,
+    "timestampMs": 33760,
+    "confidence": 0.829241
+  },
+  {
+    "text": " negara.",
+    "startMs": 33830,
+    "endMs": 34840,
+    "timestampMs": 34180,
+    "confidence": 0.971325
+  },
+  {
+    "text": " Celebar",
+    "startMs": 34840,
+    "endMs": 35480,
+    "timestampMs": 35180,
+    "confidence": 0.355242
+  },
+  {
+    "text": " dari",
+    "startMs": 35480,
+    "endMs": 35850,
+    "timestampMs": 35760,
+    "confidence": 0.991017
+  },
+  {
+    "text": " London",
+    "startMs": 35850,
+    "endMs": 36410,
+    "timestampMs": 36100,
+    "confidence": 0.995862
+  },
+  {
+    "text": " sampai",
+    "startMs": 36410,
+    "endMs": 36970,
+    "timestampMs": 36480,
+    "confidence": 0.943811
+  },
+  {
+    "text": " Arab",
+    "startMs": 36970,
+    "endMs": 37410,
+    "timestampMs": 36880,
+    "confidence": 0.996696
+  },
+  {
+    "text": " Saudi.",
+    "startMs": 37410,
+    "endMs": 37840,
+    "timestampMs": 37460,
+    "confidence": 0.997162
+  },
+  {
+    "text": " Rumahmu",
+    "startMs": 37840,
+    "endMs": 38550,
+    "timestampMs": 38200,
+    "confidence": 0.991504
+  },
+  {
+    "text": " lebih",
+    "startMs": 38550,
+    "endMs": 39070,
+    "timestampMs": 39180,
+    "confidence": 0.987449
+  },
+  {
+    "text": " dekat",
+    "startMs": 39070,
+    "endMs": 39570,
+    "timestampMs": 39380,
+    "confidence": 0.974243
+  },
+  {
+    "text": " ke",
+    "startMs": 39570,
+    "endMs": 39780,
+    "timestampMs": 39580,
+    "confidence": 0.915139
+  },
+  {
+    "text": " Sabang",
+    "startMs": 39780,
+    "endMs": 40580,
+    "timestampMs": 40020,
+    "confidence": 0.658393
+  },
+  {
+    "text": " atau",
+    "startMs": 40580,
+    "endMs": 40730,
+    "timestampMs": 40700,
+    "confidence": 0.593942
+  },
+  {
+    "text": " Merokeh?",
+    "startMs": 40730,
+    "endMs": 41480,
+    "timestampMs": 40920,
+    "confidence": 0.661681
+  },
+  {
+    "text": " Tulis",
+    "startMs": 41480,
+    "endMs": 41960,
+    "timestampMs": 42100,
+    "confidence": 0.963381
+  },
+  {
+    "text": " di",
+    "startMs": 41960,
+    "endMs": 42150,
+    "timestampMs": 42340,
+    "confidence": 0.981777
+  },
+  {
+    "text": " komentar.",
+    "startMs": 42150,
+    "endMs": 42960,
+    "timestampMs": 42480,
+    "confidence": 0.985002
+  }
+]

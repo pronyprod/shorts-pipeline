@@ -1,0 +1,40 @@
+{
+  "method": "haversine R=6371.0088 km; Indonesia rotated on the sphere (moveFn) so Sabang lands on London",
+  "sabangMeraukeKm": 5239.980181767918,
+  "londonMoscowKm": 2500.539474908476,
+  "ratio": 2.095539876233991,
+  "merauke": {
+    "lonlat": [
+      49.522428096125694,
+      23.372167986840957
+    ],
+    "country": "Saudi Arabia",
+    "distLondonKm": 5239.980181767917
+  },
+  "countriesOnLine": [
+    "United Kingdom",
+    "France",
+    "Belgium",
+    "Luxembourg",
+    "Germany",
+    "Austria",
+    "Hungary",
+    "Slovenia",
+    "Croatia",
+    "Serbia",
+    "Bulgaria",
+    "Romania",
+    "Turkey",
+    "Syria",
+    "Iraq",
+    "Saudi Arabia"
+  ],
+  "London": [
+    -0.1278,
+    51.5074
+  ],
+  "Moscow": [
+    37.6173,
+    55.7558
+  ]
+}
