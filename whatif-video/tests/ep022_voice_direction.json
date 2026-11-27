@@ -1,0 +1,17 @@
+{
+  "episode": "ep022",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep022.ts lines: only CAPITALS added; words identical to say. Clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube science narrator talking straight to one friend who is doing something absurdly huge. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, playful challenge", "tagged": "You stack every LEGO piece ever made. Six hundred BILLION of them." },
+    { "n": 2, "style": "calm and steady, a little amused", "tagged": "Count each piece as one brick, under a CENTIMETRE tall. That's seventy for every PERSON alive." },
+    { "n": 3, "style": "steady and impressed", "tagged": "Forty-two million bricks reach the SPACE STATION, four hundred kilometres up." },
+    { "n": 4, "style": "building excitement", "tagged": "Keep going, and your tower sails right past the MOON." },
+    { "n": 5, "style": "the key line: big, clear punch, then a heavy pause", "tagged": "All six hundred billion would stretch five point eight million KILOMETRES. That's the trip to the Moon, fifteen times OVER." },
+    { "n": 6, "style": "clear and a little wry, a beat of suspense", "tagged": "But on Earth, it would NEVER get that far." },
+    { "n": 7, "style": "leaning in, amazed, sharing a true fact", "tagged": "Just three hundred and seventy-five thousand bricks, about three and a half kilometres, would CRUSH the one at the bottom." },
+    { "n": 8, "style": "warm and impressed", "tagged": "One little brick holds about four hundred and thirty KILOGRAMS, and then it CRACKS." },
+    { "n": 9, "style": "warm and friendly, inviting", "tagged": "What should we STACK next? The BEST comment becomes the next video." }
+  ]
+}

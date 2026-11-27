@@ -33,5 +33,13 @@
     "made": "2026-11-26",
     "run": "requeue-2026-11-27",
     "note": "queued 26 Nov but Zapier did not upload it"
+  },
+  {
+    "channel": "whatif",
+    "episode": "Ep022",
+    "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/whatif-Ep022/WhatIf_Ep022.mp4",
+    "topic": "What if you stacked every LEGO brick ever made? (Round 3 #36, Absurd scale, style B)",
+    "made": "2026-11-28",
+    "run": "46073704891"
   }
 ]
