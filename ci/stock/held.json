@@ -1,10 +1,37 @@
 [
   {
     "channel": "countryballs",
+    "episode": "Ep021",
+    "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep021/Ep021.mp4",
+    "topic": "NL→PY, CM→SN, GB→AU, DK→NO",
+    "made": "2026-11-24",
+    "run": "requeue-2026-11-27",
+    "note": "queued 25 Nov but Zapier did not upload it"
+  },
+  {
+    "channel": "countryballs",
     "episode": "Ep023",
     "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep023/Ep023.mp4",
     "topic": "ML→GH, SE→FI, RO→AD, AR→NI",
     "made": "2026-11-27",
     "run": "45918957600"
+  },
+  {
+    "channel": "whatif",
+    "episode": "Ep020",
+    "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/whatif-Ep020/WhatIf_Ep020.mp4",
+    "topic": "What if you sent Voyager 1 a message? (Timely, Absurd scale, style A)",
+    "made": "2026-11-25",
+    "run": "requeue-2026-11-27",
+    "note": "queued 25 Nov but Zapier did not upload it"
+  },
+  {
+    "channel": "fakta",
+    "episode": "Ep020",
+    "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep020/Fakta_Ep020.mp4",
+    "topic": "Hujan meteor Geminid, asal asteroid Phaethon (science, timely)",
+    "made": "2026-11-26",
+    "run": "requeue-2026-11-27",
+    "note": "queued 26 Nov but Zapier did not upload it"
   }
 ]
