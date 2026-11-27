@@ -376,7 +376,15 @@ jobs:
           git config user.name "github-actions[bot]" || die "git config failed"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A || die "git add failed"
-          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+            # test run: round 2 checks out round 1's test branch, so it must exist even when round 1 changed nothing
+            # (round 1 skipped at the stock target; found by the 27 Nov 2026 test runs)
+            if [ "$TEST" = true ] && [ "$ROUND" = 1 ]; then
+              $GIT push -q "$REMOTE" "HEAD:refs/heads/test/$CHANNEL-$GITHUB_RUN_ID-r1" 2> "$RUNNER_TEMP/push.txt" || die "git push of the test branch failed: $(tail -1 "$RUNNER_TEMP/push.txt" | cut -c1-160)"
+            fi
+            exit 0
+          fi
           echo "Files in this commit:"; git diff --cached --name-status
           if ! bash tools/scan.sh > "$RUNNER_TEMP/scan.txt" 2>&1; then
             cat "$RUNNER_TEMP/scan.txt"
