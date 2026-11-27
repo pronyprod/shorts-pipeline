@@ -1,0 +1,17 @@
+{
+  "episode": "ep022",
+  "model": "gemini-3.8-flash-tts",
+  "notes": "Built from ep022.ts lines: only CAPITALS added; words identical to say. Clear and unhurried, punch only on the key line.",
+  "persona": "You are a clear, unhurried YouTube storyteller talking straight to one friend, telling a true story. Conversational, warm and curious, an easy pace with short natural pauses between sentences, no audible breaths. Extra punch only on the key line of each beat. Words in CAPITALS get extra emphasis. Each line starts with a direction in parentheses: follow it, but never read the directions aloud.",
+  "lines": [
+    { "n": 1, "style": "clear and gripping, a hushed disbelief", "tagged": "A seventeen year old fell three KILOMETRES out of the sky, and walked AWAY." },
+    { "n": 2, "style": "calm and steady, storytelling", "tagged": "In nineteen seventy one, she was flying over PERU when her plane broke apart. She fell, still strapped to her SEAT." },
+    { "n": 3, "style": "hushed and tense", "tagged": "She woke up ALONE in the rainforest, with a broken collarbone and a hurt KNEE." },
+    { "n": 4, "style": "the key line: big, clear punch, then a heavy pause", "tagged": "Then she remembered her father's RULE: find water, and follow it DOWNHILL." },
+    { "n": 5, "style": "warm and clear, explaining simply", "tagged": "Small streams join bigger ones, like drains feeding a STREET. And rivers lead to PEOPLE." },
+    { "n": 6, "style": "relieved, steady", "tagged": "After eleven DAYS, woodcutters found her and took her out by CANOE." },
+    { "n": 7, "style": "leaning in, amazed, sharing a true fact", "tagged": "Her parents ran a research STATION in that forest, and she grew up learning its RULES." },
+    { "n": 8, "style": "warm and impressed", "tagged": "Today, she is a BIOLOGIST, and she runs that station HERSELF." },
+    { "n": 9, "style": "warm and friendly, inviting", "tagged": "What should you survive next? The BEST comment becomes the next video." }
+  ]
+}

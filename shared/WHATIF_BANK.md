@@ -136,7 +136,7 @@ told in exactly six beats:
 Rules: third person is fine for the story, but the hook may speak to "you". **Never the phrase "You see".** Monetisation
 guardrails above still apply (no gore, no graphic injuries or deaths shown or described; no war, weapons, politics).
 Ending: the channel's usual question line. Title: a short hook, not "What if" (e.g. "She fell 3 km and walked home").
-**Used Stories:** (none yet)
+**Used Stories:** S1 (Ep022, style D, 27 Nov 2026: Juliane Koepcke; sources Wikipedia 'Juliane Koepcke' + 'LANSA Flight 508', memoir via retellings; death details left out)
 
 | # | Story | The six beats in short | Anchors / sources to verify |
 |---|---|---|---|
