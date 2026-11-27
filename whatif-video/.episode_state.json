@@ -1,0 +1,15 @@
+{
+  "episode": "Ep023",
+  "premise": "What if you ate 100 Carolina Reapers? (#30, Food/drink)",
+  "shape": "Food/drink",
+  "style": "P",
+  "step": 5,
+  "note": "render handed to workflow",
+  "publishAt": "2026-11-28T07:30:00+07:00",
+  "cloudStop": {
+    "fixMark": "c11ffd67610b7cadf63408de0fde155a6db63079",
+    "retried": false,
+    "date": "2026-11-27",
+    "reason": "visual fixed, needs a new render: part 2 frames showed ~1 s black empty scene at 3 place changes (style D camera flew through void) and a board cut off at the right edge; k023.tsx switched to style B with pixel look (cut per beat), stills checked OK, MP4 deleted, state set to step 5 render handed to workflow"
+  }
+}
