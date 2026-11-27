@@ -6,7 +6,8 @@ name: Health check and catch-up
 #   1. catch-up: a channel with nothing for tomorrow gets its episode run started (ci/health.mjs catchup)
 #   2. upload watchdog: every queue row added 3+ h ago must be on YouTube; missing ones are re-queued (youtube.mjs)
 #   3. emergency: after 15:00 WIB (Fakta 12:00) an empty tomorrow with no held episode gets an evergreen episode
-#   4. held stock is queued when the upload window allows (ci/stock.mjs queue-held; hard cap 5, stock cap 4)
+#   4. held stock: the queue-later job is started when a held episode is ready (it queues one row at a time: cap 4
+#      in 24 h, at least 2 h between any two rows; ci/stock.mjs kick)
 #   5. the Reels job is started when its last run is over 75 min old
 #   6. the morning check (once a day from 06:30 WIB): missed days, tomorrow, stock per channel, stops; an alert opens
 #      the GitHub issue "Health alert" (GitHub emails the owner) and turns this run red
@@ -52,6 +53,8 @@ jobs:
       YT_REFRESH_WHATIF: ${{ secrets.YT_REFRESH_WHATIF }}
       YT_REFRESH_FAKTA: ${{ secrets.YT_REFRESH_FAKTA }}
       MAX_UPLOADS_24H: ${{ vars.MAX_UPLOADS_24H || '4' }}
+      HARD_UPLOADS_24H: ${{ vars.HARD_UPLOADS_24H || '4' }}
+      QUEUE_GAP_H: ${{ vars.QUEUE_GAP_H || '2' }}
       DOUBLE_CHANNELS: ${{ vars.DOUBLE_CHANNELS || '' }}
       META_POSTING: ${{ vars.META_POSTING || 'off' }}
       STOCK: ${{ vars.STOCK || 'off' }}
@@ -78,12 +81,9 @@ jobs:
       - name: 3. Emergency episode when tomorrow is still empty in the afternoon
         if: env.JOB == 'auto'
         run: node ci/health.mjs emergency
-      - name: 4. Queue held stock when the upload window allows (not while an episode run delivers)
-        if: env.JOB == 'auto' && env.STOCK == 'on' && env.HEALTH_DRY != 'true'
-        run: |
-          n=$(curl -s -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/episode.yml/runs?status=in_progress&per_page=1" | node -e 'let d="";process.stdin.on("data",c=>d+=c).on("end",()=>console.log(JSON.parse(d).total_count??0))')
-          if [ "$n" != 0 ]; then echo "an episode run is in progress: queueing waits for the next run"; exit 0; fi
-          node ci/stock.mjs queue-held || echo "::warning::queue-held failed"
+      - name: 4. Held stock (start the queue-later job, the only job that queues held episodes)
+        if: env.JOB == 'auto'
+        run: node ci/stock.mjs kick || echo "::warning::kick failed"
       - name: 5. Reels job when it is overdue
         if: env.JOB == 'auto'
         run: node ci/health.mjs reels || true

@@ -63,13 +63,14 @@ Status: **fixed** = a permanent code fix is live; **partly** = mitigated, but it
 | 23 | 22 Nov | (laptop) | the "guard" timer never ran | the laptop went to sleep | lesson | - | nothing may depend on the laptop | - |
 | 24 | 24-27 Nov | all | Reels and stock-queue jobs rarely ran | GitHub dropped most hourly cron runs (4 of ~40 Reels runs) | new | yes | every workflow is also started by others (chain), odd minutes, the health job starts them when overdue | Phase 1 test (a) |
 | 25 | 25-27 Nov | CF, PomProds, Fakta | 5 queued videos never uploaded, unseen for 2 days | Zapier did not upload rows added 25 Nov 09:25 to 26 Nov 18:42; rows added 27 Nov 06:19 + 07:55 did upload. Throttling/hold or the monthly task limit: Zapier's own pages needed to tell which | new | yes | **upload watchdog**: every queue row is checked on YouTube ~2 h after it is added; missing ones are re-queued within the cap; alert + owner note if Zapier itself is down | Phase 1 test (f) |
+| 25b | 27 Nov | all | root cause of #25 confirmed by the owner in Zapier | all 5 runs (25 Nov 09:27 + 12:33, 26 Nov 08:47 + 09:09 + 18:45) "On hold: This YouTube step was throttled"; task limit fine (15/100); throttled runs never retry; 5 in 24 h is the throttle point, rows 22 min apart | yes | - | hard cap 4 per rolling 24 h (throttled rows count), at least 2 h between any two queue rows (all channels), one writer for held stock (queue-later.yml), watchdog: missing after 3 h = throttled, re-queued only 24 h after its row | gap/cap tests 13/13, queue-later simulations |
 | 26 | 18 Nov | PomProds | the replaced Ep015 (T3is6Ud5QZs) is still public next to the new one | owner deletion pending | open | - | owner deletes it in Studio | - |
 
 ## Failure types that have not happened yet but could
 
 | Risk | What would happen | Guard (Phase 1 unless noted) |
 |---|---|---|
-| Zapier plan: 100 tasks/month (free), ~5 YouTube uploads/day, a zap switched off after errors | uploads stop silently | upload watchdog alerts within ~2 h; owner checks the plan (payment/login) |
+| Zapier throttling (confirmed 27 Nov: 5 in 24 h or rows close together) | a run is held for good, the video never uploads | cap 4 per 24 h, 2 h gap, watchdog re-queues after the 24 h window; task limit 15/100 is fine |
 | Claude Pro limits (5-hour, weekly) | episode runs stop in seconds | CLAUDE LIMIT (not a stop), catch-up retries, 3-day stock bridges a day |
 | CLAUDE_CODE_OAUTH_TOKEN expiry (~1 year after `claude setup-token`) | every Claude step fails | health check: "Claude refused / unauthorised" -> alert naming the secret |
 | Gemini free tier changes, or the TTS preview model is retired | Fakta/PomProds voices fail | per-model quota logic; stock bridges; alert on repeated model errors |

@@ -6,7 +6,8 @@
 //                                                  queue a held stock episode when the upload window allows
 //                                                  (morning job), or, with --only-if-needed, only when channel X has
 //                                                  nothing queued for tomorrow (start of X's nightly run)
-//   node ci/stock.mjs window [--own X]             print the upload window check (for testing)
+//   node ci/stock.mjs kick                         health heartbeat: start the queue-later job when held stock is ready
+//   node ci/stock.mjs window [--own X]             print the upload window and gap checks (for testing)
 //
 // Making and queueing are separate, because the upload limit binds: 3 episodes a day are needed and at most
 // MAX_UPLOADS_24H (default 4) queue rows may be added in any rolling 24 h (each new row = one Zapier upload; the
@@ -39,10 +40,51 @@ const WIB = 7 * H;
 export const wibDate = (d) => new Date(d.getTime() + WIB).toISOString().slice(0, 10);
 const addDays = (s, n) => new Date(Date.parse(`${s}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);
 export const maxUploads = () => Number(env.MAX_UPLOADS_24H || 4);
-// Hard cap (owner 27 Nov 2026): Zapier's YouTube step uploads ~5 videos a day; past that a run is held silently
-// (25-26 Nov: 5 videos never uploaded). Even an episode that is needed for tomorrow is never queued past it: it is
-// held and the hourly health job queues it as soon as the window allows (the upload watchdog checks YouTube itself).
-export const HARD_CAP = () => Number(env.HARD_UPLOADS_24H || 5);
+// Hard cap (owner 27 Nov 2026): Zapier throttles its YouTube step and a throttled run is held for good ("On hold",
+// never retried; 25-26 Nov: 5 videos never uploaded, 5 in 24 h was exactly the throttle point). Even an episode that
+// is needed for tomorrow is never queued past 4 in any rolling 24 h: it is held and the queue-later job queues it as
+// soon as the window allows. Rows Zapier throttled keep their Added time, so they count too (Zapier counted them).
+export const HARD_CAP = () => Number(env.HARD_UPLOADS_24H || 4);
+// Gap (owner 27 Nov 2026): at least QUEUE_GAP_H hours (default 2) between ANY two queue rows, all channels together
+// (the 26 Nov rows 22 min apart were both throttled). Rows are written only by the episode delivery and the
+// queue-later workflow, and neither writes while the other is busy.
+export const GAP_H = () => Number(env.QUEUE_GAP_H ?? 2);
+const fmtW = (t) => new Date(t + WIB).toISOString().slice(5, 16).replace("T", " ");
+export const gapCheck = (queues, now = Date.now()) => {
+  const last = Math.max(0, ...Object.values(addedTimes(queues)).flat().filter((t) => t <= now + 60000));
+  const until = last + GAP_H() * H;
+  return { ok: now >= until, last, until, detail: last ? `last queue row added ${fmtW(last)} WIB; the next may go from ${fmtW(until)} WIB (at least ${GAP_H()} h between any two rows)` : "no queue row yet" };
+};
+// a held episode the upload watchdog took back (Zapier throttled it) waits until notBefore: never re-queued at once
+export const readyHeld = (h, now = Date.now()) => !h.notBefore || Date.parse(h.notBefore) <= now;
+// the queue-later workflow (.github/workflows/queue-later.yml): the only job that queues held stock
+const canApi = () => !!(env.GH_TOKEN && env.GITHUB_REPOSITORY);
+const ghApi = async (p, o = {}) => {
+  const r = await fetch(`https://api.github.com/repos/${env.GITHUB_REPOSITORY}${p}`, { ...o, headers: { authorization: `Bearer ${env.GH_TOKEN}`, accept: "application/vnd.github+json" } });
+  return r.status === 204 ? { status: 204 } : { status: r.status, ...(await r.json().catch(() => ({}))) };
+};
+export const queueLaterActive = async () => {
+  if (!canApi()) return 0;
+  const j = await ghApi("/actions/workflows/queue-later.yml/runs?per_page=10");
+  return (j.workflow_runs ?? []).filter((r) => r.status !== "completed" && String(r.id) !== String(env.GITHUB_RUN_ID ?? "")).length;
+};
+export const startQueueLater = async (why) => {
+  if (!canApi()) return "not started (no GitHub token here)";
+  if (env.QUEUE_LATER === "true") return "not started (this is the queue-later job)";
+  if (await queueLaterActive()) return "already running";
+  const r = await ghApi("/actions/workflows/queue-later.yml/dispatches", { method: "POST", body: JSON.stringify({ ref: "main", inputs: { why: String(why).slice(0, 200) } }) });
+  return r.status === 204 ? "started" : `dispatch failed (HTTP ${r.status})`;
+};
+// is an episode run writing its queue row right now (its Deliver step in progress)?
+export const deliverRunning = async () => {
+  if (!canApi()) return false;
+  const runs = await ghApi("/actions/workflows/episode.yml/runs?status=in_progress&per_page=5");
+  for (const run of runs.workflow_runs ?? []) {
+    const jobs = await ghApi(`/actions/runs/${run.id}/jobs`);
+    if ((jobs.jobs ?? []).some((j) => (j.steps ?? []).some((s) => s.name.startsWith("Deliver") && s.status === "in_progress"))) return true;
+  }
+  return false;
+};
 export const HELD = path.join(repo, "ci", "stock", "held.json");
 export const readHeld = () => (existsSync(HELD) ? JSON.parse(readFileSync(HELD, "utf8")) : []);
 export const writeHeld = (list) => {
@@ -86,13 +128,15 @@ export const addedTimes = (queues) => Object.fromEntries(Object.entries(queues).
 // 21:20 WIB) + 1 h, or within the hour if that time has passed. Channels with tomorrow covered are not counted:
 // their own nightly delivery passes this same check. `own` = the channel whose nightly episode this row IS.
 const CRON_WIB = { countryballs: 19 + 20 / 60, whatif: 20 + 20 / 60, fakta: 21 + 20 / 60 };
-export const windowCheck = ({ queues, now = Date.now(), own = null, cap = maxUploads(), count = 1 }) => {
+// predict: false for the HARD cap: only real rows count (a needed episode goes before tonight's predicted ones,
+// which pass this same check when they come)
+export const windowCheck = ({ queues, now = Date.now(), own = null, cap = maxUploads(), count = 1, predict = true }) => {
   const times = addedTimes(queues);
   const events = Object.values(times).flat().filter((t) => t > now - 48 * H && t <= now);
   const D = wibDate(new Date(now));
   const predicted = [];
   for (const key of Object.keys(times)) {
-    if (key === own) continue;
+    if (key === own || !predict) continue;
     const ahead = Math.max(0, aheadOf(queues, key, D));
     let t = Date.parse(`${addDays(D, ahead)}T00:00:00+07:00`) + (CRON_WIB[key] + 1) * H;
     if (t <= now) t = now + 1 * H;
@@ -218,24 +262,49 @@ if (cmd === "plan") {
   if (wantEmergency) decide(true, "emergency", `Emergency (evergreen) episode: ${c.sheetName} has ${level(channel)} days and ${emergencyOf(channel)} of 2 emergency episodes; released, not queued.`);
   decide(true, double ? "second-daily" : "stock", `Second episode ${double ? "(second daily video)" : "for the stock"} (${level(channel)} days queued + held, target ${TARGET_DAYS}); queued if the upload window allows, else held for the morning job.`);
 } else if (cmd === "queue-held") {
+  // --later: run by the queue-later workflow (the only job that queues held stock, owner 27 Nov 2026). Exit codes for
+  // its loop: 0 done, 10 queued one and a needed episode is still held (run again), 11 a needed episode waits (for the
+  // 2-hour gap or a delivery in progress): the workflow sleeps the seconds written to QUEUE_WAIT_FILE and runs again.
   const test = env.TEST === "true";
   const only = arg("channel");
   const ifNeeded = process.argv.includes("--only-if-needed");
+  const later = process.argv.includes("--later");
+  const lines2 = [];
+  const done = (text, code = 0) => {
+    summary(`${text}${lines2.length ? `\n${lines2.map((l) => `- ${l}`).join("\n")}` : ""}`);
+    process.exit(code);
+  };
+  const waitFor = (seconds, why) => {
+    if (env.QUEUE_WAIT_FILE) writeFileSync(env.QUEUE_WAIT_FILE, String(Math.max(60, Math.round(seconds))));
+    done(`Held stock: a needed episode waits ${Math.round(seconds / 60)} min: ${why}`, 11);
+  };
+  let held = readHeld().filter((h) => !!h.test === test);
+  if (only) held = held.filter((h) => h.channel === only);
+  if (!held.length) done("Held stock: none to queue.");
   const queues = await loadQueues();
   const now = new Date();
   const D = wibDate(now);
-  const lines2 = [];
-  let held = readHeld().filter((h) => !!h.test === test);
-  if (only) held = held.filter((h) => h.channel === only);
-  if (!held.length) {
-    summary("Held stock: none to queue.");
-    process.exit(0);
+  const needy = () => held.some((x) => readyHeld(x) && aheadOf(queues, x.channel, D) < 1);
+  const waiting = held.filter((x) => !readyHeld(x));
+  if (waiting.length) lines2.push(`not before their time (Zapier throttled them): ${waiting.map((x) => `${CHANNELS[x.channel].sheetName} ${x.episode} from ${x.notBefore}`).join(", ")}`);
+  // at least GAP_H hours between any two queue rows of all channels (the Added column is the clock)
+  if (!test) {
+    const g = gapCheck(queues, now.getTime());
+    if (!g.ok) {
+      if (later && needy()) waitFor((g.until - now.getTime()) / 1000 + 90, g.detail);
+      done(`Held stock: nothing queued now: ${g.detail}`);
+    }
+    if (await deliverRunning()) {
+      if (later && needy()) waitFor(120, "an episode run is writing its queue row");
+      done("Held stock: nothing queued now: an episode run is writing its queue row");
+    }
   }
-  // per channel, only its OLDEST held episode may go next (strict order); a series Part 1 goes together with its
-  // Part 2, and not before that Part 2 is held too
-  const firsts = Object.keys(CHANNELS).map((k) => held.filter((x) => x.channel === k)[0]).filter(Boolean);
-  // priority: a channel with nothing for tomorrow, then Country Flux, then the channel with the fewest days
-  const rank = (h) => [aheadOf(queues, h.channel, D) < 1 ? 0 : 1, h.channel === "countryballs" ? 0 : 1, aheadOf(queues, h.channel, D), h.made ?? ""];
+  // per channel, only its OLDEST ready held episode may go next (strict order); a series Part 1 goes together with
+  // its Part 2, and not before that Part 2 is held too
+  const firsts = Object.keys(CHANNELS).map((k) => held.filter((x) => x.channel === k && readyHeld(x))[0]).filter(Boolean);
+  // priority: a needed channel, the most urgent first (nothing for TODAY before nothing for tomorrow), then Country
+  // Flux, then the channel with the fewest days
+  const rank = (h) => { const ah = aheadOf(queues, h.channel, D); return [ah < 1 ? 0 : 1, ah < 1 ? ah : 0, h.channel === "countryballs" ? 0 : 1, ah, h.made ?? ""]; };
   firsts.sort((a, b) => {
     const x = rank(a);
     const y = rank(b);
@@ -246,7 +315,14 @@ if (cmd === "plan") {
   let batch;
   let needed;
   let w;
+  let capWait = Infinity;
   for (const cand of firsts) {
+    // never queue an episode twice: one that already has a live queue row only leaves held stock
+    if (!test && queues[cand.channel].some((r) => r[0] === cand.episode && /^\d{4}-\d{2}-\d{2}T/.test(String(r[4] ?? "")))) {
+      writeHeld(readHeld().filter((x) => !(x.channel === cand.channel && x.episode === cand.episode && !x.test)));
+      logLine(`- **${CHANNELS[cand.channel].sheetName} ${cand.episode} left held stock (${D}):** it already has a live queue row; not queued again.`);
+      done(`Held stock: ${CHANNELS[cand.channel].sheetName} ${cand.episode} already queued; removed from held`, later ? 10 : 0);
+    }
     const n = aheadOf(queues, cand.channel, D) < 1;
     let group = [cand];
     if (cand.series?.part === 1) {
@@ -262,8 +338,15 @@ if (cmd === "plan") {
       continue;
     }
     const check = windowCheck({ queues, now: now.getTime(), count: group.length });
-    const hard = n && windowCheck({ queues, now: now.getTime(), count: group.length, cap: HARD_CAP() });
+    const hard = n && windowCheck({ queues, now: now.getTime(), count: 1, cap: HARD_CAP(), predict: false });
     if (!test && n && !hard.ok) {
+      // when does the window open? the queue-later job sleeps until then (within its run time)
+      for (let m = 5; m <= 300; m += 5) {
+        if (windowCheck({ queues, now: now.getTime() + m * 60000, count: 1, cap: HARD_CAP(), predict: false }).ok) {
+          capWait = Math.min(capWait, m * 60 + 60);
+          break;
+        }
+      }
       lines2.push(`${CHANNELS[cand.channel].sheetName} ${cand.episode} is needed but waits: hard cap: ${hard.detail}`);
       continue;
     }
@@ -274,16 +357,26 @@ if (cmd === "plan") {
     [h, batch, needed, w] = [cand, group, n, check];
     break;
   }
-  if (!h) {
-    summary(`Held stock: nothing queued now.\n${lines2.map((l) => `- ${l}`).join("\n")}`);
-    process.exit(0);
-  }
+  if (!h && later && capWait < Infinity) waitFor(capWait, "the upload window (hard cap) opens then");
+  if (!h) done("Held stock: nothing queued now.");
   const c = CHANNELS[h.channel];
   const fullsOf = (k) => queues[k].map((r) => String(r[4] ?? "")).filter((x) => /^\d{4}-\d{2}-\d{2}T/.test(x));
   const double = doubleActive(h.channel, Object.fromEntries(Object.keys(CHANNELS).map((k) => [k, fullsOf(k)])), D);
   let dates = fullsOf(h.channel);
-  for (const item of batch) {
-    const publishAt = nextSlot(dates, now, slotTimes(h.channel, double));
+  // live: ONE row per run (the 2-hour gap); a series Part 2 stays held and goes next, at least 2 h later
+  for (const item of test ? batch : batch.slice(0, 1)) {
+    // a held episode is already made: 90 min lead is enough (Zapier polls every 15 min), not the 3 h of a new run
+    let publishAt = nextSlot(dates, new Date(now.getTime() - 3 * H + 90 * 60000), slotTimes(h.channel, double));
+    // same-day rescue (owner 27 Nov 2026: "no missed day"): the channel has nothing for TODAY and today's slot has
+    // passed: publish today, at the next :00/:30 at least 90 min away, if that is before 19:00 WIB
+    if (!test && aheadOf(queues, h.channel, D) < 0 && publishAt.slice(0, 10) > D) {
+      const t = Math.ceil((now.getTime() + 90 * 60000) / (30 * 60000)) * 30 * 60000;
+      const w = new Date(t + WIB).toISOString();
+      if (w.slice(0, 10) === D && Number(w.slice(11, 13)) < 19) {
+        publishAt = `${D}T${w.slice(11, 16)}:00+07:00`;
+        lines2.push(`${c.sheetName} had nothing for today and its slot had passed: same-day rescue at ${w.slice(11, 16)} WIB`);
+      }
+    }
     const r = spawnSync("node", ["ci/sheet.mjs", "deliver", "--channel", item.channel, "--episode", item.episode, "--url", item.url, "--publish-at", publishAt, "--topic", item.topic ?? "", ...(test ? ["--test"] : [])], { cwd: repo, encoding: "utf8" });
     process.stdout.write(r.stdout ?? "");
     if (r.status !== 0) {
@@ -292,18 +385,32 @@ if (cmd === "plan") {
       process.exit(1);
     }
     const rows = JSON.parse(r.stdout.trim().split("\n").pop());
-    dates = [...dates, publishAt];
+    const at = rows.publishAt ?? publishAt;
+    dates = [...dates, at];
     writeHeld(readHeld().filter((x) => !(x.channel === item.channel && x.episode === item.episode && !!x.test === test)));
-    logLine(`- **${c.sheetName} ${item.episode} queued from held stock${item.series ? ` (series Part ${item.series.part})` : ""}${test ? " (TEST, not for upload)" : ""} (${D}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; ${needed ? "nothing was queued for tomorrow" : w.detail}; video ${item.url}`);
-    summary(`**${c.sheetName} ${item.episode}** queued from held stock for ${publishAt} (${rows.queueTab} row ${rows.queueRow}).`);
+    held = held.filter((x) => !(x.channel === item.channel && x.episode === item.episode));
+    logLine(`- **${c.sheetName} ${item.episode} queued from held stock${item.series ? ` (series Part ${item.series.part})` : ""}${test ? " (TEST, not for upload)" : ""} (${D}):** queued for ${at}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; ${needed ? "nothing was queued for tomorrow" : w.detail}; video ${item.url}`);
+    summary(`**${c.sheetName} ${item.episode}** queued from held stock for ${at} (${rows.queueTab} row ${rows.queueRow}).`);
   }
+  // another needed episode still held: the queue-later job runs again (it waits for the gap)
+  if (!test && later) {
+    const q2 = await loadQueues();
+    if (held.some((x) => readyHeld(x) && aheadOf(q2, x.channel, D) < 1)) process.exit(10);
+  }
+} else if (cmd === "kick") {
+  // health heartbeat: start the queue-later job when a held episode is ready to be queued
+  const ready = readHeld().filter((x) => !x.test && readyHeld(x));
+  if (!ready.length) console.log("kick: no held episode ready to queue");
+  else if (env.HEALTH_DRY === "true") console.log(`kick (dry): would start the queue-later job for ${ready.length} held episode(s)`);
+  else console.log(`kick: queue-later job ${await startQueueLater(`heartbeat: ${ready.length} held episode(s) ready`)}`);
 } else if (cmd === "window") {
   const queues = await loadQueues();
   console.log(windowCheck({ queues, own: arg("own") ?? null }));
+  console.log("gap", gapCheck(queues));
   const D = wibDate(new Date());
   for (const k of Object.keys(CHANNELS)) console.log(k, "latest", latestOf(queues, k), "ahead", aheadOf(queues, k, D));
   console.log("held", readHeld());
 } else if (cmd) {
-  console.error("usage: stock.mjs plan | queue-held [--channel X] [--only-if-needed] | window");
+  console.error("usage: stock.mjs plan | queue-held [--channel X] [--only-if-needed] [--later] | kick | window");
   process.exit(1);
 }

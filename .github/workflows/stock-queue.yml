@@ -4,10 +4,10 @@ name: Queue held stock
 # when one more queue row would put more than MAX_UPLOADS_24H uploads (default 4) into some rolling 24 h. This small
 # job (no Claude, about a minute) queues ONE held episode when the window allows: Country Flux first, then the channel
 # with the fewest days. It runs hourly in the morning, far from the nightly runs, and only when STOCK is "on".
+#
+# 27 Nov 2026: no schedule any more. Live held stock is queued only by queue-later.yml (gap and cap, one writer);
+# this job stays for TEST runs by hand. Undo: put the two cron lines back ("20 23 * * *", "20 1-7 * * *").
 on:
-  schedule:
-    - cron: "20 23 * * *" # 06:20 WIB
-    - cron: "20 1-7 * * *" # 08:20 .. 14:20 WIB, hourly
   workflow_dispatch:
     inputs:
       test:

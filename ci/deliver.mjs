@@ -13,7 +13,7 @@ import { createHash } from "node:crypto";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { CHANNELS } from "./sheet.mjs";
-import { HARD_CAP, aheadOf, urgency, loadQueues, readHeld, wibDate, windowCheck, writeHeld } from "./stock.mjs";
+import { GAP_H, HARD_CAP, aheadOf, gapCheck, queueLaterActive, readyHeld, urgency, loadQueues, readHeld, wibDate, windowCheck, writeHeld } from "./stock.mjs";
 
 const repo = path.resolve(import.meta.dirname, "..");
 const env = process.env;
@@ -154,12 +154,18 @@ if (!result.redo) {
   const w = windowCheck({ queues, own: ["stock", "second-daily"].includes(env.KIND) ? null : channel });
   // a channel's episodes are queued strictly in order (an older held one goes first), and a series Part 1 waits
   // until its Part 2 is released, so the two parts land on consecutive days (owner, 22 Nov 2026)
-  const olderHeld = readHeld().filter((h) => h.channel === channel && !!h.test === test).length;
+  const olderHeld = readHeld().filter((h) => h.channel === channel && !!h.test === test && readyHeld(h)).length;
   const part1 = result.series?.part === 1;
-  // a needed episode is still held when it would pass the HARD cap (Zapier's ~5 a day); the hourly job queues it later
-  const hardFull = needed && !test && !windowCheck({ queues, own: channel, cap: HARD_CAP() }).ok;
-  if (hardFull) console.log(`deliver: needed, but the hard upload cap (${HARD_CAP()} in 24 h) is reached: held; the hourly health job queues it when the window allows`);
-  const hold = test ? ["stock", "second-daily"].includes(env.KIND) || part1 : (!needed && (!w.ok || olderHeld > 0 || part1)) || hardFull;
+  // a needed episode is still held when it would pass the HARD cap (4 in 24 h, Zapier's throttle point); the
+  // queue-later job queues it when the window allows
+  const hardFull = needed && !test && !windowCheck({ queues, own: channel, cap: HARD_CAP(), predict: false }).ok;
+  if (hardFull) console.log(`deliver: needed, but the hard upload cap (${HARD_CAP()} in 24 h) is reached: held; the queue-later job queues it when the window allows`);
+  // at least 2 h between any two queue rows of all channels, and never while the queue-later job is busy (owner 27 Nov 2026)
+  const gap = gapCheck(queues);
+  const laterBusy = !test && (await queueLaterActive()) > 0;
+  const gapHold = !test && (!gap.ok || laterBusy);
+  if (gapHold) console.log(`deliver: ${laterBusy ? "the queue-later job is running (it queues held stock)" : gap.detail}: held; the queue-later job queues it (at least ${GAP_H()} h between any two queue rows)`);
+  const hold = test ? ["stock", "second-daily"].includes(env.KIND) || part1 : (!needed && (!w.ok || olderHeld > 0 || part1)) || hardFull || gapHold;
   if (!needed && olderHeld) console.log(`deliver: ${olderHeld} older ${c.sheetName} episode(s) are held: this one waits behind them`);
   if (part1) console.log("deliver: series Part 1: held until its Part 2 is released");
   console.log(`deliver: ${needed ? `nothing queued for ${lateNight ? "today" : "tomorrow"}` : w.detail} -> ${hold ? "HOLD" : "queue now"}`);
@@ -175,7 +181,7 @@ if (!result.redo) {
   }
   if (hold) {
     writeHeld([...readHeld(), { channel, episode, url, topic: result.topic ?? "", made: today, run: env.GITHUB_RUN_ID, ...(result.series ? { series: result.series } : {}), ...(test ? { test: true } : {}) }]);
-    logLine(`- **${c.sheetName} ${episode} held as stock${test ? " (TEST)" : ""} (${today}):** made, checked and released, not queued yet (${w.detail}); the morning job queues it when the upload window allows; video ${url}`);
+    logLine(`- **${c.sheetName} ${episode} held as stock${test ? " (TEST)" : ""} (${today}):** made, checked and released, not queued yet (${gapHold ? (laterBusy ? "queue-later job busy" : gap.detail) : hardFull ? `hard cap ${HARD_CAP()} in 24 h` : w.detail}); the queue-later job queues it when the gap and the upload window allow${needed ? " (needed: it goes first)" : ""}; video ${url}`);
     rmSync(PENDING, { force: true });
     summary(`**${c.sheetName} ${episode}** released and HELD as stock (not queued): ${w.detail}`);
     process.exit(0);

@@ -204,6 +204,9 @@ if (cmd === "whoami") {
 // scheduled publish time. --fix: a missing one is taken out of the queue (Episode "EpNNN (NOT UPLOADED <date>: ...)",
 // Publish at cleared, read back; Uploads Status "Held (Zapier did not upload)") and put in ci/stock/held.json, so the
 // cap-aware queue job queues it again (ci/stock.mjs queue-held). Never touches a row it cannot match clearly.
+// A row still missing after 3 h is treated as THROTTLED by Zapier (owner 27 Nov 2026: all 5 were "On hold: This
+// YouTube step was throttled", and a throttled run never retries): the episode gets notBefore = its row's Added time
+// + 24 h, so it is re-queued only after that 24 h window, never at once (the row still counts in the window).
 else if (cmd === "missing") {
   const { CHANNELS: SHEET } = await import("./sheet.mjs");
   const { existsSync, readFileSync, writeFileSync, appendFileSync } = await import("node:fs");
@@ -239,15 +242,18 @@ else if (cmd === "missing") {
   if (fix && found.length) {
     const d = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Jakarta", day: "numeric", month: "short" }).format(new Date());
     for (const f of found) {
-      const label = `${f.ep} (NOT UPLOADED ${d}: Zapier did not upload it, held for re-queue)`;
+      const label = `${f.ep} (NOT UPLOADED ${d}: Zapier throttled it, held for re-queue)`;
+      const notBefore = new Date((Number.isNaN(addedMs(f.added)) ? nowMs : addedMs(f.added)) + 24 * 3600000).toISOString();
       await putCells([[`'${f.tab}'!A${f.row}`, label], [`'${f.tab}'!E${f.row}`, ""]]);
       const back = (await getRows(`'${f.tab}'!A${f.row}:E${f.row}`))[0] ?? [];
       if (back[0] !== label || (back[4] ?? "") !== "") fail(`${f.tab} row ${f.row}: read-back differs; stopped`);
       const u = uploads.find((x) => x.channel === CHANNELS[f.key].sheetName && x.episode === f.ep && !/^Removed/i.test(x.status));
-      if (u) await putCells([[`Uploads!J${u.row}`, `Held ${d} (Zapier did not upload)`], [`Uploads!K${u.row}`, ""]]);
-      if (!held.some((h) => h.channel === f.key && h.episode === f.ep) && /^https:\/\/github\.com\//.test(f.url))
-        held.push({ channel: f.key, episode: f.ep, url: f.url, topic: f.title, made: f.added.slice(0, 10), run: `watchdog-${process.env.GITHUB_RUN_ID ?? "local"}`, note: `queued ${f.added} but Zapier did not upload it` });
-      appendFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), `- **UPLOAD MISSING (${d}):** ${CHANNELS[f.key].yt} ${f.ep} "${f.title}" was queued ${f.added} for ${f.at} but is not on YouTube: Zapier did not upload it. Queue row ${f.row} taken out (NOT UPLOADED), episode put back in held stock; the queue job re-queues it within the upload cap.\n`);
+      if (u) await putCells([[`Uploads!J${u.row}`, `Held ${d} (Zapier throttled)`], [`Uploads!K${u.row}`, ""]]);
+      const old = held.find((h) => h.channel === f.key && h.episode === f.ep);
+      if (old) old.notBefore = notBefore;
+      else if (/^https:\/\/github\.com\//.test(f.url))
+        held.push({ channel: f.key, episode: f.ep, url: f.url, topic: f.title, made: f.added.slice(0, 10), run: `watchdog-${process.env.GITHUB_RUN_ID ?? "local"}`, note: `queued ${f.added} but Zapier throttled it`, notBefore });
+      appendFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), `- **UPLOAD MISSING (${d}):** ${CHANNELS[f.key].yt} ${f.ep} "${f.title}" was queued ${f.added} for ${f.at} but is not on YouTube 3 h later: treated as THROTTLED by Zapier. Queue row ${f.row} taken out (NOT UPLOADED), episode put back in held stock, re-queued not before ${notBefore.slice(0, 16)} UTC (24 h after its row, never at once), within the cap and the 2-hour gap. In Zapier: delete that held run, never replay it (duplicate).\n`);
     }
     writeFileSync(heldFile, `${JSON.stringify(held, null, 2)}\n`);
     say(`missing: ${found.length} row(s) taken out and held for re-queue`);

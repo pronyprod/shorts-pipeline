@@ -61,8 +61,11 @@ const coverage = async () => {
     const days = new Set(rows.map((r) => r[4].slice(0, 10)));
     const latest = [...days].sort().pop() ?? "";
     const heldN = held.filter((h) => h.channel === k).length;
+    // a throttled episode (notBefore) only covers tomorrow when it may be queued by 06:00 WIB that day
+    const by = Date.parse(`${needDay()}T06:00:00+07:00`);
+    const heldReady = held.filter((h) => h.channel === k && (!h.notBefore || Date.parse(h.notBefore) <= by)).length;
     const state = existsSync(path.join(repo, c.project, ".episode_state.json")) ? JSON.parse(readFileSync(path.join(repo, c.project, ".episode_state.json"), "utf8")) : null;
-    res[k] = { days, latest, heldN, state };
+    res[k] = { days, latest, heldN, heldReady, state };
   }
   return res;
 };
@@ -81,7 +84,7 @@ const emergencyUsedToday = () => readFileSync(path.join(repo, "shared", "PROJECT
 // tomorrow is covered when queued, or when a held episode exists and today's/tomorrow's chain is not broken
 // the day the next episode is for: tomorrow, but between midnight and 06:00 WIB still today (that morning slot)
 const needDay = () => (wibHour(now) < 6 ? today : addDays(today, 1));
-const coveredTomorrow = (c) => c.days.has(needDay()) || (c.heldN > 0 && c.latest >= addDays(needDay(), -1));
+const coveredTomorrow = (c) => c.days.has(needDay()) || (c.heldReady > 0 && c.latest >= addDays(needDay(), -1));
 const waitingForFix = (st) => st?.cloudStop?.retried === true;
 
 const activeRuns = async () => {
@@ -197,7 +200,7 @@ if (cmd === "check") {
   for (const k of Object.keys(NAME)) {
     const deadline = k === "fakta" ? 12 : 15;
     const tomorrow = addDays(today, 1);
-    if (h < deadline || cov[k].days.has(tomorrow) || held.some((x) => x.channel === k && !x.test)) continue;
+    if (h < deadline || cov[k].days.has(tomorrow) || held.some((x) => x.channel === k && !x.test && (!x.notBefore || Date.parse(x.notBefore) <= Date.parse(`${tomorrow}T06:00:00+07:00`)))) continue;
     const e = emerg.find((x) => x.channel === k);
     if (!e) {
       say(`emergency: ${NAME[k]} has nothing for ${tomorrow} and no emergency episode left`);

@@ -1,0 +1,77 @@
+name: Queue held stock (gap and cap)
+
+# Owner 27 Nov 2026: Zapier throttles its YouTube step when uploads come too close together, and a throttled run is
+# held for good (25-26 Nov: 5 videos never uploaded). This is the ONLY job that queues held episodes (no Claude):
+#   - at most HARD_UPLOADS_24H (default 4) queue rows in any rolling 24 h, all channels together;
+#   - at least QUEUE_GAP_H (default 2) hours between any two queue rows, all channels together;
+#   - never while an episode run writes its queue row (and episode runs hold their row while this job runs).
+# Started by the health heartbeat (ci/stock.mjs kick) when a held episode is ready. One that is NEEDED (nothing
+# queued for its next day) waits here until the gap clears; anything else waits for the next heartbeat.
+# Undo: repo variable QUEUE_GAP_H=0 (no gap) / HARD_UPLOADS_24H=5; or delete this file and restore health.yml step 4.
+on:
+  workflow_dispatch:
+    inputs:
+      why:
+        description: "Why it was started (shown in the summary)"
+        type: string
+        default: "by hand"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: queue-later
+  cancel-in-progress: false
+
+jobs:
+  queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    env:
+      TZ: Asia/Jakarta
+      GH_TOKEN: ${{ github.token }}
+      GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+      SHEET_ID: ${{ secrets.SHEET_ID }}
+      MAX_UPLOADS_24H: ${{ vars.MAX_UPLOADS_24H || '4' }}
+      HARD_UPLOADS_24H: ${{ vars.HARD_UPLOADS_24H || '4' }}
+      QUEUE_GAP_H: ${{ vars.QUEUE_GAP_H || '2' }}
+      DOUBLE_CHANNELS: ${{ vars.DOUBLE_CHANNELS || '' }}
+      QUEUE_LATER: "true"
+      TEST: "false"
+      WHY: ${{ inputs.why }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Queue held episodes (one at a time, gap and cap)
+        run: |
+          echo "Started: $WHY" >> "$GITHUB_STEP_SUMMARY"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          export QUEUE_WAIT_FILE="$RUNNER_TEMP/queue-wait"
+          # held.json and the log are pushed after EVERY queued row, so a later run never sees a queued episode as held
+          save() {
+            git add shared/PROJECT_LOG.md ci/stock/ 2>/dev/null || true
+            git diff --cached --quiet && return 0
+            git commit -q -m "queue-later: held stock queued (run $GITHUB_RUN_ID)"
+            for i in 1 2 3 4 5; do git pull -q --rebase "$REMOTE" main && git push -q "$REMOTE" HEAD:refs/heads/main && return 0; sleep 15; done
+            echo "::error::git push failed"; exit 1
+          }
+          start=$(date +%s)
+          for round in $(seq 1 8); do
+            git pull -q --rebase "$REMOTE" main || { echo "::error::git pull failed"; exit 1; }
+            set +e; node ci/stock.mjs queue-held --later; code=$?; set -e
+            save
+            case $code in
+              0) break ;;
+              10) continue ;;
+              11)
+                s=$(cat "$QUEUE_WAIT_FILE"); used=$(( $(date +%s) - start ))
+                if [ $(( used + s )) -gt 18600 ]; then echo "a needed episode waits longer than this run may: the next heartbeat starts this job again" >> "$GITHUB_STEP_SUMMARY"; break; fi
+                echo "waiting $(( s / 60 )) min (gap / delivery in progress)"; sleep "$s" ;;
+              *) echo "::error::queue-held failed (exit $code)"; exit "$code" ;;
+            esac
+          done
