@@ -267,7 +267,7 @@ if (!isMain) {
   const test = flag("test");
   const episode = opt("episode");
   const url = opt("url");
-  const publishAt = opt("publish-at");
+  let publishAt = opt("publish-at");
   const topic = opt("topic") ?? "";
   if (!/^Ep\d{3}(V\d+)?$/.test(episode ?? "")) fail("--episode must look like Ep014");
   if (!/^https:\/\/github\.com\/.+\.mp4$/.test(url ?? "")) fail("--url must be the release download URL of the MP4");
@@ -321,13 +321,28 @@ if (!isMain) {
     if (uBack[0] !== status || (uBack[1] ?? "") !== "") fail(`replace: "${uploadsTab}" row ${uRow} read back wrong: ${JSON.stringify(uBack)}`, 2);
     console.log(`sheet: "${uploadsTab}" row ${uRow} marked ${status}, Planned date cleared`);
   }
+  // Queue-row validation (owner 27 Nov 2026): never a publish time in the past or within 60 min (YouTube would
+  // publish at once or Zapier could miss it), never two live rows of a channel on the same time. Either case takes
+  // the next free slot instead (logged); a skipped day before the new time is reported, not changed. (Test runs check the test tab.)
+  {
+    const live = (await get(`'${queueTab}'!A3:E`)).filter((r) => /^Ep\d{3}/.test(r[0] ?? "") && !/\(/.test(r[0] ?? "") && r[0] !== testName && /^\d{4}-\d{2}-\d{2}T/.test(r[4] ?? "")).map((r) => r[4]);
+    const taken = live.some((x) => Date.parse(x) === Date.parse(publishAt));
+    const soon = Date.parse(publishAt) < Date.now() + 60 * 60000;
+    if (taken || soon) {
+      const fixed = nextSlot(live, new Date(), slotTimes(opt("channel"), false));
+      console.error(`sheet: publish time ${publishAt} ${taken ? "is already taken by another row" : "is in the past or under 60 min away"}: ${fixed} instead`);
+      publishAt = fixed;
+    }
+    const days = [...live.map((x) => x.slice(0, 10)), publishAt.slice(0, 10)].sort();
+    for (let i = 1; i < days.length; i++) if (days[i] > addDays(days[i - 1], 1) && days[i] >= wibDate(new Date())) console.error(`sheet: note: no video planned on ${addDays(days[i - 1], 1)} (gap before ${days[i]})`);
+  }
   const q = await writeRow(queueTab, [`'${testName}`, up.title, description, url, `'${publishAt}`, added], (row) => row[0] === testName);
   const u = await writeRow(
     uploadsTab,
     [c.sheetName, `'${episode}`, topic, `${c.project}/renders/${c.file(episode)}`, up.title, up.hook, up.music, up.tags, description, "Ready", `'${publishAt.slice(0, 10)}`, "", "", "", "", "", up.pinned],
     (row) => row[0] === c.sheetName && row[1] === episode && !/^Removed/i.test(row[9] ?? ""),
   );
-  console.log(JSON.stringify({ queueTab, queueRow: q.row, uploadsTab, uploadsRow: u.row }));
+  console.log(JSON.stringify({ queueTab, queueRow: q.row, uploadsTab, uploadsRow: u.row, publishAt }));
 } else {
   fail("usage: sheet.mjs check | publish-at --channel X | deliver --channel X --episode EpNNN --url U --publish-at T --topic S [--test]");
 }

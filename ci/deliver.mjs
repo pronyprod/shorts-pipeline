@@ -13,7 +13,7 @@ import { createHash } from "node:crypto";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { CHANNELS } from "./sheet.mjs";
-import { aheadOf, urgency, loadQueues, readHeld, wibDate, windowCheck, writeHeld } from "./stock.mjs";
+import { HARD_CAP, aheadOf, urgency, loadQueues, readHeld, wibDate, windowCheck, writeHeld } from "./stock.mjs";
 
 const repo = path.resolve(import.meta.dirname, "..");
 const env = process.env;
@@ -156,10 +156,23 @@ if (!result.redo) {
   // until its Part 2 is released, so the two parts land on consecutive days (owner, 22 Nov 2026)
   const olderHeld = readHeld().filter((h) => h.channel === channel && !!h.test === test).length;
   const part1 = result.series?.part === 1;
-  const hold = test ? ["stock", "second-daily"].includes(env.KIND) || part1 : !needed && (!w.ok || olderHeld > 0 || part1);
+  // a needed episode is still held when it would pass the HARD cap (Zapier's ~5 a day); the hourly job queues it later
+  const hardFull = needed && !test && !windowCheck({ queues, own: channel, cap: HARD_CAP() }).ok;
+  if (hardFull) console.log(`deliver: needed, but the hard upload cap (${HARD_CAP()} in 24 h) is reached: held; the hourly health job queues it when the window allows`);
+  const hold = test ? ["stock", "second-daily"].includes(env.KIND) || part1 : (!needed && (!w.ok || olderHeld > 0 || part1)) || hardFull;
   if (!needed && olderHeld) console.log(`deliver: ${olderHeld} older ${c.sheetName} episode(s) are held: this one waits behind them`);
   if (part1) console.log("deliver: series Part 1: held until its Part 2 is released");
   console.log(`deliver: ${needed ? `nothing queued for ${lateNight ? "today" : "tomorrow"}` : w.detail} -> ${hold ? "HOLD" : "queue now"}`);
+  // an emergency (evergreen) episode is kept apart: released, never queued, used by the health job when needed
+  if (env.KIND === "emergency" && !test) {
+    const ef = path.join(repo, "ci", "stock", "emergency.json");
+    const list = existsSync(ef) ? JSON.parse(readFileSync(ef, "utf8")) : [];
+    writeFileSync(ef, `${JSON.stringify([...list, { channel, episode, url, topic: result.topic ?? "", made: today, run: env.GITHUB_RUN_ID, evergreen: true }], null, 2)}\n`);
+    logLine(`- **${c.sheetName} ${episode} kept as EMERGENCY episode (${today}):** evergreen, made, checked and released, not queued; the health job queues it only if a day would otherwise be empty; video ${url}`);
+    rmSync(PENDING, { force: true });
+    summary(`**${c.sheetName} ${episode}** released and kept as an EMERGENCY episode (not queued)`);
+    process.exit(0);
+  }
   if (hold) {
     writeHeld([...readHeld(), { channel, episode, url, topic: result.topic ?? "", made: today, run: env.GITHUB_RUN_ID, ...(result.series ? { series: result.series } : {}), ...(test ? { test: true } : {}) }]);
     logLine(`- **${c.sheetName} ${episode} held as stock${test ? " (TEST)" : ""} (${today}):** made, checked and released, not queued yet (${w.detail}); the morning job queues it when the upload window allows; video ${url}`);
@@ -174,8 +187,10 @@ const sheet = run("node", ["ci/sheet.mjs", "deliver", "--channel", channel, "--e
 process.stdout.write(sheet.stdout ?? "");
 if (sheet.status !== 0) stop(`${sheet.status === 2 ? "queue or Uploads row" : "spreadsheet"}: ${(sheet.stderr ?? "").trim().slice(0, 300)}`);
 const rows = JSON.parse(sheet.stdout.trim().split("\n").pop());
+// the sheet writer may have moved the publish time to the next free slot (validation); log the real one
+const queuedAt = rows.publishAt ?? publishAt;
 
 // ---------- 4. log ----------
-logLine(`- **${c.sheetName} ${episode} cloud delivery${["stock", "second-daily"].includes(env.KIND) ? " (STOCK: extra episode for the 3-day target)" : ""}${result.redo ? " (REDO, replaces the earlier version: its queue and Uploads rows are marked REMOVED)" : ""}${test ? " (TEST, not for upload)" : ""} (${today}):** queued for ${publishAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; video ${url}`);
+logLine(`- **${c.sheetName} ${episode} cloud delivery${["stock", "second-daily"].includes(env.KIND) ? " (STOCK: extra episode for the 3-day target)" : ""}${result.redo ? " (REDO, replaces the earlier version: its queue and Uploads rows are marked REMOVED)" : ""}${test ? " (TEST, not for upload)" : ""} (${today}):** queued for ${queuedAt}; ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}; video ${url}`);
 rmSync(PENDING, { force: true });
-summary(`**${c.sheetName} ${episode}** ${test ? "TEST delivered" : "queued"} for ${publishAt}\n\n- ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}\n- ${url}`);
+summary(`**${c.sheetName} ${episode}** ${test ? "TEST delivered" : "queued"} for ${queuedAt}\n\n- ${rows.queueTab} row ${rows.queueRow}, ${rows.uploadsTab} row ${rows.uploadsRow}\n- ${url}`);

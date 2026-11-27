@@ -15,6 +15,18 @@ const repo = path.resolve(import.meta.dirname, "..");
 export const MAX_PER_RUN = Number(process.env.GEMINI_RUN_CAP || 4);
 const norm = (e) => String(e ?? "").toLowerCase().replace(/^ep0*/, "ep").replace(/v\d+$/, "");
 
+// A request Google refused with HTTP 400 (bad request, nothing generated) does not use up this run's cap
+// (Fakta Ep020, 25 Nov: one 400 cost one of the 4 requests). The daily quota file still counts it, to be safe.
+export const refundGeminiRequest = ({ project }) => {
+  if (!process.env.GITHUB_ACTIONS) return;
+  const file = path.join(repo, "ci-out", "gemini-run.json");
+  if (!existsSync(file)) return;
+  const c = JSON.parse(readFileSync(file, "utf8"));
+  if (c.runId !== (process.env.GITHUB_RUN_ID ?? "local") || !c.projects?.[project]) return;
+  c.projects[project] -= 1;
+  writeFileSync(file, `${JSON.stringify(c, null, 2)}\n`);
+};
+
 export const guardGeminiRequest = ({ project, episode }) => {
   if (!process.env.GITHUB_ACTIONS) return;
   const stateFile = path.join(repo, project, ".episode_state.json");

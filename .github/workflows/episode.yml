@@ -40,6 +40,7 @@ on:
 permissions:
   contents: write # commit state back, create releases
   id-token: write # needed by claude-code-action
+  actions: write # the last round starts the health job (heartbeat, 27 Nov 2026)
 
 concurrency:
   group: shorts-pipeline
@@ -120,6 +121,7 @@ jobs:
           node ci/stock.mjs plan
           if grep -q '^make=true' "$GITHUB_OUTPUT"; then echo "GO=true" >> "$GITHUB_ENV"; else echo "GO=false" >> "$GITHUB_ENV"; fi
           echo "KIND=$(sed -n 's/^kind=//p' "$GITHUB_OUTPUT" | tail -1)" >> "$GITHUB_ENV"
+          echo "COVERED=$(sed -n 's/^covered=//p' "$GITHUB_OUTPUT" | tail -1)" >> "$GITHUB_ENV"
 
       - name: Spreadsheet access and publish time (decided at the START of the run)
         id: ctx
@@ -143,7 +145,7 @@ jobs:
           mkdir -p ci-out
           # new formats (series, PomProds Stories): on in TEST runs, else only when the repository variable NEW_FORMATS is "on"
           NEWF=$( { [ "$TEST" = true ] || [ "$NEW_FORMATS" = on ]; } && echo true || echo false)
-          printf '{ "channel": "%s", "test": %s, "runStart": "%s", "publishAt": "%s", "newFormats": %s }\n' "$CHANNEL" "$TEST" "$RUN_START" "$PUBLISH_AT" "$NEWF" > ci-out/context.json
+          printf '{ "channel": "%s", "test": %s, "runStart": "%s", "publishAt": "%s", "newFormats": %s, "kind": "%s" }\n' "$CHANNEL" "$TEST" "$RUN_START" "$PUBLISH_AT" "$NEWF" "$KIND" > ci-out/context.json
           if [ -n "$REDO" ]; then
             node -e 'const fs=require("fs");const f="ci-out/context.json";const c=JSON.parse(fs.readFileSync(f,"utf8"));c.redo=process.argv[1];c.redoNote=process.argv[2];fs.writeFileSync(f,JSON.stringify(c,null,2))' "$REDO" "$REDO_NOTE"
           fi
@@ -214,7 +216,7 @@ jobs:
             echo "Retrying the delivery of an episode made earlier; no new episode this run." >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Retry an episode that stopped earlier, or keep waiting for a fix?
+      - name: Retry a stopped episode, park it after a second stop, or repair a parked one
         id: retry
         if: env.GO == 'true' && steps.pending.outputs.skip != 'true'
         run: node ci/stop-retry.mjs start
@@ -348,7 +350,13 @@ jobs:
           SHEET_ID: ${{ secrets.SHEET_ID }}
         run: node ci/deliver.mjs
 
-      - name: Remember a CHECK NEEDED stop (the next run retries once; after that it waits for a fix)
+      # (owner 27 Nov 2026) a run must always leave a result file with its reason, also when Claude wrote none:
+      # a Claude usage limit -> "claude-limit" (never counted as a stop), anything else -> "check-needed"
+      - name: Result file when Claude left none
+        if: always() && env.GO == 'true' && steps.ctx.outcome == 'success'
+        run: node ci/result-fallback.mjs
+
+      - name: Remember a stop (the next run retries once; a second stop parks the episode and the next topic is made)
         if: always() && env.GO == 'true' && steps.ctx.outcome == 'success'
         env:
           FIX_MARK: ${{ steps.retry.outputs.fix_mark }}
@@ -401,7 +409,7 @@ jobs:
         id: wip
         if: always() && env.GO == 'true'
         run: |
-          if [ -f "$PROJECT/.episode_state.json" ] || [ -f "ci/pending/$CHANNEL.json" ]; then echo "save=true" >> "$GITHUB_OUTPUT"; fi
+          if [ -f "$PROJECT/.episode_state.json" ] || [ -f "ci/pending/$CHANNEL.json" ] || ls "$PROJECT"/parked/Ep*.json >/dev/null 2>&1; then echo "save=true" >> "$GITHUB_OUTPUT"; fi
 
       - name: Save work in progress
         if: always() && env.GO == 'true' && steps.wip.outputs.save == 'true'
@@ -414,3 +422,13 @@ jobs:
             ${{ env.PROJECT }}/tts-out
             ${{ env.PROJECT }}/data/tts
           key: ${{ env.WIP_PREFIX }}${{ github.run_id }}-r${{ matrix.round }}
+
+      # Heartbeat (owner 27 Nov 2026): GitHub drops many scheduled runs, so every finished episode run starts the
+      # health job (catch-up, upload watchdog, held stock, Reels). Last round only, never in test mode.
+      - name: Start the health job (heartbeat)
+        if: always() && matrix.round == 2 && env.TEST != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          curl -s -o /dev/null -w "health job dispatch: %{http_code}\n" -X POST -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/health.yml/dispatches" -d '{"ref":"main","inputs":{"job":"auto","dry":false}}' || true

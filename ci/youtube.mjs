@@ -196,6 +196,64 @@ if (cmd === "whoami") {
   }
 }
 
+// ---------- missing: queue rows that never reached YouTube (upload watchdog, owner 27 Nov 2026) ----------
+//   node ci/youtube.mjs missing [--fix] [--channel X] [--min-age-h 3]
+// 25-26 Nov Zapier did not upload 5 queued videos and nothing noticed for two days (every check looked at the queue,
+// not at YouTube). A live queue row (EpNNN, a Publish at) added at least --min-age-h hours ago (Zapier polls every
+// 15 min) and due within the last 3 days or later must have a video on its channel with the same title or the same
+// scheduled publish time. --fix: a missing one is taken out of the queue (Episode "EpNNN (NOT UPLOADED <date>: ...)",
+// Publish at cleared, read back; Uploads Status "Held (Zapier did not upload)") and put in ci/stock/held.json, so the
+// cap-aware queue job queues it again (ci/stock.mjs queue-held). Never touches a row it cannot match clearly.
+else if (cmd === "missing") {
+  const { CHANNELS: SHEET } = await import("./sheet.mjs");
+  const { existsSync, readFileSync, writeFileSync, appendFileSync } = await import("node:fs");
+  const path = await import("node:path");
+  const repo = path.resolve(import.meta.dirname, "..");
+  const minAge = Number(opt("min-age-h") ?? 3) * 3600000;
+  const fix = args.includes("--fix");
+  const nowMs = Date.now();
+  const heldFile = path.join(repo, "ci", "stock", "held.json");
+  const held = existsSync(heldFile) ? JSON.parse(readFileSync(heldFile, "utf8")) : [];
+  const uploads = await readUploads();
+  const addedMs = (cell) => {
+    const m = /^(\d{4}-\d{2}-\d{2}) (\d{2}):(\d{2})/.exec(String(cell ?? ""));
+    return m ? Date.parse(`${m[1]}T${m[2]}:${m[3]}:00+07:00`) : NaN;
+  };
+  const found = [];
+  for (const key of wanted) {
+    const tab = SHEET[key].queueTab;
+    const rows = (await getRows(`'${tab}'!A1:F`)).map((r, i) => ({ row: i + 1, ep: r[0] ?? "", title: r[1] ?? "", url: r[3] ?? "", at: r[4] ?? "", added: r[5] ?? "" }));
+    const live = rows.filter((r) => r.row >= 3 && /^Ep\d{3}$/.test(r.ep) && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(r.at));
+    const due = live.filter((r) => nowMs - addedMs(r.added) >= minAge && Date.parse(r.at) >= nowMs - 3 * 86400000);
+    if (!due.length) continue;
+    const videos = await videosOf(key, 1);
+    for (const r of due) {
+      const t = Date.parse(r.at);
+      const hit = videos.find((v) => norm(v.title) === norm(r.title)) ?? videos.find((v) => v.publishedAt && Math.abs(Date.parse(v.publishedAt) - t) < 90000);
+      if (hit) continue;
+      found.push({ key, tab, ...r });
+      say(`MISSING on YouTube: ${CHANNELS[key].yt} ${r.ep} "${r.title}" (queue row ${r.row}, added ${r.added}, publish ${r.at})`);
+    }
+  }
+  if (!found.length) say("missing: every queue row older than the limit is on YouTube");
+  if (fix && found.length) {
+    const d = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Jakarta", day: "numeric", month: "short" }).format(new Date());
+    for (const f of found) {
+      const label = `${f.ep} (NOT UPLOADED ${d}: Zapier did not upload it, held for re-queue)`;
+      await putCells([[`'${f.tab}'!A${f.row}`, label], [`'${f.tab}'!E${f.row}`, ""]]);
+      const back = (await getRows(`'${f.tab}'!A${f.row}:E${f.row}`))[0] ?? [];
+      if (back[0] !== label || (back[4] ?? "") !== "") fail(`${f.tab} row ${f.row}: read-back differs; stopped`);
+      const u = uploads.find((x) => x.channel === CHANNELS[f.key].sheetName && x.episode === f.ep && !/^Removed/i.test(x.status));
+      if (u) await putCells([[`Uploads!J${u.row}`, `Held ${d} (Zapier did not upload)`], [`Uploads!K${u.row}`, ""]]);
+      if (!held.some((h) => h.channel === f.key && h.episode === f.ep) && /^https:\/\/github\.com\//.test(f.url))
+        held.push({ channel: f.key, episode: f.ep, url: f.url, topic: f.title, made: f.added.slice(0, 10), run: `watchdog-${process.env.GITHUB_RUN_ID ?? "local"}`, note: `queued ${f.added} but Zapier did not upload it` });
+      appendFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), `- **UPLOAD MISSING (${d}):** ${CHANNELS[f.key].yt} ${f.ep} "${f.title}" was queued ${f.added} for ${f.at} but is not on YouTube: Zapier did not upload it. Queue row ${f.row} taken out (NOT UPLOADED), episode put back in held stock; the queue job re-queues it within the upload cap.\n`);
+    }
+    writeFileSync(heldFile, `${JSON.stringify(held, null, 2)}\n`);
+    say(`missing: ${found.length} row(s) taken out and held for re-queue`);
+  }
+  if (found.length) process.exitCode = 3; // the health job turns this into an alert
+}
 // ---------- recent (read only): the newest uploads with their privacy and publish time ----------
 //   node tools/yt-local.mjs recent --channel whatif [--count 8]
 else if (cmd === "recent") {
@@ -367,7 +425,7 @@ else if (cmd === "track" || cmd === "compare") {
     if (wrong.length) fail(`Tracking read-back differs in ${wrong.map((w) => w.range).join(", ")}`);
   }
   if (cmd === "track") say(`Tracking: ${filled} row(s) filled${DRY ? " (dry run)" : ""}, ${todo.length - filled} waiting or skipped`);
-} else fail("usage: youtube.mjs whoami | comment [--dry-run] [--channel X] [--date D] | track [--dry-run] [--channel X] [--limit N] | compare");
+} else fail("usage: youtube.mjs whoami | comment [--dry-run] [--channel X] [--date D] | track [--dry-run] [--channel X] [--limit N] | compare | missing [--fix]");
 
 console.log(`YouTube Data API quota used by this run: about ${quota} of 10,000 units`);
 if (process.env.GITHUB_STEP_SUMMARY && summary.length) (await import("node:fs")).appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary.map((l) => `- ${l}`).join("\n") + "\n");

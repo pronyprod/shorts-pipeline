@@ -39,6 +39,10 @@ const WIB = 7 * H;
 export const wibDate = (d) => new Date(d.getTime() + WIB).toISOString().slice(0, 10);
 const addDays = (s, n) => new Date(Date.parse(`${s}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);
 export const maxUploads = () => Number(env.MAX_UPLOADS_24H || 4);
+// Hard cap (owner 27 Nov 2026): Zapier's YouTube step uploads ~5 videos a day; past that a run is held silently
+// (25-26 Nov: 5 videos never uploaded). Even an episode that is needed for tomorrow is never queued past it: it is
+// held and the hourly health job queues it as soon as the window allows (the upload watchdog checks YouTube itself).
+export const HARD_CAP = () => Number(env.HARD_UPLOADS_24H || 5);
 export const HELD = path.join(repo, "ci", "stock", "held.json");
 export const readHeld = () => (existsSync(HELD) ? JSON.parse(readFileSync(HELD, "utf8")) : []);
 export const writeHeld = (list) => {
@@ -152,13 +156,18 @@ if (cmd === "plan") {
   const held = readHeld().filter((h) => !h.test);
   const heldOf = (k) => held.filter((h) => h.channel === k).length;
   const level = (k) => aheadOf(queues, k, D) + heldOf(k);
+  // emergency (evergreen) episodes, released but not queued; the health job uses one only when tomorrow would be empty
+  const EMERG_FILE = path.join(repo, "ci", "stock", "emergency.json");
+  const emergencyOf = (k) => (existsSync(EMERG_FILE) ? JSON.parse(readFileSync(EMERG_FILE, "utf8")) : []).filter((e) => e.channel === k).length;
+  let wantEmergency = false;
   // second daily video: two episodes a night keep two slots a day filled, so the target is one day higher
   const fulls = Object.fromEntries(Object.keys(CHANNELS).map((k) => [k, queues[k].map((r) => String(r[4] ?? "")).filter((x) => /^\d{4}-\d{2}-\d{2}T/.test(x))]));
   const double = doubleActive(channel, fulls, D);
   const target = TARGET_DAYS + (double ? 1 : 0);
   const lines = Object.keys(CHANNELS).map((k) => `${CHANNELS[k].sheetName}: latest queued ${latestOf(queues, k) || "none"} = ${aheadOf(queues, k, D)} day(s) ahead of ${D}, ${heldOf(k)} held (target ${TARGET_DAYS})`);
   const decide = (make, kind, reason) => {
-    if (env.GITHUB_OUTPUT) appendFileSync(env.GITHUB_OUTPUT, `make=${make}\nkind=${kind}\n`);
+    // covered = tomorrow already has a video (a parked episode may then get its repair attempt, ci/stop-retry.mjs)
+    if (env.GITHUB_OUTPUT) appendFileSync(env.GITHUB_OUTPUT, `make=${make}\nkind=${kind}\ncovered=${aheadOf(queues, channel, D) >= 1}\n`);
     summary(`**Round ${round} plan (${c.sheetName}): ${make ? "MAKE" : "SKIP"}, ${kind}.** ${reason}\n${lines.map((l) => `- ${l}`).join("\n")}`);
     process.exit(0);
   };
@@ -189,7 +198,11 @@ if (cmd === "plan") {
   if (existsSync(state)) decide(false, "unfinished", "The first episode of this run did not finish (state file).");
   if (existsSync(pending)) decide(false, "pending", "The first episode's delivery did not finish.");
   if (ahead < 1 && env.TEST !== "true") decide(false, "first-failed", "Tomorrow is still not covered: the first episode did not deliver.");
-  if (!force && level(channel) >= target) decide(false, "at-target", `${c.sheetName} already has ${level(channel)} days (queued + held).`);
+  if (!force && level(channel) >= target) {
+    // at the stock target: make an emergency (evergreen) episode while the channel has fewer than 2 (owner 27 Nov 2026)
+    if (emergencyOf(channel) >= 2) decide(false, "at-target", `${c.sheetName} already has ${level(channel)} days (queued + held) and ${emergencyOf(channel)} emergency episodes.`);
+    wantEmergency = true;
+  }
   if (!force && channel !== "countryballs" && level("countryballs") < TARGET_DAYS)
     decide(false, "countryballs-first", `Country Flux first while building stock (it has ${level("countryballs")} days queued + held).`);
   if (!geminiOk(channel, lines)) decide(false, "gemini-quota", "Not enough Gemini quota left with 3 spare.");
@@ -202,6 +215,7 @@ if (cmd === "plan") {
   lines.push(`time: ${used} min since this run started; a ${c.sheetName} episode takes about ${NEED[channel].minutes} min; limit 200`);
   if (used + NEED[channel].minutes > 200) decide(false, "time", "Not enough time left in this run.");
   if (double) lines.push(`${c.sheetName} makes two a day now (second slot ${CHANNELS[channel].time2})`);
+  if (wantEmergency) decide(true, "emergency", `Emergency (evergreen) episode: ${c.sheetName} has ${level(channel)} days and ${emergencyOf(channel)} of 2 emergency episodes; released, not queued.`);
   decide(true, double ? "second-daily" : "stock", `Second episode ${double ? "(second daily video)" : "for the stock"} (${level(channel)} days queued + held, target ${TARGET_DAYS}); queued if the upload window allows, else held for the morning job.`);
 } else if (cmd === "queue-held") {
   const test = env.TEST === "true";
@@ -248,6 +262,11 @@ if (cmd === "plan") {
       continue;
     }
     const check = windowCheck({ queues, now: now.getTime(), count: group.length });
+    const hard = n && windowCheck({ queues, now: now.getTime(), count: group.length, cap: HARD_CAP() });
+    if (!test && n && !hard.ok) {
+      lines2.push(`${CHANNELS[cand.channel].sheetName} ${cand.episode} is needed but waits: hard cap: ${hard.detail}`);
+      continue;
+    }
     if (!n && !check.ok && !test) {
       lines2.push(`${CHANNELS[cand.channel].sheetName} ${cand.episode} waits: ${check.detail}`);
       continue;

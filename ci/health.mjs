@@ -4,6 +4,12 @@
 //                                in the last 3 days? CHECK NEEDED / CLAUDE LIMIT lines of the last 2 days, an episode
 //                                waiting for a fix. Problems -> GitHub issue "Health alert" (GitHub emails the owner),
 //                                a "HEALTH ALERT" line in shared/PROJECT_LOG.md, and exit 1 (red run).
+//   node ci/health.mjs reels     start the Reels job when its last run is over 75 min old (GitHub drops most of its crons)
+//   node ci/health.mjs emergency after 15:00 WIB (Fakta 12:00) a channel with nothing for tomorrow and no held episode
+//                                gets one of its emergency (evergreen) episodes put into held stock (then queued)
+//   node ci/health.mjs resolve   an open "Health alert" issue is closed with "auto-repair succeeded" once every
+//                                channel is covered again (or gets one "not fixed yet" note a day)
+//   check --once                 the morning check only once a day, from 06:30 WIB (any trigger may run it)
 //   node ci/health.mjs catchup   when a channel has nothing for tomorrow (queued + held) and no episode run is going,
 //                                start that channel's episode run (workflow_dispatch, test off). One channel per call.
 //
@@ -60,6 +66,18 @@ const coverage = async () => {
   }
   return res;
 };
+const EMERG = path.join(repo, "ci", "stock", "emergency.json");
+const readArr = (f) => (existsSync(f) ? JSON.parse(readFileSync(f, "utf8")) : []);
+const STATEF = path.join(repo, "ci", "stock", "health-state.json");
+const hstate = () => (existsSync(STATEF) ? JSON.parse(readFileSync(STATEF, "utf8")) : {});
+const saveH = (o) => writeFileSync(STATEF, `${JSON.stringify({ ...hstate(), ...o }, null, 2)}\n`);
+// stock in days: consecutive queued days from tomorrow, plus held episodes (each one more day)
+const stockDays = (c) => {
+  let n = 0;
+  while (c.days.has(addDays(today, n + 1))) n++;
+  return n + c.heldN;
+};
+const emergencyUsedToday = () => readFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), "utf8").split("\n").some((l) => l.includes(`EMERGENCY USED (${today})`));
 // tomorrow is covered when queued, or when a held episode exists and today's/tomorrow's chain is not broken
 // the day the next episode is for: tomorrow, but between midnight and 06:00 WIB still today (that morning slot)
 const needDay = () => (wibHour(now) < 6 ? today : addDays(today, 1));
@@ -73,6 +91,10 @@ const activeRuns = async () => {
 };
 
 if (cmd === "check") {
+  if (process.argv.includes("--once") && (hstate().lastCheck === today || wibHour(now) < 6.5)) {
+    console.log(`check: ${hstate().lastCheck === today ? "already done today" : "before 06:30 WIB"}; skipped`);
+    process.exit(0);
+  }
   const cov = await coverage();
   const alerts = [];
   say(`## Health check ${today} (WIB)`);
@@ -83,8 +105,13 @@ if (cmd === "check") {
     const missed = look.filter((d) => d <= today && !c.days.has(d));
     if (missed.length) alerts.push(`${NAME[k]} had NO video on ${missed.join(", ")}`);
     if (!coveredTomorrow(c)) alerts.push(`${NAME[k]} has nothing for ${needDay()} yet`);
+    if (stockDays(c) < 2) alerts.push(`${NAME[k]} stock is ${stockDays(c)} day(s) (below 2)`);
     if (waitingForFix(c.state)) alerts.push(`${NAME[k]} ${c.state.episode} stopped twice and waits for a fix: ${String(c.state.cloudStop.reason ?? "").slice(0, 160)}`);
   }
+  say(`- **Stock:** ${Object.entries(cov).map(([k, c]) => `${NAME[k]} ${stockDays(c)} days`).join(", ")}; emergency episodes: ${Object.keys(NAME).map((k) => `${NAME[k]} ${readArr(EMERG).filter((e) => e.channel === k).length}`).join(", ")}`);
+  if (emergencyUsedToday()) alerts.push("an emergency episode was used today (see the log)");
+  const missingUp = readFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), "utf8").split("\n").filter((l) => l.includes("UPLOAD MISSING") && [addDays(today, -1), today].some((d) => l.includes(d.slice(5)) || l.includes(new Date(`${d}T12:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short" }))));
+  if (missingUp.length) alerts.push(`${missingUp.length} queued video(s) were not uploaded by Zapier and were re-queued (check Zapier if it repeats)`);
   // stops of the last 2 days
   const log = readFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), "utf8").split("\n");
   const recent = [addDays(today, -1), today];
@@ -92,6 +119,7 @@ if (cmd === "check") {
   for (const s of stops) say(`- stop: ${s.slice(0, 220)}`);
   const warn = log.filter((l) => /REELS WARNING/.test(l) && recent.some((d) => l.includes(d)));
   for (const w of warn) say(`- ${w.slice(0, 220)}`);
+  if (env.HEALTH_DRY !== "true") saveH({ lastCheck: today });
   if (!alerts.length) {
     say(`\nAll channels covered; no missed day in the last 3 days.`);
     summary();
@@ -148,7 +176,68 @@ if (cmd === "check") {
   }
   if (!out.length) say("catch-up: every channel has tomorrow covered");
   summary();
+} else if (cmd === "reels") {
+  if (env.META_POSTING !== "on") process.exit(0);
+  const runs = await gh("GET", "/actions/workflows/meta-post.yml/runs?per_page=5");
+  const last = (runs.workflow_runs ?? []).filter((r) => r.event !== "workflow_dispatch" || r.conclusion !== "failure")[0];
+  const busy = (runs.workflow_runs ?? []).some((r) => r.status !== "completed");
+  const age = last ? (now.getTime() - Date.parse(last.created_at)) / 60000 : 1e9;
+  if (busy || age < 75) say(`reels: last run ${Math.round(age)} min ago${busy ? " (running)" : ""}; nothing to do`);
+  else if (env.HEALTH_DRY === "true") say(`reels (dry): would start the Reels job (last run ${Math.round(age)} min ago)`);
+  else {
+    await gh("POST", "/actions/workflows/meta-post.yml/dispatches", { ref: "main", inputs: { job: "post", test: false } });
+    say(`reels: started the Reels job (last run ${Math.round(age)} min ago)`);
+  }
+  summary();
+} else if (cmd === "emergency") {
+  const cov = await coverage();
+  const h = wibHour(now);
+  const held = readArr(path.join(repo, "ci", "stock", "held.json"));
+  let emerg = readArr(EMERG);
+  for (const k of Object.keys(NAME)) {
+    const deadline = k === "fakta" ? 12 : 15;
+    const tomorrow = addDays(today, 1);
+    if (h < deadline || cov[k].days.has(tomorrow) || held.some((x) => x.channel === k && !x.test)) continue;
+    const e = emerg.find((x) => x.channel === k);
+    if (!e) {
+      say(`emergency: ${NAME[k]} has nothing for ${tomorrow} and no emergency episode left`);
+      continue;
+    }
+    if (env.HEALTH_DRY === "true") {
+      say(`emergency (dry): would use ${NAME[k]} ${e.episode}`);
+      continue;
+    }
+    emerg = emerg.filter((x) => x !== e);
+    held.unshift({ ...e, note: `emergency episode used ${today}` });
+    writeFileSync(path.join(repo, "ci", "stock", "held.json"), `${JSON.stringify(held, null, 2)}\n`);
+    writeFileSync(EMERG, `${JSON.stringify(emerg, null, 2)}\n`);
+    appendFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), `- **EMERGENCY USED (${today}):** ${NAME[k]} had nothing for ${tomorrow} by ${deadline}:00 WIB: evergreen episode ${e.episode} moved to held stock and queued by the queue step; ${emerg.filter((x) => x.channel === k).length} emergency episode(s) left (the next runs refill to 2).\n`);
+    say(`emergency: ${NAME[k]} ${e.episode} put into held stock for ${tomorrow}`);
+  }
+  if (!out.length) say("emergency: not needed");
+  summary();
+} else if (cmd === "resolve") {
+  const open = (await gh("GET", "/issues?state=open&labels=health&per_page=5")).filter((i) => !i.pull_request);
+  if (!open.length) process.exit(0);
+  const cov = await coverage();
+  const left = Object.entries(cov).filter(([, c]) => !coveredTomorrow(c)).map(([k]) => `${NAME[k]} has nothing for ${needDay()}`);
+  const stock = Object.entries(cov).map(([k, c]) => `${NAME[k]} ${stockDays(c)} days`).join(", ");
+  const issue = open[0];
+  if (!left.length) {
+    if (env.HEALTH_DRY !== "true") {
+      await gh("POST", `/issues/${issue.number}/comments`, { body: `Auto-repair succeeded: every channel is covered again (stock: ${stock}). Closing.` });
+      await gh("PATCH", `/issues/${issue.number}`, { state: "closed" });
+    }
+    say(`resolve: issue #${issue.number} closed (auto-repair succeeded; stock ${stock})`);
+  } else if (hstate().stillOpenNote !== today && now.getTime() - Date.parse(issue.created_at) > 4 * 3600000) {
+    if (env.HEALTH_DRY !== "true") {
+      await gh("POST", `/issues/${issue.number}/comments`, { body: `Auto-repair has not fixed it yet: ${left.join("; ")}. Catch-up runs keep trying (stock: ${stock}).` });
+      saveH({ stillOpenNote: today });
+    }
+    say(`resolve: issue #${issue.number} still open: ${left.join("; ")}`);
+  }
+  summary();
 } else {
-  console.error("usage: node ci/health.mjs check | catchup");
+  console.error("usage: node ci/health.mjs check [--once] | catchup | reels | emergency | resolve");
   process.exit(1);
 }

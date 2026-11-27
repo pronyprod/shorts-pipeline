@@ -16,7 +16,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { loadEpisode } from "./episode.mts";
 // @ts-ignore plain JS module shared by the cloud runs
-import { guardGeminiRequest } from "../../ci/gemini-guard.mjs";
+import { guardGeminiRequest, refundGeminiRequest } from "../../ci/gemini-guard.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const arg = (n: string) => process.argv.find((a) => a.startsWith(`--${n}=`))?.split("=")[1];
@@ -88,6 +88,7 @@ const tts = async (name: string, text: string): Promise<string> => {
     writeFileSync(path.join(rawDir, `${name}.error-${Date.now()}.json`), JSON.stringify(json, null, 2));
     const c = json.candidates?.[0];
     const why = json.error?.message ?? `finishReason ${c?.finishReason ?? "?"}${c?.content?.parts?.[0]?.text ? `, text: "${c.content.parts[0].text.slice(0, 120)}"` : ""}`;
+    if (res.status === 400) refundGeminiRequest({ project: "fakta-video" }); // refused, nothing generated: not counted against this run
     throw new Error(`HTTP ${res.status}: no audio (${why})`);
   }
   const pcm = Buffer.from(b64, "base64");

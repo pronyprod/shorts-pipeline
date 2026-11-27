@@ -216,6 +216,28 @@ single-line re-take and the whole-block re-take), do NOT stop yet. Reword that l
 - Only if the reworded line ALSO fails: CHECK NEEDED with both wordings and what whisper heard each time.
 One rewording per line per episode; never reword a line that passed, and never change a line just to make it shorter.
 
+## 2c. Emergency episodes, parked episodes, episode numbers (owner, 27 Nov 2026)
+
+- **Emergency episodes:** when `kind` in ci-out/context.json is `"emergency"`, make an EVERGREEN episode:
+  - no date, no "this week", no timely or news topic, no age or count that changes, no series;
+  - a topic that stays true for years;
+  - everything else as usual, every check included.
+
+  The workflow keeps it apart (released, not queued). It is used only if a day would otherwise be empty.
+- **Parked episodes:** an episode that stopped twice is moved to `<project>/parked/EpNNN.json`, and this run makes
+  the NEXT topic. When the state file says `repairOf` (a repair attempt of a parked episode), finish that episode
+  as usual. If it cannot pass its checks, stop with CHECK NEEDED: it is parked again, and dropped after 3 days.
+  Never block on it.
+- **Episode numbers:** a new episode takes the number one higher than the highest number in any of these:
+  - the queue;
+  - ci/stock/held.json and ci/stock/emergency.json;
+  - `<project>/parked/` (also `parked/dropped/`);
+  - the project's uploads/ files.
+
+  A parked episode keeps its number.
+- **Result file:** always leave ci-out/result.json, also when you stop early. Give its reason in one line. If you
+  leave none, the workflow writes one for you from your last message.
+
 ## 3. When you must stop
 
 Follow the instructions' own stop rules (CHECK NEEDED line in `shared/PROJECT_LOG.md`, keep the state file). Then also write:

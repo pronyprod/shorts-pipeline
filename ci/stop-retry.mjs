@@ -38,6 +38,27 @@ const fixMark = () => {
   return (r.stdout ?? "").trim() || "unknown";
 };
 
+// ---------- parking (owner 27 Nov 2026: never stuck) ----------
+// A stopped episode gets one automatic retry. If the retry stops too, the episode is PARKED: its state moves to
+// <project>/parked/<Ep>.json and the next run starts the NEXT topic at once. A parked episode gets one repair attempt
+// per day (only when tomorrow is already covered, so a repair never costs a day) and is dropped after 3 days
+// (moved to <project>/parked/dropped/, kept for the owner). Fakta Ep020 blocked its channel 25-26 Nov under the old
+// rule (wait for a human commit).
+import { mkdirSync, readdirSync, renameSync, rmSync } from "node:fs";
+const PARKED = path.join(repo, project, "parked");
+const today = () => new Date(Date.now() + 7 * 3600 * 1000).toISOString().slice(0, 10);
+const logLine = (t) => appendFileSync(path.join(repo, "shared", "PROJECT_LOG.md"), `${t}\n`);
+const park = (state, why) => {
+  mkdirSync(PARKED, { recursive: true });
+  const f = path.join(PARKED, `${state.episode}.json`);
+  const old = existsSync(f) ? readJson(f) : null;
+  writeJson(f, { ...state, parked: { since: old?.parked?.since ?? today(), attempts: (old?.parked?.attempts ?? 0) + (old ? 1 : 0), lastAttempt: today(), reason: why } });
+  rmSync(STATE, { force: true });
+  logLine(`- **PARKED (${today()}):** ${project} ${state.episode}: ${why}. The next run makes the next topic; one repair attempt per day while tomorrow is covered, dropped after 3 days.`);
+  summary(`**Parked** ${state.episode}: ${why}`);
+};
+const parkedList = () => (existsSync(PARKED) ? readdirSync(PARKED).filter((f) => /^Ep\d{3}.*\.json$/.test(f)).map((f) => ({ f: path.join(PARKED, f), s: readJson(path.join(PARKED, f)) })) : []);
+
 const cmd = process.argv[2];
 if (cmd === "start") {
   const mark = fixMark();
@@ -45,14 +66,31 @@ if (cmd === "start") {
   if (!existsSync(STATE)) {
     out("skip", "false");
     out("retry", "false");
+    // drop parked episodes older than 3 days; repair one per day when tomorrow is covered (COVERED=true from the plan)
+    for (const p of parkedList()) {
+      if ((Date.parse(today()) - Date.parse(p.s.parked?.since ?? today())) / 86400000 >= 3) {
+        mkdirSync(path.join(PARKED, "dropped"), { recursive: true });
+        renameSync(p.f, path.join(PARKED, "dropped", path.basename(p.f)));
+        logLine(`- **DROPPED (${today()}):** ${project} ${p.s.episode} was parked since ${p.s.parked?.since} and is dropped (kept in ${project}/parked/dropped/). Reason: ${p.s.parked?.reason ?? ""}`);
+      }
+    }
+    const due = parkedList().find((p) => p.s.parked?.lastAttempt !== today());
+    if (due && process.env.COVERED === "true" && process.env.KIND !== "redo") {
+      const { parked, cloudStop, voiceAttempts, ...st } = due.s;
+      writeJson(STATE, { ...st, repairOf: parked });
+      writeJson(due.f, { ...due.s, parked: { ...parked, lastAttempt: today() } });
+      const ctx = readJson(CONTEXT);
+      writeJson(CONTEXT, { ...ctx, retryAfterStop: true, repairParked: true });
+      out("retry", "true");
+      summary(`Repair attempt for parked ${st.episode} (parked ${parked?.since}: ${parked?.reason ?? ""}).`);
+    }
   } else {
     const state = readJson(STATE);
     const stop = state.cloudStop;
-    if (stop && stop.fixMark === mark && stop.retried) {
-      out("skip", "true");
+    if (stop && stop.retried) {
+      park(state, `stopped twice (${String(stop.reason ?? "").slice(0, 160)})`);
+      out("skip", "false");
       out("retry", "false");
-      writeJson(RESULT, { status: "check-needed", episode: state.episode, reason: `still stopped since ${stop.date}; retried once already, waiting for a fix (new commit)` });
-      summary(`**Waiting for a fix:** ${state.episode} stopped on ${stop.date} and its retry stopped again. No Claude run until a new commit changes ${project}, ci/ or .github/.`);
     } else if (stop) {
       // Fresh try: attempt counters reset, the stop forgotten (Claude reads retryAfterStop in context.json).
       delete state.cloudStop;
@@ -77,6 +115,7 @@ if (cmd === "start") {
   const today = new Date(Date.now() + 7 * 3600 * 1000).toISOString().slice(0, 10);
   state.cloudStop = { fixMark: process.env.FIX_MARK || fixMark(), retried: process.env.RETRY === "true", date: today, reason: result.reason ?? "" };
   writeJson(STATE, state);
+  if (process.env.RETRY === "true") park(state, `stopped again after its retry: ${String(result.reason ?? "").slice(0, 200)}`);
   console.log(`stop-retry: stop remembered (${state.cloudStop.retried ? "after a retry: waits for a fix" : "next run retries once"})`);
 } else {
   console.error("usage: stop-retry.mjs start | end");

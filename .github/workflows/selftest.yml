@@ -1,0 +1,58 @@
+name: Weekly self-test
+
+# Sunday 23:59 WIB (owner 27 Nov 2026): one TEST-mode episode run per channel (Queue Test / Uploads Test, pre-release,
+# test branch; nothing reaches Zapier), then the health check as a dry run. A test run is only started when no
+# episode run is running or waiting (so it can never cancel a real one). Any failure opens the GitHub issue
+# "Weekly self-test failed" (GitHub emails the owner) before it can hit a real day.
+on:
+  schedule:
+    - cron: "59 16 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  actions: write
+
+concurrency:
+  group: selftest
+  cancel-in-progress: false
+
+jobs:
+  selftest:
+    if: github.event_name == 'workflow_dispatch' || vars.CLOUD_SCHEDULE == 'on'
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    env:
+      GH_TOKEN: ${{ github.token }}
+      R: https://api.github.com/repos/${{ github.repository }}
+    steps:
+      - name: One test-mode episode run per channel
+        run: |
+          api() { curl -s -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "$@"; }
+          busy() { for s in in_progress queued pending waiting requested; do n=$(api "$R/actions/workflows/episode.yml/runs?status=$s&per_page=1" | jq '.total_count'); [ "$n" != 0 ] && return 0; done; return 1; }
+          : > report.md; bad=0
+          for ch in countryballs whatif fakta; do
+            for i in $(seq 1 24); do busy || break; sleep 300; done
+            if busy; then echo "- $ch: not started (episode runs kept the queue busy for 2 h)" >> report.md; bad=1; continue; fi
+            since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+            api -X POST "$R/actions/workflows/episode.yml/dispatches" -d "{\"ref\":\"main\",\"inputs\":{\"channel\":\"$ch\",\"test\":true}}"
+            sleep 30
+            id=$(api "$R/actions/workflows/episode.yml/runs?event=workflow_dispatch&per_page=5" | jq -r --arg s "$since" '[.workflow_runs[] | select(.created_at >= $s)][-1].id')
+            for i in $(seq 1 60); do st=$(api "$R/actions/runs/$id" | jq -r '.status + " " + (.conclusion // "")'); case "$st" in completed*) break;; esac; sleep 120; done
+            echo "- $ch: run $id: $st (https://github.com/$GITHUB_REPOSITORY/actions/runs/$id)" >> report.md
+            case "$st" in "completed success") ;; *) bad=1;; esac
+          done
+          cat report.md >> "$GITHUB_STEP_SUMMARY"
+          echo "BAD=$bad" >> "$GITHUB_ENV"
+      - name: Health check (dry run)
+        run: |
+          api() { curl -s -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "$@"; }
+          api -X POST "$R/actions/workflows/health.yml/dispatches" -d '{"ref":"main","inputs":{"job":"check","dry":true}}'
+          echo "- health check (dry run) started" >> report.md
+      - name: Report a failure as an issue
+        if: env.BAD == '1'
+        run: |
+          body=$(jq -Rs . < report.md)
+          curl -s -X POST -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "$R/issues" -d "{\"title\":\"Weekly self-test failed ($(date -u +%F))\",\"body\":$body,\"labels\":[\"health\"]}"
+          exit 1
