@@ -68,7 +68,7 @@ Created 2026-10-29. Every pair below was checked visually against the flag-icons
 | Ep006 | #13 JP→GL half · #5 DE→BE stood up · #29 AR→HN stars · #16 RO→MD bird **(DONE: Ep006)** |
 | Ep007 | #21 LI→HT Olympics · #4 AT→LV diet · #15 ML→GN backwards · #26 PE→CA leaf **(DONE: Ep007)** |
 | Ep008 | #14 SN→ML star · #28 AR→GT bird · #7 RU→SK badge · #30 HU→BG shuffled **(DONE: Ep008)** |
-| Spare | #9 **(DONE: Ep021)**, #17, #31 **(DONE: Ep021)**, #32, #33 **(DONE: Ep021)**, #34 **(DONE: Ep021)**, #35-#37 (added by weekly review 2026-11-22) |
+| Spare | #9 **(DONE: Ep021)**, #17 **(DONE: Ep023)**, #31 **(DONE: Ep021)**, #32, #33 **(DONE: Ep021)**, #34 **(DONE: Ep021)**, #35-#37 **(DONE: Ep023)** (added by weekly review 2026-11-22) |
 
 Check before each episode: no reaction repeats in consecutive rounds (adjust if needed), and
 background colours alternate (avoid two red-reveal rounds back to back).
@@ -153,7 +153,7 @@ Titles: "[This/Their kid] + a concrete visual verb + CAPS word + one emoji + Gue
 - Ep020: Words (rows above; timely slot, one round needs a news hook or a current date)
 - Ep021: Classic Flag Family: #9, #33, #31, #34
 - Ep022: Twins (new pairs, verify) **(DONE: Ep022: PL→CZ, CH→TO, IE→IN, CL→CU)**
-- Ep023: Classic Flag Family: #17, #35, #36, #37
+- Ep023: Classic Flag Family: #17, #35, #36, #37 **(DONE: Ep023)**
 - Ep024: Reverse quiz (new pairs, verify)
 - Ep025: Timely (classic style or twins, whichever has a news hook)
 - Ep026: Reverse quiz or Size duel (new rows; the Size duel only if Ep019's numbers are at least the median)

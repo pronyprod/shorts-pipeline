@@ -805,3 +805,8 @@ CHECK NEEDED: Fakta Unik cloud run ended without a result file (Claude: "no erro
   Nothing uncertain (no timely slot, no series slot).
 AUTO-REWORD: Countryballs Ep022 punch4: "I swapped the square for stripes." -> "I traded a square for stripes." (whisper heard "I swap the square for stripes."; passed)
 - **Countryballs Ep022 cloud delivery (2026-11-27):** queued for 2026-11-28T07:30:00+07:00; Queue Countryballs row 24, Uploads row 69; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep022/Ep022.mp4
+- **Countryballs Ep023 (2026-11-27):** classic Flag Family ML→GH, SE→FI, RO→AD, AR→NI (bank #35, #36, #17, #37); music "Rainy Day Games" by The Green Orbs.
+  countryballs-video/renders/Ep023.mp4, 20.1 s, -14.0 LUFS (true peak -1.26 dBTP); voices 7/7 whisper match, no silence, 4 stills + 4 final frames checked (eyes moved up on GH, AD, NI so the star and emblems show); ready for 2026-11-29T07:30:00+07:00.
+  Nothing uncertain (no timely slot, no series slot; newFormats off).
+AUTO-REWORD: Countryballs Ep023 punch2: "I swapped my colours." -> "I swapped my colors." (whisper heard "I swapped my colors" after 2 Kokoro retries; passed)
+- **Countryballs Ep023 held as stock (2026-11-27):** made, checked and released, not queued yet (busiest 24 h window from 11-26 08:45 WIB would hold 6 uploads (limit 4; 5 in the last 24 h, 1 nightly episode(s) that must still come)); the morning job queues it when the upload window allows; video https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep023/Ep023.mp4
