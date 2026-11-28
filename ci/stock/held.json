@@ -1,15 +1,6 @@
 [
   {
     "channel": "countryballs",
-    "episode": "Ep021",
-    "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep021/Ep021.mp4",
-    "topic": "NL→PY, CM→SN, GB→AU, DK→NO",
-    "made": "2026-11-24",
-    "run": "requeue-2026-11-27",
-    "note": "queued 25 Nov but Zapier did not upload it"
-  },
-  {
-    "channel": "countryballs",
     "episode": "Ep023",
     "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/countryballs-Ep023/Ep023.mp4",
     "topic": "ML→GH, SE→FI, RO→AD, AR→NI",
