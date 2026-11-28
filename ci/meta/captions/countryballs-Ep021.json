@@ -1,11 +1,17 @@
 {
-  "written": "2026-11-26T14:50:00+07:00",
+  "written": "2026-11-28T16:40:00Z",
   "episode": "Ep021",
-  "trend": null,
+  "trend": {
+    "source": "Davis Cup Finals 2026 in Bologna, Great Britain among the eight nations",
+    "sourceUrl": "https://www.lta.org.uk/fan-zone/davis-cup/news/davis-cup-finals-preview-draws-schedule-player-list--how-to-watch",
+    "why": "The video's flag quiz includes GB→AU: the Union Jack of Great Britain sits in Australia's flag. Great Britain is one of the eight nations in the Davis Cup Finals this week."
+  },
   "instagram": {
-    "plain": "Which country added a blue stripe to the Danish flag?\nSame red flag, one new colour. Guess the kid before the punchline.\nWhich of the four kids did you guess wrong?\n\nVoiceover: AI\n\n#flags #geography #countryballs #denmark #norway"
+    "trend": "Great Britain is in Davis Cup Finals week. Its flag also hides in a flag quiz.\nSame red flag, one new colour: can you guess the flag kids before the punchline?\nWhich of the four flag kids did you guess wrong?\n\nVoiceover: AI\n\n#DavisCup #flags #geography #countryballs",
+    "plain": "Which country's flag is a red flag plus one new colour?\nDenmark's kid added a blue stripe. Can you guess all four flag kids before the punchline?\nWhich of the four did you guess wrong?\n\nVoiceover: AI\n\n#flags #geography #countryballs"
   },
   "facebook": {
-    "plain": "Which country added a blue stripe to the Danish flag?\nWhich of the four kids did you guess wrong?\n\nVoiceover: AI\n\n#flags #geography #countryballs"
+    "trend": "Great Britain is in Davis Cup Finals week, and its flag hides in this flag quiz.\nWhich of the four flag kids did you guess wrong?\n\nVoiceover: AI\n\n#DavisCup #flags",
+    "plain": "Which country's flag is a red flag plus one new colour?\nWhich of the four flag kids did you guess wrong?\n\nVoiceover: AI\n\n#flags #geography"
   }
 }
