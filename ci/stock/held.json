@@ -8,15 +8,6 @@
     "run": "45918957600"
   },
   {
-    "channel": "fakta",
-    "episode": "Ep020",
-    "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/fakta-Ep020/Fakta_Ep020.mp4",
-    "topic": "Hujan meteor Geminid, asal asteroid Phaethon (science, timely)",
-    "made": "2026-11-26",
-    "run": "requeue-2026-11-27",
-    "note": "queued 26 Nov but Zapier did not upload it"
-  },
-  {
     "channel": "whatif",
     "episode": "Ep022",
     "url": "https://github.com/pronyprod/shorts-pipeline/releases/download/whatif-Ep022/WhatIf_Ep022.mp4",
